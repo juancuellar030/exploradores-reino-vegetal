@@ -37,15 +37,23 @@ async function selectSvg(layer, svgPath) {
     }
 }
 
-// --- NEW FUNCTION to change the color of a part of an SVG ---
-function changeColor(partId, color) {
-    // Find the SVG part within the preview divs
-    const svgElement = document.querySelector(`#${partId}`);
-    if (svgElement) {
-        svgElement.style.fill = color;
+// --- NEW AND IMPROVED FUNCTION to change the color of a group of SVG parts ---
+function changeColor(groupId, color) {
+    // Save the color choice first
+    avatar.colors[groupId] = color;
+
+    // Find the group element in the preview area (e.g., the <g id="skin-parts"> tag)
+    const groupElement = document.querySelector(`#${groupId}`);
+    
+    if (groupElement) {
+        // Find ALL the visible shapes (paths, circles, etc.) inside that group
+        const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
+        
+        // Loop through each part and apply the new color
+        partsToColor.forEach(part => {
+            part.style.fill = color;
+        });
     }
-    // Save the color choice
-    avatar.colors[partId] = color;
 }
 
 // --- NEW FUNCTION to apply all saved colors ---
