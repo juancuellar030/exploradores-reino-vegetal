@@ -309,3 +309,18 @@ button {
     background-color: var(--secondary-green);
     transform: scale(1.05);
 }
+
+/* Add this to style.css */
+.color-picker {
+    margin-top: 15px;
+}
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    margin: 0 5px;
+}
