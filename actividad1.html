@@ -1,11 +1,166 @@
-<!-- Inside the <section id="panel-de-control"> -->
-<div id="info-jugador">
-    <div id="avatar-display">
-        <!-- The player's avatar will be built here by JS -->
-    </div>
-    <div>
-        <p><strong>Explorador:</strong> <span id="nombre-jugador"></span></p>
-        <p><strong>Puntos de Experiencia (PE):</strong> <span id="pe-jugador">0</span></p>
-    </div>
-</div>
-<!-- The rest of your actividad1.html file stays the same... -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 1: Exploradores del Reino Vegetal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="activity-page">
+    <header>
+        <h1>Actividad 1: Exploradores del Reino Vegetal</h1>
+        <h2>Misión: Rescate del Jardín Olvidado</h2>
+    </header>
+
+    <main>
+        <!-- ============================================= -->
+        <!-- PANEL DE CONTROL DEL JUGADOR (DASHBOARD)      -->
+        <!-- ============================================= -->
+        <section id="panel-de-control">
+            <h3>Panel del Explorador</h3>
+            <div id="info-jugador">
+                <div id="avatar-display">
+                    <!-- El avatar del jugador se cargará aquí con JavaScript -->
+                </div>
+                <div>
+                    <p><strong>Explorador:</strong> <span id="nombre-jugador">Cargando...</span></p>
+                    <p><strong>Puntos de Experiencia (PE):</strong> <span id="pe-jugador">0</span></p>
+                </div>
+            </div>
+            
+            <h4>Progreso General del Jardín</h4>
+            <div class="barra-progreso-contenedor">
+                <div id="barra-progreso-general" class="barra-progreso-relleno">0%</div>
+            </div>
+
+            <h4>Insignias Obtenidas</h4>
+            <div id="contenedor-insignias">
+                <!-- Las insignias aparecerán aquí. Serán SVGs o PNGs. -->
+            </div>
+        </section>
+
+        <!-- ============================================= -->
+        <!-- CONTENEDOR DE LOS BIOMAS                      -->
+        <!-- ============================================= -->
+        <section id="biomas-del-jardin">
+            <h3>Biomas Botánicos</h3>
+
+            <!-- === BIOMA 1: GERMINACIÓN (DESBLOQUEADO POR DEFECTO) === -->
+            <div class="bioma" id="bioma-germinacion">
+                <h4 class="bioma-titulo">Nivel 1: El Bioma de la Germinación</h4>
+                
+                <div class="contenido-aprendizaje">
+                    <h5>Aprende lo Esencial</h5>
+                    <p>Explora estos recursos para entender qué necesita una semilla para despertar.</p>
+                    <!-- Aquí podrías incrustar un video de YouTube o enlaces -->
+                </div>
+
+                <div class="micro-desafio">
+                    <h5>Micro-desafío: "El Ataque de los Hongos Silenciosos"</h5>
+                    <p>Arrastra los elementos correctos a la semilla para que pueda germinar.</p>
+                    <div id="desafio-germinacion" class="drag-and-drop-area">
+                        <div id="semilla-dropzone" class="dropzone">
+                            <p>Arrastra aquí</p>
+                        </div>
+                        <div class="draggable-items">
+                            <div class="item" draggable="true" data-item="agua">💧 Agua</div>
+                            <div class="item" draggable="true" data-item="calor">☀️ Calor</div>
+                            <div class="item" draggable="true" data-item="aire">💨 Aire</div>
+                            <div class="item" draggable="true" data-item="frio">❄️ Frío</div>
+                        </div>
+                    </div>
+                    <p class="feedback" id="feedback-germinacion"></p>
+                </div>
+
+                <div class="cuestionario">
+                    <h5>Cuestionario de Germinación</h5>
+                    <div class="pregunta">
+                        <p>1. ¿Qué necesita una semilla para germinar?</p>
+                        <button onclick="verificarCuestionario('germinacion_q1', false)">Mucha música y baile</button>
+                        <button onclick="verificarCuestionario('germinacion_q1', true)">Agua, calor y aire</button>
+                        <button onclick="verificarCuestionario('germinacion_q1', false)">Un sombrero y gafas de sol</button>
+                    </div>
+                    <div class="pregunta">
+                        <p>2. ¿Las semillas necesitan luz para germinar?</p>
+                        <button onclick="verificarCuestionario('germinacion_q2', false)">Verdadero</button>
+                        <button onclick="verificarCuestionario('germinacion_q2', true)">Falso</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- === BIOMA 2: CRECIMIENTO (BLOQUEADO) === -->
+            <div class="bioma bloqueado" id="bioma-crecimiento">
+                <h4 class="bioma-titulo">Nivel 2: El Bioma del Crecimiento</h4>
+                <p>Necesitas acumular 300 PE en total para desbloquear este bioma.</p>
+            </div>
+            
+            <!-- Contenido del Bioma 2 (oculto hasta que se desbloquee) -->
+            <template id="template-crecimiento">
+                <div class="contenido-aprendizaje">
+                    <h5>Aprende lo Esencial</h5>
+                    <p>Descubre las partes de la planta y cómo trabajan juntas para crecer fuertes.</p>
+                </div>
+                <div class="micro-desafio">
+                    <h5>Micro-desafío: "La Lucha contra la Poca Luz"</h5>
+                    <p>Empareja cada parte de la planta con su función correcta.</p>
+                    <!-- Estructura para el juego de emparejamiento -->
+                </div>
+                <div class="cuestionario">
+                    <h5>Cuestionario de Crecimiento</h5>
+                    <!-- Preguntas del cuestionario -->
+                </div>
+            </template>
+
+            <!-- === BIOMA 3: REPRODUCCIÓN (BLOQUEADO) === -->
+            <div class="bioma bloqueado" id="bioma-reproduccion">
+                <h4 class="bioma-titulo">Nivel 3: El Bioma de la Reproducción</h4>
+                <p>Necesitas acumular 600 PE en total para desbloquear este bioma.</p>
+            </div>
+
+            <!-- Contenido del Bioma 3 (oculto) -->
+            <template id="template-reproduccion">
+                <div class="contenido-aprendizaje">
+                    <h5>Aprende lo Esencial</h5>
+                    <p>El misterio de las flores y cómo crean nuevas semillas.</p>
+                </div>
+                <div class="micro-desafio">
+                    <h5>Micro-desafío: "El Misterio de la Polinización Perdida"</h5>
+                    <p>Ordena los pasos del proceso de polinización.</p>
+                    <!-- Estructura para el juego de ordenar secuencias -->
+                </div>
+                <div class="cuestionario">
+                     <h5>Cuestionario de Reproducción</h5>
+                    <!-- Preguntas del cuestionario -->
+                </div>
+            </template>
+
+            <!-- === BIOMA 4: DISPERSIÓN (BLOQUEADO) === -->
+            <div class="bioma bloqueado" id="bioma-dispersion">
+                <h4 class="bioma-titulo">Nivel 4: El Bioma de la Dispersión</h4>
+                <p>Necesitas acumular 1000 PE en total para desbloquear este bioma.</p>
+            </div>
+            
+            <!-- Contenido del Bioma 4 (oculto) -->
+            <template id="template-dispersion">
+                <div class="contenido-aprendizaje">
+                    <h5>Aprende lo Esencial</h5>
+                    <p>Descubre cómo las semillas viajan para encontrar un nuevo hogar.</p>
+                </div>
+                <div class="micro-desafio">
+                    <h5>Micro-desafío: "El Viento Engañoso"</h5>
+                    <p>Clasifica cada semilla según su método de dispersión.</p>
+                    <!-- Estructura para el juego de clasificación -->
+                </div>
+                <div class="cuestionario">
+                    <h5>Cuestionario de Dispersión</h5>
+                    <!-- Preguntas del cuestionario -->
+                </div>
+            </template>
+
+        </section>
+    </main>
+
+    <script src="actividad1_script.js"></script>
+</body>
+</html>
