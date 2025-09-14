@@ -1,43 +1,103 @@
-// --- NEW FUNCTION TO LOAD AVATAR ---
-function cargarAvatar() {
-    const savedAvatar = localStorage.getItem('exploradorAvatar');
-    if (savedAvatar) {
-        const avatar = JSON.parse(savedAvatar);
-        const avatarDisplay = document.getElementById('avatar-display');
-        avatarDisplay.innerHTML = ''; // Clear previous
+// In avatar_script.js
 
-        // Create image layers
-        const baseImg = document.createElement('img');
-        baseImg.src = avatar.base;
-        baseImg.classList.add('avatar-layer');
+// This object will hold the chosen avatar parts, including colors
+let avatar = {
+    base: 'assets/avatar_base/base_01.svg',
+    clothing: 'assets/avatar_clothing/shirt_vest_explorer.svg',
+    headwear: '',
+    eyewear: '',
+    accessory: '',
+    colors: { // New object to store color choices
+        'skin-parts': '#D1FFB6', // Default skin color
+        'vest-color': '#A0522D'  // Default vest color
+    }
+};
 
-        avatarDisplay.appendChild(baseImg);
+// --- FUNCTION to load an SVG file and display it ---
+async function selectSvg(layer, svgPath) {
+    if (!svgPath) {
+        document.getElementById(`${layer}-preview`).innerHTML = '';
+        avatar[layer] = '';
+        return;
+    }
 
-        if (avatar.accesorio) {
-            const accesorioImg = document.createElement('img');
-            accesorioImg.src = avatar.accesorio;
-            accesorioImg.classList.add('avatar-layer');
-            avatarDisplay.appendChild(accesorioImg);
+    try {
+        const response = await fetch(svgPath);
+        if (!response.ok) { // Check if the file was found
+            throw new Error(`File not found: ${svgPath}`);
+        }
+        const svgText = await response.text();
+        
+        document.getElementById(`${layer}-preview`).innerHTML = svgText;
+        avatar[layer] = svgPath;
+        
+        applyAllColors(); // Re-apply colors when we change an item
+
+    } catch (error) {
+        console.error('Error loading SVG:', error);
+        // Display an error message to the user in the preview box
+        document.getElementById(`${layer}-preview`).innerHTML = `<p style="font-size:12px; color:red;">Error al cargar: ${svgPath.split('/').pop()}</p>`;
+    }
+}
+
+// --- NEW AND IMPROVED FUNCTION to change the color of a group of SVG parts ---
+function changeColor(groupId, color) {
+    avatar.colors[groupId] = color; // Save the color choice
+
+    const groupElement = document.querySelector(`#${groupId}`);
+    
+    if (groupElement) {
+        const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
+        partsToColor.forEach(part => {
+            part.style.fill = color;
+        });
+    }
+}
+
+// --- CORRECTED FUNCTION to apply all saved colors ---
+// This now uses the correct group-finding logic
+function applyAllColors() {
+    for (const groupId in avatar.colors) {
+        const color = avatar.colors[groupId];
+        const groupElement = document.querySelector(`#${groupId}`);
+        
+        if (groupElement) {
+            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
+            partsToColor.forEach(part => {
+                part.style.fill = color;
+            });
         }
     }
 }
 
-// --- UPDATE THE ONLOAD FUNCTION ---
-window.onload = function() {
-    cargarProgreso();
-    cargarAvatar(); // <-- Add this line
-    verificarDesbloqueos();
-    actualizarUI();
-};
 
-// --- UPDATE THE cargarProgreso FUNCTION ---
-// We change how the name is loaded. It's now set on the avatar page.
-function cargarProgreso() {
-    const progresoGuardado = localStorage.getItem('progresoExplorador');
-    if (progresoGuardado) {
-        jugador = JSON.parse(progresoGuardado);
-        console.log("Progreso cargado:", jugador);
+// Function to save the avatar and proceed to the activity
+function saveAndStart() {
+    localStorage.setItem('exploradorAvatar', JSON.stringify(avatar));
+    
+    let playerName = localStorage.getItem('exploradorNombre');
+    if (!playerName) {
+        playerName = prompt("¿Cuál es tu nombre, explorador(a)?", "Explorador Valiente");
+        localStorage.setItem('exploradorNombre', playerName);
     }
-    // Load name from where we saved it
-    jugador.nombre = localStorage.getItem('exploradorNombre') || "Explorador Novato";
+    
+    window.location.href = 'actividad1.html';
 }
+
+// Load existing avatar and initialize the view
+window.onload = async function() {
+    const savedAvatar = localStorage.getItem('exploradorAvatar');
+    if (savedAvatar) {
+        avatar = JSON.parse(savedAvatar);
+    }
+    
+    // Load all the selected SVG parts. await ensures they load one by one.
+    await selectSvg('base', avatar.base);
+    await selectSvg('clothing', avatar.clothing);
+    await selectSvg('headwear', avatar.headwear);
+    await selectSvg('eyewear', avatar.eyewear);
+    await selectSvg('accessory', avatar.accessory);
+
+    // Final color application after all SVGs are loaded
+    applyAllColors();
+};
