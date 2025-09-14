@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crea tu Explorador</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <!-- ... your head content ... -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="avatar-page">
+
+    <!-- === ADD THIS BUTTON AND SCRIPT === -->
+    <button class="back-button" onclick="goBack()">
+        <span>&larr;</span> Volver
+    </button>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <!-- ================================== -->
+
     <div class="creator-container">
         <h1>Crea tu Explorador Botánico</h1>
         <div class="avatar-creator">
