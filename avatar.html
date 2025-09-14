@@ -23,23 +23,40 @@
     <div class="creator-container">
         <h1>Crea tu Explorador Botánico</h1>
         <div class="avatar-creator">
+            <!-- The Preview Area -->
             <div class="avatar-preview">
-                <img id="base-preview" src="assets/avatar_base/base1.png" class="avatar-layer">
-                <img id="accesorio-preview" src="" class="avatar-layer">
-                <!-- Add more layers if you want (e.g., hair, clothes) -->
+                <!-- We will now use divs for layers to hold the SVG code -->
+                <div id="clothing-preview" class="avatar-layer"></div>
+                <div id="base-preview" class="avatar-layer"></div>
+                <div id="headwear-preview" class="avatar-layer"></div>
+                <div id="eyewear-preview" class="avatar-layer"></div>
+                <div id="accessory-preview" class="avatar-layer"></div>
             </div>
+            <!-- The Options Area -->
             <div class="avatar-options">
+                <!-- Base Options -->
                 <div class="option-group">
                     <h4>Elige tu Base</h4>
-                    <img src="assets/avatar_base/base1.png" onclick="selectOption('base', 'assets/avatar_base/base1.png')">
-                    <img src="assets/avatar_base/base2.png" onclick="selectOption('base', 'assets/avatar_base/base2.png')">
+                    <!-- Use data attributes to point to the SVG file -->
+                    <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')">
+                    <img src="assets/avatar_base/base_02.svg" onclick="selectSvg('base', 'assets/avatar_base/base_02.svg')">
                 </div>
+    
+                <!-- Clothing Options with a Color Picker -->
                 <div class="option-group">
-                    <h4>Añade un Accesorio</h4>
-                    <img src="assets/avatar_accesorios/gorro1.png" onclick="selectOption('accesorio', 'assets/avatar_accesorios/gorro1.png')">
-                    <img src="assets/avatar_accesorios/gafas1.png" onclick="selectOption('accesorio', 'assets/avatar_accesorios/gafas1.png')">
-                    <button class="remove-btn" onclick="selectOption('accesorio', '')">Quitar</button>
+                    <h4>Elige tu Ropa</h4>
+                    <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')">
+                    <img src="assets/avatar_clothing/shirt_labcoat.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_labcoat.svg')">
+                    
+                    <!-- Simple Color Picker -->
+                    <div class="color-picker">
+                        <p>Color de la Ropa:</p>
+                        <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
+                        <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                        <div class="color-swatch" style="background-color: #2E8B57;" onclick="changeColor('vest-color', '#2E8B57')"></div>
+                    </div>
                 </div>
+                <!-- Add more option groups for headwear, eyewear, etc. -->
             </div>
         </div>
         <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
