@@ -13,7 +13,9 @@ let avatar = {
     }
 };
 
-// --- FUNCTION to load an SVG file and display it ---
+// In avatar_script.js
+
+// --- UPDATED FUNCTION to load an SVG file and display it ---
 async function selectSvg(layer, svgPath) {
     if (!svgPath) {
         document.getElementById(`${layer}-preview`).innerHTML = '';
@@ -23,7 +25,8 @@ async function selectSvg(layer, svgPath) {
 
     try {
         const response = await fetch(svgPath);
-        if (!response.ok) { // Check if the file was found
+        // Check if the server responded with an error (like 404)
+        if (!response.ok) {
             throw new Error(`File not found: ${svgPath}`);
         }
         const svgText = await response.text();
@@ -35,8 +38,12 @@ async function selectSvg(layer, svgPath) {
 
     } catch (error) {
         console.error('Error loading SVG:', error);
-        // Display an error message to the user in the preview box
-        document.getElementById(`${layer}-preview`).innerHTML = `<p style="font-size:12px; color:red;">Error al cargar: ${svgPath.split('/').pop()}</p>`;
+        // Display a helpful error message instead of the giant 404 page
+        const previewBox = document.getElementById(`${layer}-preview`);
+        if (previewBox) {
+            const fileName = svgPath.split('/').pop(); // Extracts just the filename
+            previewBox.innerHTML = `<p style="font-size:12px; color:red; text-align:center; margin-top: 80px;">Error al cargar:<br>${fileName}</p>`;
+        }
     }
 }
 
