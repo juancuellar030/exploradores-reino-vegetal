@@ -4,15 +4,29 @@
     --secondary-green: #6B8E23;
     --light-bg: #F0FFF0;
     --dark-text: #3a3a3a;
-    --font-family: 'Poppins', sans-serif;
+
+    /* --- FONT DEFINITIONS --- */
+    --font-title: 'Slackey', cursive;
+    --font-body: 'Bricolage Grotesque', sans-serif;
 }
 
 body {
-    font-family: var(--font-family);
+    font-family: var(--font-body); /* Default font for all text */
     background-color: var(--light-bg);
     color: var(--dark-text);
+    line-height: 1.6;
     margin: 0;
     padding: 20px;
+}
+
+/* --- APPLY TITLE FONT TO ALL HEADINGS --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
+    color: var(--primary-green);
+}
+
+button {
+    font-family: var(--font-body); /* Ensure buttons are readable */
 }
 
 /* --- WELCOME PAGE STYLES --- */
@@ -44,12 +58,14 @@ body {
 }
 
 .main-title {
-    font-size: 3.5rem;
+    font-family: var(--font-title);
+    font-size: 4.5rem;
     color: var(--primary-green);
     margin: 0;
 }
 
 .subtitle {
+    font-family: var(--font-body); /* Subtitles should use the body font */
     font-size: 1.5rem;
     color: var(--secondary-green);
     margin-bottom: 30px;
@@ -99,6 +115,7 @@ body {
 }
 .avatar-creator {
     display: flex;
+    align-items: center;
     gap: 50px;
     margin: 30px 0;
 }
@@ -147,7 +164,40 @@ body {
     background-color: var(--primary-green);
 }
 
-/* --- ACTIVITY 1 STYLES (UPDATED) --- */
+/* --- ACTIVITY 1 PAGE STYLES --- */
+.activity-page main {
+    width: 100%;
+    max-width: 900px;
+    margin: auto; /* Center the main content */
+}
+
+.activity-page header {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 8px;
+    margin: 0 auto 20px auto; /* Center the header */
+}
+/* Titles inside the green header should be white */
+.activity-page header h1, .activity-page header h2 {
+    color: white;
+}
+
+.activity-page section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#panel-de-control {
+    border-left: 5px solid var(--primary-green);
+}
+
 #info-jugador {
     display: flex;
     align-items: center;
@@ -160,63 +210,6 @@ body {
     border-radius: 50%;
     background-color: #e0e0e0;
 }
-/* Insignias now use SVG which is better for scaling */
-.insignia {
-    width: 60px;
-    height: 60px;
-    filter: grayscale(100%);
-    opacity: 0.4;
-}
-.insignia.obtenida {
-    filter: none;
-    opacity: 1;
-}
-
-/* (Include other styles from the previous response here) */
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    width: 100%;
-    max-width: 900px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-main {
-    width: 100%;
-    max-width: 900px;
-}
-
-section {
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-h1, h2, h3, h4 {
-    color: #2E8B57;
-}
-
-#panel-de-control {
-    border-left: 5px solid #4CAF50;
-}
 
 .barra-progreso-contenedor {
     width: 100%;
@@ -228,7 +221,7 @@ h1, h2, h3, h4 {
 .barra-progreso-relleno {
     width: 0%; /* Se actualizará con JS */
     height: 20px;
-    background-color: #4CAF50;
+    background-color: var(--primary-green);
     border-radius: 10px;
     text-align: center;
     color: white;
@@ -244,11 +237,15 @@ h1, h2, h3, h4 {
 .insignia {
     width: 60px;
     height: 60px;
-    opacity: 0.3; /* Empiezan opacas */
+    filter: grayscale(100%); /* Start as gray */
+    opacity: 0.5;
+    transition: all 0.3s;
 }
 
 .insignia.obtenida {
+    filter: none; /* Remove gray when obtained */
     opacity: 1;
+    transform: scale(1.1);
 }
 
 .bioma {
@@ -267,8 +264,8 @@ h1, h2, h3, h4 {
     color: #999;
 }
 
-button {
-    background-color: #5cb85c;
+.cuestionario button {
+    background-color: var(--secondary-green);
     color: white;
     border: none;
     padding: 10px 15px;
@@ -277,44 +274,38 @@ button {
     margin: 5px;
 }
 
-button:hover {
-    background-color: #4cae4c;
+.cuestionario button:hover {
+    background-color: var(--primary-green);
 }
 
-#feedback-1 {
+.feedback {
     margin-top: 10px;
     font-weight: bold;
 }
 
 /* --- BACK BUTTON STYLES --- */
-/* Add this to the end of style.css */
-
 .back-button {
-    position: fixed; /* Keeps it in place even when scrolling */
+    position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 1000; /* Ensures it stays on top of other content */
-    
+    z-index: 1000;
     background-color: var(--primary-green);
     color: white;
-    font-family: var(--font-family);
+    font-family: var(--font-body); /* Use readable font */
     font-size: 16px;
-    font-weight: bold;
-    
+    font-weight: 700;
     border: 2px solid white;
-    border-radius: 50px; /* Makes it a pill shape */
+    border-radius: 50px;
     padding: 10px 20px;
-    
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px; /* Space between arrow and text */
-    
+    gap: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: transform 0.2s ease-out, background-color 0.2s;
 }
 
 .back-button:hover {
     background-color: var(--secondary-green);
-    transform: scale(1.05); /* Slightly enlarges on hover */
+    transform: scale(1.05);
 }
