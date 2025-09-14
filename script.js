@@ -1,103 +1,55 @@
-// In avatar_script.js
+// This script is specifically for the Welcome Page (index.html)
 
-// This object will hold the chosen avatar parts, including colors
-let avatar = {
-    base: 'assets/avatar_base/base_01.svg',
-    clothing: 'assets/avatar_clothing/shirt_vest_explorer.svg',
-    headwear: '',
-    eyewear: '',
-    accessory: '',
-    colors: { // New object to store color choices
-        'skin-parts': '#D1FFB6', // Default skin color
-        'vest-color': '#A0522D'  // Default vest color
-    }
-};
+// Wait until all the HTML content is loaded before running the script
+document.addEventListener('DOMContentLoaded', () => {
 
-// --- FUNCTION to load an SVG file and display it ---
-async function selectSvg(layer, svgPath) {
-    if (!svgPath) {
-        document.getElementById(`${layer}-preview`).innerHTML = '';
-        avatar[layer] = '';
-        return;
+    // --- ELEMENT SELECTION ---
+    // Find the important elements on the page we want to interact with
+    const welcomeContainer = document.querySelector('.welcome-container');
+    const activityCard1 = document.querySelector('a.activity-card');
+    const disabledCard = document.querySelector('.activity-card.disabled');
+
+    // --- ENTRY ANIMATION ---
+    // Trigger the fade-in animation for the main container
+    if (welcomeContainer) {
+        // We add the 'loaded' class after a very short delay (100ms)
+        // This ensures the browser applies the initial styles before starting the transition
+        setTimeout(() => {
+            welcomeContainer.classList.add('loaded');
+        }, 100);
     }
 
-    try {
-        const response = await fetch(svgPath);
-        if (!response.ok) { // Check if the file was found
-            throw new Error(`File not found: ${svgPath}`);
-        }
-        const svgText = await response.text();
-        
-        document.getElementById(`${layer}-preview`).innerHTML = svgText;
-        avatar[layer] = svgPath;
-        
-        applyAllColors(); // Re-apply colors when we change an item
-
-    } catch (error) {
-        console.error('Error loading SVG:', error);
-        // Display an error message to the user in the preview box
-        document.getElementById(`${layer}-preview`).innerHTML = `<p style="font-size:12px; color:red;">Error al cargar: ${svgPath.split('/').pop()}</p>`;
-    }
-}
-
-// --- NEW AND IMPROVED FUNCTION to change the color of a group of SVG parts ---
-function changeColor(groupId, color) {
-    avatar.colors[groupId] = color; // Save the color choice
-
-    const groupElement = document.querySelector(`#${groupId}`);
-    
-    if (groupElement) {
-        const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
-        partsToColor.forEach(part => {
-            part.style.fill = color;
+    // --- INTERACTIVITY FOR DISABLED CARD ---
+    // If the disabled card exists, add a click listener to it
+    if (disabledCard) {
+        disabledCard.addEventListener('click', () => {
+            // Show a friendly pop-up message explaining that the activity is not ready yet
+            alert('¡Esta aventura estará disponible muy pronto!');
         });
     }
-}
 
-// --- CORRECTED FUNCTION to apply all saved colors ---
-// This now uses the correct group-finding logic
-function applyAllColors() {
-    for (const groupId in avatar.colors) {
-        const color = avatar.colors[groupId];
-        const groupElement = document.querySelector(`#${groupId}`);
-        
-        if (groupElement) {
-            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
-            partsToColor.forEach(part => {
-                part.style.fill = color;
+    // --- SOUND EFFECTS FOR ACTIVE CARD (Optional but fun!) ---
+    // You will need to create an 'assets/sounds/' folder and add these audio files.
+    // You can find free sound effects on websites like Pixabay or Freesound.
+    if (activityCard1) {
+        try {
+            // Create new Audio objects. The browser will load these files.
+            const hoverSound = new Audio('assets/sounds/ui-hover.mp3'); // A soft "swoosh" sound
+            const clickSound = new Audio('assets/sounds/ui-click.mp3'); // A positive "confirm" sound
+
+            // Play a sound when the user's mouse enters the card area
+            activityCard1.addEventListener('mouseenter', () => {
+                hoverSound.currentTime = 0; // Rewind the sound to the start
+                hoverSound.play();
             });
+
+            // Play a sound when the user clicks the card
+            activityCard1.addEventListener('click', () => {
+                clickSound.play();
+            });
+
+        } catch (error) {
+            console.warn("Could not load sound files. Make sure they are in the correct 'assets/sounds/' folder.", error);
         }
     }
-}
-
-
-// Function to save the avatar and proceed to the activity
-function saveAndStart() {
-    localStorage.setItem('exploradorAvatar', JSON.stringify(avatar));
-    
-    let playerName = localStorage.getItem('exploradorNombre');
-    if (!playerName) {
-        playerName = prompt("¿Cuál es tu nombre, explorador(a)?", "Explorador Valiente");
-        localStorage.setItem('exploradorNombre', playerName);
-    }
-    
-    window.location.href = 'actividad1.html';
-}
-
-// Load existing avatar and initialize the view
-window.onload = async function() {
-    const savedAvatar = localStorage.getItem('exploradorAvatar');
-    if (savedAvatar) {
-        avatar = JSON.parse(savedAvatar);
-    }
-    
-    // Load all the selected SVG parts. await ensures they load one by one.
-    await selectSvg('base', avatar.base);
-    await selectSvg('clothing', avatar.clothing);
-    await selectSvg('headwear', avatar.headwear);
-    await selectSvg('eyewear', avatar.eyewear);
-    await selectSvg('accessory', avatar.accessory);
-
-    // Final color application after all SVGs are loaded
-    applyAllColors();
-};
+});
