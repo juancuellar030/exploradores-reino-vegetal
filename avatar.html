@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea tu Explorador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="avatar-page">
+    <div class="creator-container">
+        <h1>Crea tu Explorador Botánico</h1>
+        <div class="avatar-creator">
+            <div class="avatar-preview">
+                <img id="base-preview" src="assets/avatar_base/base1.png" class="avatar-layer">
+                <img id="accesorio-preview" src="" class="avatar-layer">
+                <!-- Add more layers if you want (e.g., hair, clothes) -->
+            </div>
+            <div class="avatar-options">
+                <div class="option-group">
+                    <h4>Elige tu Base</h4>
+                    <img src="assets/avatar_base/base1.png" onclick="selectOption('base', 'assets/avatar_base/base1.png')">
+                    <img src="assets/avatar_base/base2.png" onclick="selectOption('base', 'assets/avatar_base/base2.png')">
+                </div>
+                <div class="option-group">
+                    <h4>Añade un Accesorio</h4>
+                    <img src="assets/avatar_accesorios/gorro1.png" onclick="selectOption('accesorio', 'assets/avatar_accesorios/gorro1.png')">
+                    <img src="assets/avatar_accesorios/gafas1.png" onclick="selectOption('accesorio', 'assets/avatar_accesorios/gafas1.png')">
+                    <button class="remove-btn" onclick="selectOption('accesorio', '')">Quitar</button>
+                </div>
+            </div>
+        </div>
+        <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
+    </div>
+    <script src="avatar_script.js"></script>
+</body>
+</html>
