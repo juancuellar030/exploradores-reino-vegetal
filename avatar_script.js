@@ -112,16 +112,16 @@ function saveAndStart() {
 
 // Load existing avatar and initialize the view
 window.onload = async function() {
-    const savedAvatar = localStorage.getItem('exploradorAvatar');
-    if (savedAvatar) {
-        avatar = JSON.parse(savedAvatar);
-    }
-    
-    await selectSvg('clothing', avatar.clothing);
+    // ... (all the existing code in this function)
     await selectSvg('base', avatar.base);
+    await selectSvg('clothing', avatar.clothing);
     await selectSvg('headwear', avatar.headwear);
     await selectSvg('eyewear', avatar.eyewear);
     await selectSvg('accessory', avatar.accessory);
 
     applyAllColors();
+
+    // --- ADD THIS LINE AT THE END ---
+    // Open the 'base' tab by default when the page loads
+    openTab('base');
 };
