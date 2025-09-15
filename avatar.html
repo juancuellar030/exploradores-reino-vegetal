@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea tu Explorador</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Slackey&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="avatar-page">
 
-    <!-- === ADD THIS BUTTON AND SCRIPT === -->
+    <!-- Back Button -->
     <button class="back-button" onclick="goBack()">
         <span>&larr;</span> Volver
     </button>
-
     <script>
         function goBack() {
             window.history.back();
         }
     </script>
-    <!-- ================================== -->
-
+    
+    <!-- Main Creator Container -->
     <div class="creator-container">
         <h1>Crea tu Explorador Botánico</h1>
         <div class="avatar-creator">
-   
-            <!-- The Preview Area -->
+
+            <!-- Avatar Preview Area -->
             <div class="avatar-preview">
-                <!-- ... preview divs are correct ... -->
+                <!-- The layers are stacked here by the JS. Order matters for visuals. -->
                 <div id="clothing-preview" class="avatar-layer"></div>
                 <div id="base-preview" class="avatar-layer"></div>
                 <div id="headwear-preview" class="avatar-layer"></div>
                 <div id="eyewear-preview" class="avatar-layer"></div>
                 <div id="accessory-preview" class="avatar-layer"></div>
             </div>
-            
-            <!-- === ADD THIS WRAPPER DIV === -->
+
+            <!-- Wrapper for All Customization Options -->
             <div class="avatar-options">
-            
-                <!-- The Options Area -->
+
+                <!-- Option Group 1: Base -->
                 <div class="option-group">
                     <h4>Elige tu Base</h4>
-                    <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')">
+                    <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')" alt="Base Avatar">
+                    <!-- Add more base options here if you create them -->
                     
                     <div class="color-picker">
                         <p>Color de Piel:</p>
@@ -50,24 +57,38 @@
                     </div>
                 </div>
                 
-                <!-- Clothing Options -->
+                <!-- Option Group 2: Clothing -->
                 <div class="option-group">
                     <h4>Elige tu Ropa</h4>
-                    <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')">
+                    <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
+                    <!-- Add more clothing options here -->
                     
                     <div class="color-picker">
                         <p>Color del Chaleco:</p>
                         <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
                         <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                        <div class="color-swatch" style="background-color: #2E8B57;" onclick="changeColor('vest-color', '#2E8B57')"></div>
                     </div>
                 </div>
-                <!-- Add more option groups for headwear, eyewear, etc. inside this div -->
-            
-            <!-- === AND CLOSE THE WRAPPER DIV HERE === -->
+
+                <!-- Option Group 3: Headwear (Example) -->
+                <div class="option-group">
+                    <h4>Elige tu Peinado o Sombrero</h4>
+                    <!-- Example: <img src="assets/avatar_headwear/hat_safari.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hat_safari.svg')" alt="Safari Hat"> -->
+                    <!-- Example: <img src="assets/avatar_headwear/hair_short.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_short.svg')" alt="Short Hair"> -->
+                    
+                    <!-- Button to have no headwear -->
+                    <button class="remove-btn" onclick="selectSvg('headwear', '')">Quitar</button>
+                </div>
+
             </div>
         </div>
+
+        <!-- Final Action Button -->
         <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
     </div>
+
+    <!-- Main Avatar Logic Script -->
     <script src="avatar_script.js"></script>
 </body>
 </html>
