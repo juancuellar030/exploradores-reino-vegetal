@@ -71,19 +71,36 @@
                     </div>
                 </div>
 
-                <!-- Option Group 3: Headwear (Example) -->
+                <!-- === NEW SECTION: Headwear === -->
                 <div class="option-group">
-                    <h4>Elige tu Peinado o Sombrero</h4>
-                    <!-- Example: <img src="assets/avatar_headwear/hat_safari.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hat_safari.svg')" alt="Safari Hat"> -->
-                    <!-- Example: <img src="assets/avatar_headwear/hair_short.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_short.svg')" alt="Short Hair"> -->
-                    
-                    <!-- Button to have no headwear -->
+                    <h4>Elige tu Peinado</h4>
+                    <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_long_wavy.svg')" alt="Wavy Hair">
+                    <!-- Add more hair/hat options here -->
+                    <div class="color-picker">
+                        <p>Color del Pelo:</p>
+                        <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('hair-color', '#262626')"></div>
+                        <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('hair-color', '#94572B')"></div>
+                        <div class="color-swatch" style="background-color: #E0A343;" onclick="changeColor('hair-color', '#E0A343')"></div>
+                    </div>
                     <button class="remove-btn" onclick="selectSvg('headwear', '')">Quitar</button>
+                </div>
+
+                <!-- === NEW SECTION: Eyewear === -->
+                <div class="option-group">
+                    <h4>Elige tus Gafas</h4>
+                    <img src="assets/avatar_eyewear/glasses_round.svg" onclick="selectSvg('eyewear', 'assets/avatar_eyewear/glasses_round.svg')" alt="Round Glasses">
+                    <!-- Add more glasses options here -->
+                    <div class="color-picker">
+                        <p>Color del Marco:</p>
+                        <div class="color-swatch" style="background-color: #C0C0C0;" onclick="changeColor('frame-color', '#C0C0C0')"></div>
+                        <div class="color-swatch" style="background-color: #4A4A4A;" onclick="changeColor('frame-color', '#4A4A4A')"></div>
+                        <div class="color-swatch" style="background-color: #B8860B;" onclick="changeColor('frame-color', '#B8860B')"></div>
+                    </div>
+                    <button class="remove-btn" onclick="selectSvg('eyewear', '')">Quitar</button>
                 </div>
 
             </div>
         </div>
-
         <!-- Final Action Button -->
         <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
     </div>
