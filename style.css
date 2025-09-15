@@ -332,3 +332,26 @@ button {
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     margin: 0 5px;
 }
+
+/* --- AVATAR LAYER STACKING ORDER --- */
+/* Add this to the end of style.css */
+
+#base-preview {
+    z-index: 10; /* The base layer */
+}
+
+#clothing-preview {
+    z-index: 20; /* Clothing goes on top of the base */
+}
+
+#headwear-preview {
+    z-index: 30; /* Headwear goes on top of clothing and base */
+}
+
+#eyewear-preview {
+    z-index: 40; /* Eyewear goes on top of everything so far */
+}
+
+#accessory-preview {
+    z-index: 50; /* Handheld accessories are on the very top */
+}
