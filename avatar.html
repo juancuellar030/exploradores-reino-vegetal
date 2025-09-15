@@ -23,42 +23,47 @@
     <div class="creator-container">
         <h1>Crea tu Explorador Botánico</h1>
         <div class="avatar-creator">
+   
             <!-- The Preview Area -->
             <div class="avatar-preview">
-                <!-- We will now use divs for layers to hold the SVG code -->
+                <!-- ... preview divs are correct ... -->
                 <div id="clothing-preview" class="avatar-layer"></div>
                 <div id="base-preview" class="avatar-layer"></div>
                 <div id="headwear-preview" class="avatar-layer"></div>
                 <div id="eyewear-preview" class="avatar-layer"></div>
                 <div id="accessory-preview" class="avatar-layer"></div>
             </div>
-            <!-- The Options Area -->
-            <div class="option-group">
-                <h4>Elige tu Base</h4>
-                <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')">
-                
-                <!-- === ADD THIS SKIN COLOR PICKER === -->
-                <div class="color-picker">
-                    <p>Color de Piel:</p>
-                    <div class="color-swatch" style="background-color: #D1FFB6;" onclick="changeColor('skin-parts', '#D1FFB6')"></div>
-                    <div class="color-swatch" style="background-color: #FFDBAC;" onclick="changeColor('skin-parts', '#FFDBAC')"></div>
-                    <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('skin-parts', '#A0522D')"></div>
-                </div>
-            </div>
             
-            <!-- Clothing Options -->
-            <div class="option-group">
-                <h4>Elige tu Ropa</h4>
-                <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')">
-                
-                <div class="color-picker">
-                    <p>Color del Chaleco:</p>
-                    <!-- This still uses its own unique ID -->
-                    <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
-                    <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+            <!-- === ADD THIS WRAPPER DIV === -->
+            <div class="avatar-options">
+            
+                <!-- The Options Area -->
+                <div class="option-group">
+                    <h4>Elige tu Base</h4>
+                    <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')">
+                    
+                    <div class="color-picker">
+                        <p>Color de Piel:</p>
+                        <div class="color-swatch" style="background-color: #D1FFB6;" onclick="changeColor('skin-parts', '#D1FFB6')"></div>
+                        <div class="color-swatch" style="background-color: #FFDBAC;" onclick="changeColor('skin-parts', '#FFDBAC')"></div>
+                        <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('skin-parts', '#A0522D')"></div>
+                    </div>
                 </div>
-            </div>
-                <!-- Add more option groups for headwear, eyewear, etc. -->
+                
+                <!-- Clothing Options -->
+                <div class="option-group">
+                    <h4>Elige tu Ropa</h4>
+                    <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')">
+                    
+                    <div class="color-picker">
+                        <p>Color del Chaleco:</p>
+                        <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
+                        <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                    </div>
+                </div>
+                <!-- Add more option groups for headwear, eyewear, etc. inside this div -->
+            
+            <!-- === AND CLOSE THE WRAPPER DIV HERE === -->
             </div>
         </div>
         <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
