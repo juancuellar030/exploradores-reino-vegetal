@@ -26,83 +26,94 @@
     </script>
     
     <!-- Main Creator Container -->
-    <div class="creator-container">
-        <h1>Crea tu Explorador Botánico</h1>
-        <div class="avatar-creator">
-
-            <!-- Avatar Preview Area -->
-            <div class="avatar-preview">
-                <!-- The layers are stacked here by the JS. Order matters for visuals. -->
-                <div id="clothing-preview" class="avatar-layer"></div>
-                <div id="base-preview" class="avatar-layer"></div>
-                <div id="headwear-preview" class="avatar-layer"></div>
-                <div id="eyewear-preview" class="avatar-layer"></div>
-                <div id="accessory-preview" class="avatar-layer"></div>
+    <!-- In avatar.html, replace the old avatar-creator div with this -->
+    <div class="avatar-creator">
+    
+        <!-- Column 1: The Avatar Preview (Stays the same) -->
+        <div class="avatar-preview">
+            <div id="base-preview" class="avatar-layer"></div>
+            <div id="clothing-preview" class="avatar-layer"></div>
+            <div id="headwear-preview" class="avatar-layer"></div>
+            <div id="eyewear-preview" class="avatar-layer"></div>
+            <div id="accessory-preview" class="avatar-layer"></div>
+        </div>
+    
+        <!-- Column 2: The Customization UI with Tabs -->
+        <div class="avatar-customization">
+            <!-- The Tab Buttons (The Icons You Created) -->
+            <div class="tab-buttons">
+                <button class="tab-button" onclick="openTab('base')" id="btn-base">
+                    <img src="assets/icons/icon_face.svg" alt="Base">
+                </button>
+                <button class="tab-button" onclick="openTab('clothing')" id="btn-clothing">
+                    <img src="assets/icons/icon_shirt.svg" alt="Clothing">
+                </button>
+                <button class="tab-button" onclick="openTab('headwear')" id="btn-headwear">
+                    <img src="assets/icons/icon_hair.svg" alt="Headwear">
+                </button>
+                <button class="tab-button" onclick="openTab('eyewear')" id="btn-eyewear">
+                    <img src="assets/icons/icon_glasses.svg" alt="Eyewear">
+                </button>
             </div>
-
-            <!-- Wrapper for All Customization Options -->
-            <div class="avatar-options">
-
-                <!-- Option Group 1: Base -->
-                <div class="option-group">
-                    <h4>Elige tu Base</h4>
-                    <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')" alt="Base Avatar">
-                    <!-- Add more base options here if you create them -->
-                    
-                    <div class="color-picker">
-                        <p>Color de Piel:</p>
-                        <div class="color-swatch" style="background-color: #D1FFB6;" onclick="changeColor('skin-parts', '#D1FFB6')"></div>
-                        <div class="color-swatch" style="background-color: #FFDBAC;" onclick="changeColor('skin-parts', '#FFDBAC')"></div>
-                        <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('skin-parts', '#A0522D')"></div>
+    
+            <!-- The Tab Content (All the Options) -->
+            <div class="tab-content-container">
+                <!-- Content for 'Base' Tab -->
+                <div id="content-base" class="tab-content">
+                    <div class="option-group">
+                        <h4>Elige tu Base</h4>
+                        <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')" alt="Base Avatar">
+                        <div class="color-picker">
+                            <p>Color de Piel:</p>
+                            <div class="color-swatch" style="background-color: #D1FFB6;" onclick="changeColor('skin-parts', '#D1FFB6')"></div>
+                            <div class="color-swatch" style="background-color: #FFDBAC;" onclick="changeColor('skin-parts', '#FFDBAC')"></div>
+                            <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('skin-parts', '#A0522D')"></div>
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Option Group 2: Clothing -->
-                <div class="option-group">
-                    <h4>Elige tu Ropa</h4>
-                    <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
-                    <!-- Add more clothing options here -->
-                    
-                    <div class="color-picker">
-                        <p>Color del Chaleco:</p>
-                        <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
-                        <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
-                        <div class="color-swatch" style="background-color: #2E8B57;" onclick="changeColor('vest-color', '#2E8B57')"></div>
+    
+                <!-- Content for 'Clothing' Tab -->
+                <div id="content-clothing" class="tab-content">
+                    <div class="option-group">
+                        <h4>Elige tu Ropa</h4>
+                        <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
+                        <div class="color-picker">
+                            <p>Color del Chaleco:</p>
+                            <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
+                            <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- === NEW SECTION: Headwear === -->
-                <div class="option-group">
-                    <h4>Elige tu Peinado</h4>
-                    <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_long_wavy.svg')" alt="Wavy Hair">
-                    <!-- Add more hair/hat options here -->
-                    <div class="color-picker">
-                        <p>Color del Pelo:</p>
-                        <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('hair-color', '#262626')"></div>
-                        <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('hair-color', '#94572B')"></div>
-                        <div class="color-swatch" style="background-color: #E0A343;" onclick="changeColor('hair-color', '#E0A343')"></div>
+    
+                <!-- Content for 'Headwear' Tab -->
+                <div id="content-headwear" class="tab-content">
+                    <div class="option-group">
+                        <h4>Elige tu Peinado</h4>
+                        <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_long_wavy.svg')" alt="Wavy Hair">
+                        <div class="color-picker">
+                            <p>Color del Pelo:</p>
+                            <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('hair-color', '#262626')"></div>
+                            <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('hair-color', '#94572B')"></div>
+                        </div>
+                        <button class="remove-btn" onclick="selectSvg('headwear', '')">Quitar</button>
                     </div>
-                    <button class="remove-btn" onclick="selectSvg('headwear', '')">Quitar</button>
                 </div>
-
-                <!-- === NEW SECTION: Eyewear === -->
-                <div class="option-group">
-                    <h4>Elige tus Gafas</h4>
-                    <img src="assets/avatar_eyewear/glasses_round.svg" onclick="selectSvg('eyewear', 'assets/avatar_eyewear/glasses_round.svg')" alt="Round Glasses">
-                    <!-- Add more glasses options here -->
-                    <div class="color-picker">
-                        <p>Color del Marco:</p>
-                        <div class="color-swatch" style="background-color: #C0C0C0;" onclick="changeColor('frame-color', '#C0C0C0')"></div>
-                        <div class="color-swatch" style="background-color: #4A4A4A;" onclick="changeColor('frame-color', '#4A4A4A')"></div>
-                        <div class="color-swatch" style="background-color: #B8860B;" onclick="changeColor('frame-color', '#B8860B')"></div>
+    
+                <!-- Content for 'Eyewear' Tab -->
+                <div id="content-eyewear" class="tab-content">
+                    <div class="option-group">
+                        <h4>Elige tus Gafas</h4>
+                        <img src="assets/avatar_eyewear/glasses_round.svg" onclick="selectSvg('eyewear', 'assets/avatar_eyewear/glasses_round.svg')" alt="Round Glasses">
+                        <div class="color-picker">
+                            <p>Color del Marco:</p>
+                            <div class="color-swatch" style="background-color: #C0C0C0;" onclick="changeColor('frame-color', '#C0C0C0')"></div>
+                            <div class="color-swatch" style="background-color: #4A4A4A;" onclick="changeColor('frame-color', '#4A4A4A')"></div>
+                        </div>
+                        <button class="remove-btn" onclick="selectSvg('eyewear', '')">Quitar</button>
                     </div>
-                    <button class="remove-btn" onclick="selectSvg('eyewear', '')">Quitar</button>
                 </div>
-
             </div>
         </div>
-        <!-- Final Action Button -->
-        <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
     </div>
 
     <!-- Main Avatar Logic Script -->
