@@ -71,6 +71,31 @@ function applyAllColors() {
     }
 }
 
+function openTab(categoryName) {
+    // 1. Hide all tab content panels
+    const allContent = document.querySelectorAll('.tab-content');
+    allContent.forEach(content => {
+        content.classList.remove('active');
+    });
+
+    // 2. Deactivate all tab buttons
+    const allButtons = document.querySelectorAll('.tab-button');
+    allButtons.forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // 3. Show the specific content panel we want
+    const targetContent = document.getElementById('content-' + categoryName);
+    if (targetContent) {
+        targetContent.classList.add('active');
+    }
+
+    // 4. Activate the specific button we clicked
+    const targetButton = document.getElementById('btn-' + categoryName);
+    if (targetButton) {
+        targetButton.classList.add('active');
+    }
+}
 
 // Function to save the avatar and proceed to the activity
 function saveAndStart() {
