@@ -490,3 +490,40 @@ button {
     color: var(--dark-text); /* Ensure title is readable */
     margin: 10px 0 0 0;
 }
+
+/* --- BANNER AND BUTTON POSITIONING FIXES --- */
+/* Add this to the end of your style.css */
+
+/* 1. Attach the welcome page content to the top */
+.welcome-page {
+    display: block; /* Remove the flex centering */
+    padding-top: 50px; /* Add some space from the top edge */
+}
+
+/* 2. Reposition the button container to be higher on the banner */
+.activity-selection {
+    top: 60%; /* This is the key change: move from 65% up to 60% */
+    gap: 20px; /* Reduce the space between the buttons */
+    width: 70%; /* Make the container a bit narrower */
+}
+
+/* 3. Resize the buttons themselves to fit better */
+.activity-card {
+    width: 180px; /* Make the cards smaller */
+    padding: 10px; /* Reduce the padding inside the card */
+}
+
+/* 4. Style the text inside the card so it's visible and clean */
+.activity-card h3 {
+    font-size: 0.9rem; /* Make the "Actividad 1" text smaller */
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #333; /* Ensure a dark, readable color */
+}
+
+.activity-card p {
+    font-size: 0.8rem; /* Style the description text */
+    font-family: var(--font-body); /* Ensure it uses the correct font */
+    color: #555;
+    margin: 0;
+}
