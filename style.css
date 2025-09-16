@@ -481,3 +481,58 @@ button {
     margin: 0;
     line-height: 1.2;
 }
+
+/* --- NEW MULTI-LAYER BACKGROUND STYLES --- */
+/* Add this to the end of style.css */
+
+.background-layers {
+    position: fixed; /* Stays in place when scrolling */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -10; /* Crucial: Puts it behind all other content */
+    overflow: hidden; /* Prevents scrollbars if images are slightly too big */
+}
+
+/* Style for both background layer images */
+#back-layer,
+#front-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    
+    /* Initial state for the animation: invisible and off-screen */
+    opacity: 0;
+    transform: translateY(100%);
+    
+    /* Animation settings */
+    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), opacity 1s ease-out;
+}
+
+/* Staggering the animation: the front layer starts 0.3s later */
+#front-layer {
+    z-index: 2; /* Ensure front is on top of back */
+    transition-delay: 0.3s;
+}
+
+#back-layer {
+    z-index: 1;
+}
+
+/* The final, visible state for the animation */
+#back-layer.visible,
+#front-layer.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- STATIC BACKGROUND FIX FOR OTHER PAGES --- */
+/* This forces the background to be visible immediately on the avatar and activity pages */
+.avatar-page .background-layers img,
+.activity-page .background-layers img {
+    opacity: 1;
+    transform: translateY(0);
+}
