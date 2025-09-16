@@ -420,3 +420,43 @@ button {
 .avatar-options {
     display: contents; /* This effectively removes the old wrapper's layout effect */
 }
+
+/* --- NEW GRID LAYOUT & PREVIEW SHAPE STYLES --- */
+/* Add this to the end of style.css */
+
+/* Task 1: Change the Avatar Preview to a Rounded Square */
+.avatar-preview {
+    width: 250px; /* Let's make it a bit bigger */
+    height: 250px;
+    border-radius: 25px; /* This is the key change from 50% */
+    background-color: #e8f5e9; /* A slightly different color to stand out */
+}
+
+/* Task 2: Create the Grid Container for the Options */
+.option-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 15px; /* Adds space between all grid items */
+    margin-bottom: 20px; /* Adds space between the grid and the color pickers below */
+}
+
+/* Style the images inside the grid */
+.option-grid img {
+    width: 80px;  /* Give them a fixed size */
+    height: 80px;
+    border: 3px solid #ddd;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s; /* Keep the nice hover effect */
+}
+
+/* Make the hover effect more prominent */
+.option-grid img:hover {
+    border-color: var(--primary-green);
+    transform: scale(1.05);
+}
+
+/* We have to override the old, generic img rule */
+.avatar-options img {
+    width: auto; /* Reset the old rule */
+    height: auto;
+}
