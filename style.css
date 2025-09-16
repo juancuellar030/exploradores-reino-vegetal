@@ -442,7 +442,7 @@ button {
     background: white;
     border: 3px solid var(--primary-green);
     border-radius: 15px;
-    padding: 8px;
+    padding: 5px;
     width: 150px; /* The size of the card */
     text-decoration: none;
     color: var(--dark-text);
@@ -463,7 +463,7 @@ button {
 }
 
 .activity-card img {
-    max-width: 100%;
+    max-width: 90%;
     border-radius: 10px;
 }
 
