@@ -41,34 +41,9 @@ button {
     padding: 0;
 }
 
-.welcome-container {
-    background-color: rgba(255, 255, 255, 0.85);
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
 .welcome-container.loaded {
     opacity: 1;
     transform: translateY(0);
-}
-
-.main-title {
-    font-family: var(--font-title);
-    font-size: 4.5rem;
-    color: var(--primary-green);
-    margin: 0;
-}
-
-.subtitle {
-    font-family: var(--font-body); /* Subtitles should use the body font */
-    font-size: 1.5rem;
-    color: var(--secondary-green);
-    margin-bottom: 30px;
 }
 
 .activity-selection {
@@ -464,4 +439,54 @@ button {
 .final-action {
     text-align: center;
     margin-top: 20px;
+}
+
+/* --- NEW BANNER STYLES FOR INDEX PAGE --- */
+/* Add this to the end of style.css after deleting the old welcome-container rules */
+
+.banner-container {
+    position: relative; /* This is crucial for positioning the buttons inside */
+    width: 80%; /* Adjust width as needed */
+    max-width: 800px; /* Set a max size */
+    
+    /* Initial state for the animation */
+    opacity: 0;
+    transform: translateY(-100vh); /* Start it one full screen height above */
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The final state after the animation runs */
+.banner-container.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.banner-svg {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Removes any extra space below the image */
+}
+
+/* This is the key to placing the buttons ON the banner */
+.activity-selection {
+    position: absolute; /* Position relative to the .banner-container */
+    top: 65%; /* Move it 65% down from the top of the banner */
+    left: 50%; /* Center it horizontally */
+    transform: translate(-50%, -50%); /* Fine-tune the centering */
+    
+    display: flex;
+    gap: 30px;
+    width: 80%; /* Make the button container take up 80% of the banner's width */
+    justify-content: center; /* Center the buttons within the container */
+}
+
+.activity-card {
+    width: 200px; /* Keep your existing card size */
+    padding: 15px; /* Slightly adjust padding if needed */
+}
+
+.activity-card h3 {
+    font-size: 1rem; /* Adjust font size for the smaller card space */
+    color: var(--dark-text); /* Ensure title is readable */
+    margin: 10px 0 0 0;
 }
