@@ -428,7 +428,7 @@ button {
 
 .activity-selection {
     position: absolute;
-    top: 70%; /* Position from the top of the banner */
+    top: 80%; /* Position from the top of the banner */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Fine-tune the centering */
     
@@ -442,8 +442,8 @@ button {
     background: white;
     border: 3px solid var(--primary-green);
     border-radius: 15px;
-    padding: 10px;
-    width: 180px; /* The size of the card */
+    padding: 8px;
+    width: 150px; /* The size of the card */
     text-decoration: none;
     color: var(--dark-text);
     text-align: center; /* Center the text inside the card */
@@ -479,4 +479,5 @@ button {
     font-family: var(--font-body);
     color: #555;
     margin: 0;
+    line-height: 1.2;
 }
