@@ -460,3 +460,8 @@ button {
     width: auto; /* Reset the old rule */
     height: auto;
 }
+
+.final-action {
+    text-align: center;
+    margin-top: 20px;
+}
