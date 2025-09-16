@@ -5,14 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const bannerContainer = document.querySelector('.banner-container'); // Changed this line
     const activityCard1 = document.querySelector('a.activity-card');
     const disabledCard = document.querySelector('.activity-card.disabled');
+    const backLayer = document.querySelector('#back-layer');   // <-- ADD THIS
+    const frontLayer = document.querySelector('#front-layer'); // <-- ADD THIS
 
-    // --- ENTRY ANIMATION ---
-    if (bannerContainer) { // Changed this line
+     // --- ENTRY ANIMATION ---
+    if (bannerContainer) {
         setTimeout(() => {
-            bannerContainer.classList.add('loaded'); // Changed this line
-        }, 100); // A short delay ensures the animation runs smoothly
+            // Trigger the banner animation
+            bannerContainer.classList.add('loaded');
+            
+            // Trigger the background animation
+            if (backLayer && frontLayer) {
+                backLayer.classList.add('visible');   // <-- ADD THIS
+                frontLayer.classList.add('visible'); // <-- ADD THIS
+            }
+        }, 100);
     }
-
+    
     // --- INTERACTIVITY FOR DISABLED CARD ---
     if (disabledCard) {
         disabledCard.addEventListener('click', () => {
