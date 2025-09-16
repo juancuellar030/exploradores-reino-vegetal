@@ -1,29 +1,21 @@
 // This script is specifically for the Welcome Page (index.html)
-
-// Wait until all the HTML content is loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- ELEMENT SELECTION ---
-    // Find the important elements on the page we want to interact with
-    const welcomeContainer = document.querySelector('.welcome-container');
+    // --- ELEMENT SELECTION (UPDATED) ---
+    const bannerContainer = document.querySelector('.banner-container'); // Changed this line
     const activityCard1 = document.querySelector('a.activity-card');
     const disabledCard = document.querySelector('.activity-card.disabled');
 
     // --- ENTRY ANIMATION ---
-    // Trigger the fade-in animation for the main container
-    if (welcomeContainer) {
-        // We add the 'loaded' class after a very short delay (100ms)
-        // This ensures the browser applies the initial styles before starting the transition
+    if (bannerContainer) { // Changed this line
         setTimeout(() => {
-            welcomeContainer.classList.add('loaded');
-        }, 100);
+            bannerContainer.classList.add('loaded'); // Changed this line
+        }, 100); // A short delay ensures the animation runs smoothly
     }
 
     // --- INTERACTIVITY FOR DISABLED CARD ---
-    // If the disabled card exists, add a click listener to it
     if (disabledCard) {
         disabledCard.addEventListener('click', () => {
-            // Show a friendly pop-up message explaining that the activity is not ready yet
             alert('¡Esta aventura estará disponible muy pronto!');
         });
     }
