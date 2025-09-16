@@ -396,7 +396,7 @@ button {
 .welcome-page {
     /* We use block display to hang the banner from the top, not center it vertically */
     display: block;
-    padding-top: 40px; /* Adjust this value to move the banner up or down */
+    padding-top: 5px; /* Adjust this value to move the banner up or down */
     background-image: url('assets/background.png'); /* Keep your background */
     background-size: cover;
     background-position: center;
@@ -428,7 +428,7 @@ button {
 
 .activity-selection {
     position: absolute;
-    top: 60%; /* Position from the top of the banner */
+    top: 70%; /* Position from the top of the banner */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Fine-tune the centering */
     
