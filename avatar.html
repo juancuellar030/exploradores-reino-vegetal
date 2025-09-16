@@ -26,10 +26,9 @@
     </script>
     
     <!-- Main Creator Container -->
-    <!-- In avatar.html, replace the old avatar-creator div with this -->
     <div class="avatar-creator">
     
-        <!-- Column 1: The Avatar Preview (Stays the same) -->
+        <!-- Column 1: The Avatar Preview -->
         <div class="avatar-preview">
             <div id="base-preview" class="avatar-layer"></div>
             <div id="clothing-preview" class="avatar-layer"></div>
@@ -40,7 +39,7 @@
     
         <!-- Column 2: The Customization UI with Tabs -->
         <div class="avatar-customization">
-            <!-- The Tab Buttons (The Icons You Created) -->
+            <!-- The Tab Buttons -->
             <div class="tab-buttons">
                 <button class="tab-button" onclick="openTab('base')" id="btn-base">
                     <img src="assets/icons/icon_face.svg" alt="Base">
@@ -56,13 +55,17 @@
                 </button>
             </div>
     
-            <!-- The Tab Content (All the Options) -->
+            <!-- The Tab Content Container -->
             <div class="tab-content-container">
+
                 <!-- Content for 'Base' Tab -->
                 <div id="content-base" class="tab-content">
                     <div class="option-group">
                         <h4>Elige tu Base</h4>
-                        <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')" alt="Base Avatar">
+                        <div class="option-grid">
+                            <img src="assets/avatar_base/base_01.svg" onclick="selectSvg('base', 'assets/avatar_base/base_01.svg')" alt="Base Avatar">
+                            <!-- Add future base options here -->
+                        </div>
                         <div class="color-picker">
                             <p>Color de Piel:</p>
                             <div class="color-swatch" style="background-color: #D1FFB6;" onclick="changeColor('skin-parts', '#D1FFB6')"></div>
@@ -76,7 +79,10 @@
                 <div id="content-clothing" class="tab-content">
                     <div class="option-group">
                         <h4>Elige tu Ropa</h4>
-                        <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
+                        <div class="option-grid">
+                            <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
+                            <!-- Add future clothing options here -->
+                        </div>
                         <div class="color-picker">
                             <p>Color del Chaleco:</p>
                             <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
@@ -89,29 +95,22 @@
                 <div id="content-headwear" class="tab-content">
                     <div class="option-group">
                         <h4>Elige tu Peinado o Sombrero</h4>
-                        <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_long_wavy.svg')" alt="Wavy Hair">
-                        <!-- === NEW Curly Hair Option === -->
-                        <img src="assets/avatar_headwear/hair_short_curly.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_short_curly.svg')" alt="Curly Hair">
-                        <!-- === NEW Beanie Hat Option === -->
-                        <img src="assets/avatar_headwear/beanie_hat.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/beanie_hat.svg')" alt="Beanie Hat">
-                        
+                        <div class="option-grid">
+                            <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_long_wavy.svg')" alt="Wavy Hair">
+                            <img src="assets/avatar_headwear/hair_short_curly.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_short_curly.svg')" alt="Curly Hair">
+                            <img src="assets/avatar_headwear/beanie_hat.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/beanie_hat.svg')" alt="Beanie Hat">
+                        </div>
                         <div class="color-picker">
                             <p>Color del Pelo:</p>
                             <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('hair-color', '#262626')"></div>
                             <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('hair-color', '#94572B')"></div>
                         </div>
-                        
-                        <!-- === NEW Multi-Part Color Picker for the Beanie === -->
                         <div class="color-picker">
                             <p>Colores del Gorro:</p>
-                            <!-- Top Color -->
                             <div class="color-swatch" style="background-color: #6A0DAD;" onclick="changeColor('beanie-top-color', '#6A0DAD')"></div>
-                            <!-- Brim Color -->
                             <div class="color-swatch" style="background-color: #008000;" onclick="changeColor('beanie-brim-color', '#008000')"></div>
-                            <!-- Flaps Color -->
                             <div class="color-swatch" style="background-color: #FF4500;" onclick="changeColor('beanie-flaps-color', '#FF4500')"></div>
                         </div>
-                        
                         <button class="remove-btn" onclick="selectSvg('headwear', '')">Quitar</button>
                     </div>
                 </div>
@@ -120,7 +119,10 @@
                 <div id="content-eyewear" class="tab-content">
                     <div class="option-group">
                         <h4>Elige tus Gafas</h4>
-                        <img src="assets/avatar_eyewear/glasses_round.svg" onclick="selectSvg('eyewear', 'assets/avatar_eyewear/glasses_round.svg')" alt="Round Glasses">
+                        <div class="option-grid">
+                            <img src="assets/avatar_eyewear/glasses_round.svg" onclick="selectSvg('eyewear', 'assets/avatar_eyewear/glasses_round.svg')" alt="Round Glasses">
+                            <!-- Add future eyewear options here -->
+                        </div>
                         <div class="color-picker">
                             <p>Color del Marco:</p>
                             <div class="color-swatch" style="background-color: #C0C0C0;" onclick="changeColor('frame-color', '#C0C0C0')"></div>
@@ -129,8 +131,14 @@
                         <button class="remove-btn" onclick="selectSvg('eyewear', '')">Quitar</button>
                     </div>
                 </div>
+
             </div>
         </div>
+    </div>
+
+    <!-- Final Action Button -->
+    <div class="final-action">
+        <button class="cta-button" onclick="saveAndStart()">¡Guardar y Empezar Aventura!</button>
     </div>
 
     <!-- Main Avatar Logic Script -->
