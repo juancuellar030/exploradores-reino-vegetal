@@ -11,23 +11,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Slackey&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+<!-- In index.html -->
 <body class="welcome-page">
-    <div class="welcome-container">
-        <h1 class="main-title">Aventura Botánica</h1>
-        <p class="subtitle">Elige tu misión</p>
+
+    <!-- The New Banner Structure -->
+    <div class="banner-container">
+        <!-- The SVG banner image serves as the background -->
+        <img src="assets/index-banner.svg" class="banner-svg" alt="Aventura Botánica Banner">
+
+        <!-- The activity buttons will be positioned on top of the banner -->
         <div class="activity-selection">
             <a href="avatar.html" class="activity-card">
                 <img src="assets/boton_act1.png" alt="Exploradores del Reino Vegetal">
                 <h3>Actividad 1</h3>
-                <p>Exploradores del Reino Vegetal</p>
             </a>
             <div class="activity-card disabled">
                 <img src="assets/boton_act2_off.png" alt="El Gran Juego del Bosque">
                 <h3>Actividad 2</h3>
-                <p>El Gran Juego del Bosque (¡Próximamente!)</p>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
