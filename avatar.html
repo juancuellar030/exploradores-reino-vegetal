@@ -10,6 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Slackey&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
+<!-- === NAME GENERATOR MODAL === -->
+<div id="name-generator-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>¡Tu Nombre de Explorador!</h3>
+        <div id="name-spinner" class="name-display">Explorador Valiente</div>
+        <button class="cta-button" onclick="spinNameGenerator()">¡Girar para un nombre nuevo!</button>
+        <button class="cta-button" onclick="confirmName()">Confirmar Nombre</button>
+    </div>
+</div>
+    
 <body class="avatar-page">
 
     <!-- Static Background Layers -->
