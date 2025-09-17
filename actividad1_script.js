@@ -1,4 +1,12 @@
-// In avatar_script.js
+// --- SOUND EFFECT SETUP ---
+const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
+const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
+
+// Helper function to play sounds reliably
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play();
+}
 
 // This object will hold the chosen avatar parts, including colors
 let avatar = {
