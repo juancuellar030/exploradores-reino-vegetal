@@ -120,6 +120,22 @@ function saveAndStart() {
     window.location.href = 'actividad1.html';
 }
 
+// --- NEW FUNCTION TO ADD SOUNDS TO ALL INTERACTIVE ELEMENTS ---
+function addSoundEffects() {
+    // Select all the elements that should have sounds
+    const interactiveElements = document.querySelectorAll(
+        '.back-button, .tab-button, .option-grid img, .color-swatch, .remove-btn, .cta-button'
+    );
+
+    interactiveElements.forEach(element => {
+        // Add hover sound
+        element.addEventListener('mouseenter', () => playSound(hoverSound));
+        
+        // Add click sound
+        element.addEventListener('click', () => playSound(clickSound));
+    });
+}
+
 // Load existing avatar and initialize the view
 window.onload = async function() {
     // ... (all the existing code in this function)
