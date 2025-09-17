@@ -150,4 +150,6 @@ window.onload = async function() {
     // --- ADD THIS LINE AT THE END ---
     // Open the 'base' tab by default when the page loads
     openTab('base');
+
+    addSoundEffects(); // This activates all the sounds
 };
