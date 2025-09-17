@@ -30,27 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- SOUND EFFECTS FOR ACTIVE CARD (Optional but fun!) ---
-    // You will need to create an 'assets/sounds/' folder and add these audio files.
-    // You can find free sound effects on websites like Pixabay or Freesound.
     if (activityCard1) {
         try {
-            // Create new Audio objects. The browser will load these files.
-            const hoverSound = new Audio('assets/sounds/ui-hover.mp3'); // A soft "swoosh" sound
-            const clickSound = new Audio('assets/sounds/ui-click.mp3'); // A positive "confirm" sound
-
-            // Play a sound when the user's mouse enters the card area
+            // Use your exact filenames here
+            const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
+            const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
+    
             activityCard1.addEventListener('mouseenter', () => {
                 hoverSound.currentTime = 0; // Rewind the sound to the start
                 hoverSound.play();
             });
-
-            // Play a sound when the user clicks the card
+    
             activityCard1.addEventListener('click', () => {
                 clickSound.play();
             });
-
+    
         } catch (error) {
-            console.warn("Could not load sound files. Make sure they are in the correct 'assets/sounds/' folder.", error);
+            console.warn("Could not load sound files.", error);
         }
     }
 });
