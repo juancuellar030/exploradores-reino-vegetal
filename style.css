@@ -611,3 +611,30 @@ button {
     transition: none; /* Disables the slide-in animation */
     transition-delay: 0s !important; /* Removes any lingering animation delay */
 }
+
+/* --- FINAL AVATAR CREATOR FIXES (SCROLLING & BACKGROUND) --- */
+/* Add this to the end of style.css */
+
+/* 1. Force the customization area to have a fixed height */
+.avatar-customization {
+    height: 450px; /* Give the entire right-side column a fixed height */
+    display: flex; /* Ensure flexbox is active */
+}
+
+/* 2. Make the content area scrollable */
+.tab-content-container {
+    flex-grow: 1; /* Allows it to fill the available space */
+    height: 100%; /* Makes it respect the parent's new fixed height */
+    overflow-y: auto; /* The magic! Adds a scrollbar ONLY when needed */
+    padding-right: 15px; /* Adds some space for the scrollbar */
+}
+
+/* 3. Force the background to be visible on the avatar page */
+/* This is a more specific rule to override the animation */
+.avatar-page #back-layer,
+.avatar-page #front-layer {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none; /* Disables the slide-in animation */
+    transition-delay: 0s !important; /* Removes any lingering animation delay */
+}
