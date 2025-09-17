@@ -8,111 +8,96 @@ function playSound(sound) {
     sound.play();
 }
 
-// This object will hold the chosen avatar parts, including colors
-let avatar = {
-    base: 'assets/avatar_base/base_01.svg',
-    clothing: 'assets/avatar_clothing/shirt_vest_explorer.svg',
-    headwear: '',
-    eyewear: '',
-    accessory: '',
-    colors: { // New object to store color choices
-        'skin-parts': '#D1FFB6', // Default skin color
-        'vest-color': '#A0522D'  // Default vest color
-    }
+// --- PLAYER STATE ---
+let jugador = {
+    nombre: "Explorador Novato",
+    pe: 0,
+    nivel: 1,
+    insignias: [],
+    progresoGeneral: 0
 };
 
-// In avatar_script.js
+// --- GAME CONFIG CONSTANTS ---
+const PE_POR_DESAFIO = 50;
+const PE_PARA_NIVEL_2 = 300; // As per the project PDF
+// Add more PE thresholds here...
 
-// --- UPDATED FUNCTION to load an SVG file and display it ---
-async function selectSvg(layer, svgPath) {
-    if (!svgPath) {
-        document.getElementById(`${layer}-preview`).innerHTML = '';
-        avatar[layer] = '';
-        return;
-    }
-
-    try {
-        const response = await fetch(svgPath);
-        // Check if the server responded with an error (like 404)
-        if (!response.ok) {
-            throw new Error(`File not found: ${svgPath}`);
-        }
-        const svgText = await response.text();
-        
-        document.getElementById(`${layer}-preview`).innerHTML = svgText;
-        avatar[layer] = svgPath;
-        
-        applyAllColors(); // Re-apply colors when we change an item
-
-    } catch (error) {
-        console.error('Error loading SVG:', error);
-        // Display a helpful error message instead of the giant 404 page
-        const previewBox = document.getElementById(`${layer}-preview`);
-        if (previewBox) {
-            const fileName = svgPath.split('/').pop(); // Extracts just the filename
-            previewBox.innerHTML = `<p style="font-size:12px; color:red; text-align:center; margin-top: 80px;">Error al cargar:<br>${fileName}</p>`;
-        }
-    }
+// --- GAME LOGIC FUNCTIONS ---
+function ganarPE(cantidad) {
+    jugador.pe += cantidad;
+    console.log(`Has ganado ${cantidad} PE. Total: ${jugador.pe}`);
+    guardarProgreso();
+    actualizarUI();
+    verificarDesbloqueos();
 }
 
-// --- NEW AND IMPROVED FUNCTION to change the color of a group of SVG parts ---
-function changeColor(groupId, color) {
-    avatar.colors[groupId] = color; // Save the color choice
+// (Add other game logic functions here: ganarInsignia, etc.)
 
-    const groupElement = document.querySelector(`#${groupId}`);
-    
-    if (groupElement) {
-        const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
-        partsToColor.forEach(part => {
-            part.style.fill = color;
-        });
-    }
+// --- UI UPDATE FUNCTIONS ---
+function actualizarUI() {
+    document.getElementById('nombre-jugador').textContent = jugador.nombre;
+    document.getElementById('pe-jugador').textContent = jugador.pe;
+    // (Add other UI updates here: progress bar, badges, etc.)
 }
 
-// --- CORRECTED FUNCTION to apply all saved colors ---
-// This now uses the correct group-finding logic
-function applyAllColors() {
-    for (const groupId in avatar.colors) {
-        const color = avatar.colors[groupId];
-        const groupElement = document.querySelector(`#${groupId}`);
-        
-        if (groupElement) {
-            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
-            partsToColor.forEach(part => {
-                part.style.fill = color;
-            });
-        }
-    }
-}
-
-
-// Function to save the avatar and proceed to the activity
-function saveAndStart() {
-    localStorage.setItem('exploradorAvatar', JSON.stringify(avatar));
-    
-    let playerName = localStorage.getItem('exploradorNombre');
-    if (!playerName) {
-        playerName = prompt("¿Cuál es tu nombre, explorador(a)?", "Explorador Valiente");
-        localStorage.setItem('exploradorNombre', playerName);
-    }
-    
-    window.location.href = 'actividad1.html';
-}
-
-// Load existing avatar and initialize the view
-window.onload = async function() {
+function cargarAvatar() {
     const savedAvatar = localStorage.getItem('exploradorAvatar');
     if (savedAvatar) {
-        avatar = JSON.parse(savedAvatar);
-    }
-    
-    // Load all the selected SVG parts. await ensures they load one by one.
-    await selectSvg('base', avatar.base);
-    await selectSvg('clothing', avatar.clothing);
-    await selectSvg('headwear', avatar.headwear);
-    await selectSvg('eyewear', avatar.eyewear);
-    await selectSvg('accessory', avatar.accessory);
+        const avatar = JSON.parse(savedAvatar);
+        const avatarDisplay = document.getElementById('avatar-display');
+        avatarDisplay.innerHTML = ''; // Clear previous
 
-    // Final color application after all SVGs are loaded
-    applyAllColors();
+        // This is a simplified version; you might have more layers
+        if(avatar.base) avatarDisplay.innerHTML += `<img src="${avatar.base}" class="avatar-layer">`;
+        if(avatar.clothing) avatarDisplay.innerHTML += `<img src="${avatar.clothing}" class="avatar-layer">`;
+        // ... and so on for other layers ...
+    }
+}
+
+function verificarDesbloqueos() {
+    // Logic to unlock new biomes based on PE
+}
+
+// --- DATA MANAGEMENT ---
+function guardarProgreso() {
+    localStorage.setItem('progresoExplorador', JSON.stringify(jugador));
+}
+
+function cargarProgreso() {
+    const progresoGuardado = localStorage.getItem('progresoExplorador');
+    if (progresoGuardado) {
+        jugador = JSON.parse(progresoGuardado);
+    }
+    jugador.nombre = localStorage.getItem('exploradorNombre') || "Explorador Novato";
+}
+
+// (Add your question/challenge functions here, e.g., verificarCuestionario)
+function verificarCuestionario(questionId, isCorrect) {
+    // Your logic for checking answers...
+}
+
+// --- NEW FUNCTION TO ADD SOUNDS TO ALL INTERACTIVE ELEMENTS ---
+function addSoundEffectsToActivity() {
+    // Select all buttons on the page that should have sound
+    const interactiveElements = document.querySelectorAll(
+        '.back-button, .cuestionario button'
+        // Add other selectors here if you add more interactive elements
+    );
+
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => playSound(hoverSound));
+        element.addEventListener('click', () => playSound(clickSound));
+    });
+}
+
+
+// --- MAIN FUNCTION that runs when the page is fully loaded ---
+window.onload = function() {
+    cargarProgreso();
+    cargarAvatar();
+    verificarDesbloqueos();
+    actualizarUI();
+    
+    // Activate all the sounds
+    addSoundEffectsToActivity();
 };
