@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Use your exact filenames here
             const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
+            hoverSound.volume = 0.4;
+            
             const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
     
             activityCard1.addEventListener('mouseenter', () => {
