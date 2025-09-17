@@ -1,5 +1,7 @@
 // --- SOUND EFFECT SETUP ---
 const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
+hoverSound.volume = 0.4;
+
 const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
 
 // Helper function to play sounds reliably
