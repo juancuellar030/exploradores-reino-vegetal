@@ -17,9 +17,9 @@ let avatar = {
     headwear: '',
     eyewear: '',
     accessory: '',
-    colors: { // New object to store color choices
-        'skin-parts': '#D1FFB6', // Default skin color
-        'vest-color': '#A0522D'  // Default vest color
+    colors: {
+        'skin-parts': '#D1FFB6',
+        'vest-color': '#A0522D'
     }
 };
 
@@ -30,19 +30,13 @@ async function selectSvg(layer, svgPath) {
         avatar[layer] = '';
         return;
     }
-
     try {
         const response = await fetch(svgPath);
-        if (!response.ok) {
-            throw new Error(`File not found: ${svgPath}`);
-        }
+        if (!response.ok) { throw new Error(`File not found: ${svgPath}`); }
         const svgText = await response.text();
-        
         document.getElementById(`${layer}-preview`).innerHTML = svgText;
         avatar[layer] = svgPath;
-        
-        applyAllColors(); // Re-apply colors when we change an item
-
+        applyAllColors();
     } catch (error) {
         console.error('Error loading SVG:', error);
         const previewBox = document.getElementById(`${layer}-preview`);
@@ -53,12 +47,10 @@ async function selectSvg(layer, svgPath) {
     }
 }
 
-// --- NEW AND IMPROVED FUNCTION to change the color of a group of SVG parts ---
+// --- FUNCTION to change the color of a group of SVG parts ---
 function changeColor(groupId, color) {
-    avatar.colors[groupId] = color; // Save the color choice
-
+    avatar.colors[groupId] = color;
     const groupElement = document.querySelector(`#${groupId}`);
-    
     if (groupElement) {
         const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
         partsToColor.forEach(part => {
@@ -67,13 +59,11 @@ function changeColor(groupId, color) {
     }
 }
 
-// --- CORRECTED FUNCTION to apply all saved colors ---
-// This now uses the correct group-finding logic
+// --- FUNCTION to apply all saved colors ---
 function applyAllColors() {
     for (const groupId in avatar.colors) {
         const color = avatar.colors[groupId];
         const groupElement = document.querySelector(`#${groupId}`);
-        
         if (groupElement) {
             const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
             partsToColor.forEach(part => {
@@ -83,75 +73,96 @@ function applyAllColors() {
     }
 }
 
+// --- FUNCTION to switch tabs ---
 function openTab(categoryName) {
-    // 1. Hide all tab content panels
     const allContent = document.querySelectorAll('.tab-content');
-    allContent.forEach(content => {
-        content.classList.remove('active');
-    });
-
-    // 2. Deactivate all tab buttons
+    allContent.forEach(content => content.classList.remove('active'));
     const allButtons = document.querySelectorAll('.tab-button');
-    allButtons.forEach(button => {
-        button.classList.remove('active');
-    });
-
-    // 3. Show the specific content panel we want
+    allButtons.forEach(button => button.classList.remove('active'));
     const targetContent = document.getElementById('content-' + categoryName);
-    if (targetContent) {
-        targetContent.classList.add('active');
-    }
-
-    // 4. Activate the specific button we clicked
+    if (targetContent) { targetContent.classList.add('active'); }
     const targetButton = document.getElementById('btn-' + categoryName);
-    if (targetButton) {
-        targetButton.classList.add('active');
-    }
+    if (targetButton) { targetButton.classList.add('active'); }
 }
 
-// Function to save the avatar and proceed to the activity
+// --- NAME GENERATOR SETUP AND FUNCTIONS ---
+const nameAdjectives = ["Valiente", "Audaz", "Curioso", "Intrépido", "Sabio", "Rápido", "Sigiloso"];
+const nameNouns = ["Explorador", "Botánico", "Guardián", "Aventurero", "Científico", "Rastreador"];
+let currentGeneratedName = "Explorador Valiente";
+let spinInterval;
+
+function generateRandomName() {
+    const adj = nameAdjectives[Math.floor(Math.random() * nameAdjectives.length)];
+    const noun = nameNouns[Math.floor(Math.random() * nameNouns.length)];
+    return `${adj} ${noun}`;
+}
+
+function spinNameGenerator() {
+    const nameSpinner = document.getElementById('name-spinner');
+    clearInterval(spinInterval); // Stop any previous spin
+
+    // Spin for 1.5 seconds for a snappy feel
+    spinInterval = setInterval(() => {
+        nameSpinner.textContent = generateRandomName();
+    }, 60); // Change name every 60ms
+
+    setTimeout(() => {
+        clearInterval(spinInterval);
+        currentGeneratedName = generateRandomName();
+        nameSpinner.textContent = currentGeneratedName;
+    }, 1500); // Stop after 1.5 seconds
+}
+
+function confirmName() {
+    localStorage.setItem('exploradorNombre', currentGeneratedName);
+    document.getElementById('name-generator-modal').style.display = 'none';
+    window.location.href = 'actividad1.html'; // Proceed to the activity
+}
+
+// --- REPLACED saveAndStart FUNCTION ---
+// This function now opens the name generator modal if needed
 function saveAndStart() {
     localStorage.setItem('exploradorAvatar', JSON.stringify(avatar));
     
     let playerName = localStorage.getItem('exploradorNombre');
     if (!playerName) {
-        playerName = prompt("¿Cuál es tu nombre, explorador(a)?", "Explorador Valiente");
-        localStorage.setItem('exploradorNombre', playerName);
+        // If no name is saved, show the name generator instead of the prompt
+        document.getElementById('name-generator-modal').style.display = 'flex';
+        spinNameGenerator(); // Start with a spin
+    } else {
+        // If a name already exists, go straight to the activity
+        window.location.href = 'actividad1.html';
     }
-    
-    window.location.href = 'actividad1.html';
 }
 
-// --- NEW FUNCTION TO ADD SOUNDS TO ALL INTERACTIVE ELEMENTS ---
+// --- FUNCTION TO ADD SOUNDS TO ALL INTERACTIVE ELEMENTS ---
 function addSoundEffects() {
-    // Select all the elements that should have sounds
     const interactiveElements = document.querySelectorAll(
         '.back-button, .tab-button, .option-grid img, .color-swatch, .remove-btn, .cta-button'
     );
-
     interactiveElements.forEach(element => {
-        // Add hover sound
         element.addEventListener('mouseenter', () => playSound(hoverSound));
-        
-        // Add click sound
         element.addEventListener('click', () => playSound(clickSound));
     });
 }
 
-// Load existing avatar and initialize the view
+// --- MAIN FUNCTION that runs when the page is fully loaded ---
 window.onload = async function() {
-    // ... (all the existing code in this function)
+    // Load saved avatar data, if it exists
+    const savedAvatar = localStorage.getItem('exploradorAvatar');
+    if (savedAvatar) {
+        avatar = JSON.parse(savedAvatar);
+    }
+    
+    // Load all the selected SVG parts
     await selectSvg('base', avatar.base);
     await selectSvg('clothing', avatar.clothing);
     await selectSvg('headwear', avatar.headwear);
     await selectSvg('eyewear', avatar.eyewear);
     await selectSvg('accessory', avatar.accessory);
 
+    // Apply colors, open the default tab, and activate sounds
     applyAllColors();
-
-    // --- ADD THIS LINE AT THE END ---
-    // Open the 'base' tab by default when the page loads
     openTab('base');
-
-    addSoundEffects(); // This activates all the sounds
+    addSoundEffects(); // Activate all the sounds
 };
