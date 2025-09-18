@@ -724,3 +724,81 @@ button {
 .bioma-card.bloqueado h4 {
     color: #999;
 }
+
+/* --- NEW FLOATING PLAYER HUD & VERTICAL PROGRESS --- */
+/* Add this to the end of your style.css */
+
+#player-hud {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%); /* This perfectly centers it vertically */
+    z-index: 100;
+    
+    width: 120px; /* A slim vertical HUD */
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 3px solid var(--primary-green);
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    padding: 15px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#hud-info {
+    text-align: center;
+}
+
+#hud-player-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+#hud-pe-points {
+    font-size: 1rem;
+}
+
+#hud-progress-and-insignias {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
+}
+
+#vertical-progress-container {
+    width: 30px;
+    height: 300px; /* The height of the progress bar */
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden; /* This is key */
+}
+
+#vertical-progress-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; /* Starts at 0, controlled by JS */
+    background-color: var(--primary-green);
+    border-radius: 15px;
+    transition: height 0.5s ease-out;
+}
+
+#hud-insignias-container {
+    display: flex;
+    flex-direction: column; /* Stack insignias vertically */
+    gap: 10px;
+    align-items: center;
+}
+
+/* The individual insignias in the HUD */
+#hud-insignias-container .insignia {
+    width: 50px; /* A good size for the HUD */
+    height: 50px;
+}
