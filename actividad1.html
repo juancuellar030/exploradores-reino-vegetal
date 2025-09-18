@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actividad 1: Exploradores del Reino Vegetal</title>
+    <!-- Fonts and Stylesheets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Slackey&display=swap" rel="stylesheet">
@@ -11,28 +12,34 @@
 </head>
 <body class="activity-page">
 
-    <!-- === BACKGROUND LAYERS === -->
+    <!-- Background Layers -->
     <div class="background-layers">
         <img src="assets/index_background_back_layer.svg" id="back-layer" alt="Background back layer">
         <img src="assets/index_background_front_layer.svg" id="front-layer" alt="Background front layer">
     </div>
 
-    <!-- === NEW FLOATING AVATAR HUD === -->
-    <div id="avatar-hud">
-        <p id="hud-player-name">Cargando...</p>
-        <div id="hud-avatar-display">
-            <!-- The custom avatar will be loaded here by JavaScript -->
+    <!-- === NEW FLOATING PLAYER HUD === -->
+    <div id="player-hud">
+        <div id="hud-info">
+            <p id="hud-player-name">Cargando...</p>
+            <p>PE: <span id="hud-pe-points">0</span></p>
+        </div>
+        <div id="hud-progress-and-insignias">
+            <div id="vertical-progress-container">
+                <div id="vertical-progress-fill"></div>
+            </div>
+            <div id="hud-insignias-container">
+                <!-- Insignias will be loaded here -->
+            </div>
         </div>
     </div>
-    
+
     <!-- Back Button -->
     <button class="back-button" onclick="goBack()">
         <span>&larr;</span> Volver
     </button>
     <script>
-        function goBack() {
-            window.history.back();
-        }
+        function goBack() { window.history.back(); }
     </script>
     
     <header>
@@ -41,74 +48,38 @@
     </header>
 
     <main>
-        <!-- Panel de Control -->
-        <section id="panel-de-control">
-            <h3>Panel del Explorador</h3>
-            <div id="info-jugador">
-                <div>
-                    <p><strong>Explorador:</strong> <span id="nombre-jugador">Cargando...</span></p>
-                    <p><strong>Puntos de Experiencia (PE):</strong> <span id="pe-jugador">0</span></p>
-                </div>
-            </div>
-            <h4>Progreso General del Jardín</h4>
-            <div class="barra-progreso-contenedor">
-                <div id="barra-progreso-general" class="barra-progreso-relleno">0%</div>
-            </div>
-            <h4>Insignias Obtenidas</h4>
-            <div id="contenedor-insignias"></div>
+        <!-- This container will hold the dynamically appearing biome cards -->
+        <section id="biomas-container">
+            <!-- Biome cards will be inserted here by JavaScript -->
         </section>
+    </main>
 
-        <!-- Contenedor de Biomas -->
-        <section id="biomas-del-jardin">
-        <h3>Biomas Botánicos</h3>
-    
-        <!-- === BIOMA 1: CARD === -->
-        <div class="bioma-card">
+    <!-- Templates for the Biome Cards -->
+    <template id="template-germinacion">
+        <div class="bioma-card" id="bioma-germinacion">
             <h4 class="bioma-titulo">Nivel 1: El Bioma de la Germinación</h4>
-            <div class="micro-desafio">
-                <div class="wordwall-container">
-                    <iframe style="max-width:100%;" src="YOUR_GERMINACION_WORDWALL_URL" width="600" height="400" frameborder="0" allowfullscreen></iframe>
-                    <button id="claim-reward-germinacion" class="cta-button" onclick="completeWordwallChallenge('germinacion', 25)">
-                        ¡He Terminado! Reclamar Recompensa
-                    </button>
-                </div>
+            <div class="wordwall-container">
+                <iframe style="max-width:100%" src="https://wordwall.net/embed/7da92174967e4b3494e5962f32dd7ada?themeId=62&templateId=2&fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen></iframe>
+                <button id="claim-reward-germinacion" class="cta-button" onclick="completeWordwallChallenge('germinacion', 25)">
+                    ¡He Terminado! Reclamar Recompensa
+                </button>
             </div>
         </div>
-    
-        <!-- === BIOMA 2: CARD (Locked) === -->
-        <div class="bioma-card bloqueado" id="bioma-crecimiento">
+    </template>
+
+    <template id="template-crecimiento">
+        <div class="bioma-card" id="bioma-crecimiento">
             <h4 class="bioma-titulo">Nivel 2: El Bioma del Crecimiento</h4>
-            <p>Completa el bioma anterior para desbloquear.</p>
-            <template>
-                <div class="wordwall-container">
-                    <iframe style="max-width:100%;" src="YOUR_CRECIMIENTO_WORDWALL_URL" width="600" height="400" frameborder="0" allowfullscreen></iframe>
-                    <button id="claim-reward-crecimiento" class="cta-button" onclick="completeWordwallChallenge('crecimiento', 25)">
-                        ¡He Terminado! Reclamar Recompensa
-                    </button>
-                </div>
-            </template>
+            <div class="wordwall-container">
+                <iframe style="max-width:100%;" src="YOUR_CRECIMIENTO_WORDWALL_URL" width="600" height="400" frameborder="0" allowfullscreen></iframe>
+                <button id="claim-reward-crecimiento" class="cta-button" onclick="completeWordwallChallenge('crecimiento', 25)">
+                    ¡He Terminado! Reclamar Recompensa
+                </button>
+            </div>
         </div>
+    </template>
     
-        <!-- === BIOMA 3: CARD (Locked) === -->
-        <div class="bioma-card bloqueado" id="bioma-reproduccion">
-             <h4 class="bioma-titulo">Nivel 3: El Bioma de la Reproducción</h4>
-            <p>Completa el bioma anterior para desbloquear.</p>
-            <template>
-                 <!-- Add your Wordwall for Bioma 3 here -->
-            </template>
-        </div>
-    
-        <!-- === BIOMA 4: CARD (Locked) === -->
-        <div class="bioma-card bloqueado" id="bioma-dispersion">
-             <h4 class="bioma-titulo">Nivel 4: El Bioma de la Dispersión</h4>
-            <p>Completa el bioma anterior para desbloquear.</p>
-            <template>
-                 <!-- Add your Wordwall for Bioma 4 here -->
-            </template>
-        </div>
-    
-    </section>
-    </main>
+    <!-- Add templates for reproduccion and dispersion here -->
 
     <script src="actividad1_script.js"></script>
 </body>
