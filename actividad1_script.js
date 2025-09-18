@@ -8,14 +8,12 @@ function playSound(sound) {
     sound.play();
 }
 
-// --- GAME DATA (UPDATED) ---
+// --- GAME DATA ---
 const INSIGNIAS = {
-    // <<<< KEY CHANGE: Updated image paths to your new PNG files >>>>
     germinacion: { name: "Semilla Germinada", image: "assets/insignias/insignia_semilla.png" },
     crecimiento: { name: "Tallo Fuerte", image: "assets/insignias/insignia_tallo.png" },
     reproduccion: { name: "Flor Eclosionada", image: "assets/insignias/insignia_flor.png" },
     dispersion: { name: "Fruto Maduró", image: "assets/insignias/insignia_fruto.png" },
-    // <<<< KEY CHANGE: Added the final mastery insignia >>>>
     jardinero: { name: "Jardinero Mayor", image: "assets/insignias/insignia_jardinero.png" }
 };
 const BIOME_ORDER = ['germinacion', 'crecimiento', 'reproduccion', 'dispersion'];
@@ -27,6 +25,53 @@ let jugador = {
     insignias: []
 };
 
+// --- HELPER FUNCTION to apply saved colors ---
+function applyAllColors(container, colors) {
+    for (const groupId in colors) {
+        const color = colors[groupId];
+        const groupElement = container.querySelector(`#${groupId}`);
+        if (groupElement) {
+            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
+            partsToColor.forEach(part => {
+                part.style.fill = color;
+            });
+        }
+    }
+}
+
+// --- RESTORED FUNCTION TO LOAD THE CUSTOM AVATAR ---
+async function cargarAvatar() {
+    const savedAvatarData = localStorage.getItem('exploradorAvatar');
+    if (!savedAvatarData) return;
+
+    const avatar = JSON.parse(savedAvatarData);
+    const hudDisplay = document.getElementById('hud-avatar-display-left'); 
+    if (!hudDisplay) return;
+    
+    hudDisplay.innerHTML = '';
+
+    const layers = ['base', 'clothing', 'headwear', 'eyewear', 'accessory'];
+    for (const layer of layers) {
+        if (avatar[layer]) {
+            try {
+                const response = await fetch(avatar[layer]);
+                if (response.ok) {
+                    const svgText = await response.text();
+                    const layerDiv = document.createElement('div');
+                    layerDiv.className = 'avatar-layer';
+                    layerDiv.innerHTML = svgText;
+                    hudDisplay.appendChild(layerDiv);
+                }
+            } catch (error) {
+                console.error(`Error loading SVG for layer ${layer}:`, error);
+            }
+        }
+    }
+    
+    applyAllColors(hudDisplay, avatar.colors);
+}
+
+
 // --- GAME LOGIC ---
 function ganarInsignia(insigniaId) {
     if (!jugador.insignias.includes(insigniaId)) {
@@ -34,27 +79,19 @@ function ganarInsignia(insigniaId) {
     }
 }
 
-// <<<< NEW FUNCTION to check if the final insignia should be awarded >>>>
 function checkJardineroMayor() {
-    // Check if the player has earned all four biome insignias
     const hasAllBiomeInsignias = BIOME_ORDER.every(id => jugador.insignias.includes(id));
-    
     if (hasAllBiomeInsignias) {
         ganarInsignia('jardinero');
-        console.log("¡Felicidades! Has obtenido la insignia de Jardinero Mayor.");
     }
 }
 
 function completeWordwallChallenge(challengeId, points) {
     jugador.pe += points;
     ganarInsignia(challengeId);
-    
-    // <<<< KEY CHANGE: Check for the final award after every challenge >>>>
     checkJardineroMayor();
-    
     guardarProgreso();
     actualizarUI();
-    
     const button = document.getElementById(`claim-reward-${challengeId}`);
     if (button) {
         button.disabled = true;
@@ -63,18 +100,14 @@ function completeWordwallChallenge(challengeId, points) {
     }
 }
 
-// --- UI UPDATE FUNCTION ---
+// --- UI UPDATE FUNCTION (For the RIGHT-SIDE HUD and Biomes) ---
 function actualizarUI() {
     document.getElementById('hud-player-name').textContent = jugador.nombre;
     document.getElementById('hud-pe-points').textContent = jugador.pe;
-
     const progressPercent = (jugador.insignias.filter(id => id !== 'jardinero').length / BIOME_ORDER.length) * 100;
     document.getElementById('vertical-progress-fill').style.height = `${progressPercent}%`;
-
     const insigniasContainer = document.getElementById('hud-insignias-container');
     insigniasContainer.innerHTML = '';
-    
-    // <<<< KEY CHANGE: Loop through ALL insignias, not just the biome ones >>>>
     for (const id in INSIGNIAS) {
         const insignia = INSIGNIAS[id];
         const img = document.createElement('img');
@@ -86,7 +119,6 @@ function actualizarUI() {
         }
         insigniasContainer.appendChild(img);
     }
-
     const biomasContainer = document.getElementById('biomas-container');
     biomasContainer.innerHTML = '';
     let lastInsigniaEarned = true;
@@ -125,10 +157,10 @@ function addSoundEffectsToActivity() {
     });
 }
 
-// --- MAIN FUNCTION (CORRECTED) ---
+// --- MAIN FUNCTION ---
 window.onload = function() {
     cargarProgreso();
-    cargarAvatar(); // <<<< KEY FIX: This function call is now back!
+    cargarAvatar(); // This call now works because the function is defined
     actualizarUI();
     addSoundEffectsToActivity();
 };
