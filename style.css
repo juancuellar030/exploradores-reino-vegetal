@@ -881,3 +881,38 @@ button {
     color: #555;
     margin: 0;
 }
+
+/* --- HUD REFINEMENT STYLES --- */
+/* Add this to the end of your style.css */
+
+/* 1. Style the new prompt text in the right HUD */
+.hud-prompt {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* 2. Style the player name in the left HUD */
+#hud-avatar-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--dark-text);
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+/* 3. Update the left HUD to stack the name and avatar vertically */
+#avatar-display-hud {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 4. Add a pointer cursor to earned insignias for better UX */
+.insignia.obtenida {
+    cursor: pointer;
+}
