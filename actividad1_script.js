@@ -8,12 +8,15 @@ function playSound(sound) {
     sound.play();
 }
 
-// --- GAME DATA ---
+// --- GAME DATA (UPDATED) ---
 const INSIGNIAS = {
-    germinacion: { name: "Semilla Germinada", image: "assets/insignias/semilla.svg" },
-    crecimiento: { name: "Tallo Fuerte", image: "assets/insignias/tallo.svg" },
-    reproduccion: { name: "Flor Eclosionada", image: "assets/insignias/flor.svg" },
-    dispersion: { name: "Fruto Maduró", image: "assets/insignias/fruto.svg" }
+    // <<<< KEY CHANGE: Updated image paths to your new PNG files >>>>
+    germinacion: { name: "Semilla Germinada", image: "assets/insignias/insignia_semilla.png" },
+    crecimiento: { name: "Tallo Fuerte", image: "assets/insignias/insignia_tallo.png" },
+    reproduccion: { name: "Flor Eclosionada", image: "assets/insignias/insignia_flor.png" },
+    dispersion: { name: "Fruto Maduró", image: "assets/insignias/insignia_fruto.png" },
+    // <<<< KEY CHANGE: Added the final mastery insignia >>>>
+    jardinero: { name: "Jardinero Mayor", image: "assets/insignias/insignia_jardinero.png" }
 };
 const BIOME_ORDER = ['germinacion', 'crecimiento', 'reproduccion', 'dispersion'];
 
@@ -24,54 +27,6 @@ let jugador = {
     insignias: []
 };
 
-// --- HELPER FUNCTION to apply saved colors ---
-function applyAllColors(container, colors) {
-    for (const groupId in colors) {
-        const color = colors[groupId];
-        const groupElement = container.querySelector(`#${groupId}`);
-        if (groupElement) {
-            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
-            partsToColor.forEach(part => {
-                part.style.fill = color;
-            });
-        }
-    }
-}
-
-// --- CORRECTED FUNCTION TO LOAD THE CUSTOM AVATAR ---
-async function cargarAvatar() {
-    const savedAvatarData = localStorage.getItem('exploradorAvatar');
-    if (!savedAvatarData) return;
-
-    const avatar = JSON.parse(savedAvatarData);
-    // <<<< KEY FIX: Target the new LEFT-SIDE HUD display area >>>>
-    const hudDisplay = document.getElementById('hud-avatar-display-left'); 
-    if (!hudDisplay) return; // Stop if the element doesn't exist
-    
-    hudDisplay.innerHTML = ''; // Clear previous
-
-    const layers = ['base', 'clothing', 'headwear', 'eyewear', 'accessory'];
-
-    for (const layer of layers) {
-        if (avatar[layer]) {
-            try {
-                const response = await fetch(avatar[layer]);
-                const svgText = await response.text();
-                const layerDiv = document.createElement('div');
-                layerDiv.className = 'avatar-layer';
-                layerDiv.innerHTML = svgText;
-                hudDisplay.appendChild(layerDiv);
-            } catch (error) {
-                console.error(`Error loading SVG for layer ${layer}:`, error);
-            }
-        }
-    }
-    
-    // After all SVGs are loaded, apply the saved colors
-    applyAllColors(hudDisplay, avatar.colors);
-}
-
-
 // --- GAME LOGIC ---
 function ganarInsignia(insigniaId) {
     if (!jugador.insignias.includes(insigniaId)) {
@@ -79,11 +34,27 @@ function ganarInsignia(insigniaId) {
     }
 }
 
+// <<<< NEW FUNCTION to check if the final insignia should be awarded >>>>
+function checkJardineroMayor() {
+    // Check if the player has earned all four biome insignias
+    const hasAllBiomeInsignias = BIOME_ORDER.every(id => jugador.insignias.includes(id));
+    
+    if (hasAllBiomeInsignias) {
+        ganarInsignia('jardinero');
+        console.log("¡Felicidades! Has obtenido la insignia de Jardinero Mayor.");
+    }
+}
+
 function completeWordwallChallenge(challengeId, points) {
     jugador.pe += points;
     ganarInsignia(challengeId);
+    
+    // <<<< KEY CHANGE: Check for the final award after every challenge >>>>
+    checkJardineroMayor();
+    
     guardarProgreso();
     actualizarUI();
+    
     const button = document.getElementById(`claim-reward-${challengeId}`);
     if (button) {
         button.disabled = true;
@@ -92,15 +63,19 @@ function completeWordwallChallenge(challengeId, points) {
     }
 }
 
-// --- UI UPDATE FUNCTION (For the RIGHT-SIDE HUD) ---
+// --- UI UPDATE FUNCTION ---
 function actualizarUI() {
     document.getElementById('hud-player-name').textContent = jugador.nombre;
     document.getElementById('hud-pe-points').textContent = jugador.pe;
-    const progressPercent = (jugador.insignias.length / BIOME_ORDER.length) * 100;
+
+    const progressPercent = (jugador.insignias.filter(id => id !== 'jardinero').length / BIOME_ORDER.length) * 100;
     document.getElementById('vertical-progress-fill').style.height = `${progressPercent}%`;
+
     const insigniasContainer = document.getElementById('hud-insignias-container');
     insigniasContainer.innerHTML = '';
-    BIOME_ORDER.forEach(id => {
+    
+    // <<<< KEY CHANGE: Loop through ALL insignias, not just the biome ones >>>>
+    for (const id in INSIGNIAS) {
         const insignia = INSIGNIAS[id];
         const img = document.createElement('img');
         img.src = insignia.image;
@@ -110,7 +85,8 @@ function actualizarUI() {
             img.classList.add('obtenida');
         }
         insigniasContainer.appendChild(img);
-    });
+    }
+
     const biomasContainer = document.getElementById('biomas-container');
     biomasContainer.innerHTML = '';
     let lastInsigniaEarned = true;
