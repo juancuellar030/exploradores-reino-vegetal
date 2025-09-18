@@ -24,6 +24,54 @@ let jugador = {
     insignias: []
 };
 
+// --- HELPER FUNCTION to apply saved colors ---
+function applyAllColors(container, colors) {
+    for (const groupId in colors) {
+        const color = colors[groupId];
+        const groupElement = container.querySelector(`#${groupId}`);
+        if (groupElement) {
+            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
+            partsToColor.forEach(part => {
+                part.style.fill = color;
+            });
+        }
+    }
+}
+
+// --- CORRECTED FUNCTION TO LOAD THE CUSTOM AVATAR ---
+async function cargarAvatar() {
+    const savedAvatarData = localStorage.getItem('exploradorAvatar');
+    if (!savedAvatarData) return;
+
+    const avatar = JSON.parse(savedAvatarData);
+    // <<<< KEY FIX: Target the new LEFT-SIDE HUD display area >>>>
+    const hudDisplay = document.getElementById('hud-avatar-display-left'); 
+    if (!hudDisplay) return; // Stop if the element doesn't exist
+    
+    hudDisplay.innerHTML = ''; // Clear previous
+
+    const layers = ['base', 'clothing', 'headwear', 'eyewear', 'accessory'];
+
+    for (const layer of layers) {
+        if (avatar[layer]) {
+            try {
+                const response = await fetch(avatar[layer]);
+                const svgText = await response.text();
+                const layerDiv = document.createElement('div');
+                layerDiv.className = 'avatar-layer';
+                layerDiv.innerHTML = svgText;
+                hudDisplay.appendChild(layerDiv);
+            } catch (error) {
+                console.error(`Error loading SVG for layer ${layer}:`, error);
+            }
+        }
+    }
+    
+    // After all SVGs are loaded, apply the saved colors
+    applyAllColors(hudDisplay, avatar.colors);
+}
+
+
 // --- GAME LOGIC ---
 function ganarInsignia(insigniaId) {
     if (!jugador.insignias.includes(insigniaId)) {
@@ -44,17 +92,12 @@ function completeWordwallChallenge(challengeId, points) {
     }
 }
 
-// --- UI UPDATE FUNCTION (COMPLETELY REWRITTEN) ---
+// --- UI UPDATE FUNCTION (For the RIGHT-SIDE HUD) ---
 function actualizarUI() {
-    // 1. Update HUD Info
     document.getElementById('hud-player-name').textContent = jugador.nombre;
     document.getElementById('hud-pe-points').textContent = jugador.pe;
-
-    // 2. Update Vertical Progress Bar
     const progressPercent = (jugador.insignias.length / BIOME_ORDER.length) * 100;
     document.getElementById('vertical-progress-fill').style.height = `${progressPercent}%`;
-
-    // 3. Update HUD Insignias
     const insigniasContainer = document.getElementById('hud-insignias-container');
     insigniasContainer.innerHTML = '';
     BIOME_ORDER.forEach(id => {
@@ -68,12 +111,9 @@ function actualizarUI() {
         }
         insigniasContainer.appendChild(img);
     });
-
-    // 4. SEQUENTIAL UNLOCKING LOGIC
     const biomasContainer = document.getElementById('biomas-container');
-    biomasContainer.innerHTML = ''; // Clear existing biomes
+    biomasContainer.innerHTML = '';
     let lastInsigniaEarned = true;
-
     for (const biomeId of BIOME_ORDER) {
         if (lastInsigniaEarned) {
             const template = document.getElementById(`template-${biomeId}`);
@@ -81,7 +121,6 @@ function actualizarUI() {
                 biomasContainer.appendChild(template.content.cloneNode(true));
             }
         }
-        // Check if the current biome's insignia has been earned for the next loop iteration
         lastInsigniaEarned = jugador.insignias.includes(biomeId);
     }
 }
@@ -99,10 +138,10 @@ function cargarProgreso() {
     jugador.nombre = localStorage.getItem('exploradorNombre') || "Explorador Novato";
 }
 
-// --- FUNCTION TO ADD SOUNDS ---
+// --- SOUNDS ---
 function addSoundEffectsToActivity() {
     const interactiveElements = document.querySelectorAll(
-        '.back-button, .cta-button, .cuestionario button'
+        '.back-button, .cta-button'
     );
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => playSound(hoverSound));
@@ -110,9 +149,10 @@ function addSoundEffectsToActivity() {
     });
 }
 
-// --- MAIN FUNCTION ---
+// --- MAIN FUNCTION (CORRECTED) ---
 window.onload = function() {
     cargarProgreso();
-    actualizarUI(); // This will now set up the initial biome and HUD state
+    cargarAvatar(); // <<<< KEY FIX: This function call is now back!
+    actualizarUI();
     addSoundEffectsToActivity();
 };
