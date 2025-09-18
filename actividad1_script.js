@@ -122,17 +122,14 @@ function completeWordwallChallenge(challengeId, points) {
     }
 }
 
-// --- MODAL LOGIC FUNCTIONS ---
+// --- MODAL LOGIC (with sound) ---
 function showInsigniaDetails(insigniaId) {
+    playSound(clickSound); // <<<< KEY FIX 1: Play click sound when modal opens
     const insigniaData = INSIGNIAS[insigniaId];
     if (!insigniaData) return;
-
-    // Populate the modal with the correct data
     document.getElementById('modal-insignia-image').src = insigniaData.image;
     document.getElementById('modal-insignia-name').textContent = insigniaData.name;
     document.getElementById('modal-insignia-description').textContent = insigniaData.description;
-
-    // Show the modal
     document.getElementById('insignia-modal').classList.add('visible');
 }
 
@@ -142,7 +139,8 @@ function hideInsigniaDetails() {
 
 // --- UI UPDATE FUNCTION (For the RIGHT-SIDE HUD and Biomes) ---
 function actualizarUI() {
-    document.getElementById('hud-player-name').textContent = jugador.nombre;
+    // <<<< KEY FIX 3: Update the correct player name element >>>>
+    document.getElementById('hud-avatar-name').textContent = jugador.nombre; 
     document.getElementById('hud-pe-points').textContent = jugador.pe;
     const progressPercent = (jugador.insignias.filter(id => id !== 'jardinero').length / BIOME_ORDER.length) * 100;
     document.getElementById('vertical-progress-fill').style.height = `${progressPercent}%`;
@@ -154,10 +152,13 @@ function actualizarUI() {
         img.src = insignia.image;
         img.title = insignia.name;
         img.className = 'insignia';
-        img.onclick = () => showInsigniaDetails(id);
+        
         if (jugador.insignias.includes(id)) {
             img.classList.add('obtenida');
+            // <<<< KEY FIX 2: Only earned insignias are clickable >>>>
+            img.onclick = () => showInsigniaDetails(id); 
         }
+        
         insigniasContainer.appendChild(img);
     }
     const biomasContainer = document.getElementById('biomas-container');
