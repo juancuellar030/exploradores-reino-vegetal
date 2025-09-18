@@ -100,6 +100,8 @@ function generateRandomName() {
 }
 
 function spinNameGenerator() {
+    playSound(slotMachineSound);
+    
     const nameSpinner = document.getElementById('name-spinner');
     clearInterval(spinInterval); // Stop any previous spin
 
