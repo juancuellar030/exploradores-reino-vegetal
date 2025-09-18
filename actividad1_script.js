@@ -2,6 +2,7 @@
 const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
 hoverSound.volume = 0.4;
 const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
+const earnedInsigniaSound = new Audio('assets/sounds/earned_insignia.mp3'); 
 
 function playSound(sound) {
     sound.currentTime = 0;
@@ -10,11 +11,31 @@ function playSound(sound) {
 
 // --- GAME DATA ---
 const INSIGNIAS = {
-    germinacion: { name: "Semilla Germinada", image: "assets/insignias/insignia_semilla.png" },
-    crecimiento: { name: "Tallo Fuerte", image: "assets/insignias/insignia_tallo.png" },
-    reproduccion: { name: "Flor Eclosionada", image: "assets/insignias/insignia_flor.png" },
-    dispersion: { name: "Fruto Maduró", image: "assets/insignias/insignia_fruto.png" },
-    jardinero: { name: "Jardinero Mayor", image: "assets/insignias/insignia_jardinero.png" }
+    germinacion: { 
+        name: "Semilla Germinada", 
+        image: "assets/insignias/insignia_semilla.png",
+        description: "Representa el primer paso y el despertar de una nueva vida. ¡El viaje ha comenzado!" 
+    },
+    crecimiento: { 
+        name: "Tallo Fuerte", 
+        image: "assets/insignias/insignia_tallo.png",
+        description: "Simboliza la fuerza y el crecimiento, buscando la luz para volverse más fuerte."
+    },
+    reproduccion: { 
+        name: "Flor Eclosionada", 
+        image: "assets/insignias/insignia_flor.png",
+        description: "La belleza de la madurez y el comienzo de la reproducción, atrayendo a los polinizadores."
+    },
+    dispersion: { 
+        name: "Fruto Maduró", 
+        image: "assets/insignias/insignia_fruto.png",
+        description: "El éxito del ciclo, un fruto que protege a la siguiente generación de semillas."
+    },
+    jardinero: { 
+        name: "Jardinero Mayor", 
+        image: "assets/insignias/insignia_jardinero.png",
+        description: "¡Maestría total! Demuestra un conocimiento completo del ciclo de vida de las plantas."
+    }
 };
 const BIOME_ORDER = ['germinacion', 'crecimiento', 'reproduccion', 'dispersion'];
 
@@ -76,6 +97,7 @@ async function cargarAvatar() {
 function ganarInsignia(insigniaId) {
     if (!jugador.insignias.includes(insigniaId)) {
         jugador.insignias.push(insigniaId);
+        playSound(earnedInsigniaSound);
     }
 }
 
