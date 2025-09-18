@@ -820,8 +820,8 @@ button {
 }
 
 #hud-avatar-display-left {
-    width: 200px; /* A good size for the avatar */
-    height: 200px;
+    width: 180px; /* A good size for the avatar */
+    height: 180px;
     position: relative;
     border-radius: 15px;
     background-color: #e8f5e9;
