@@ -11,17 +11,24 @@
 </head>
 <body class="activity-page">
 
-    <!-- === NEW BACKGROUND LAYERS === -->
+    <!-- === BACKGROUND LAYERS === -->
     <div class="background-layers">
         <img src="assets/index_background_back_layer.svg" id="back-layer" alt="Background back layer">
         <img src="assets/index_background_front_layer.svg" id="front-layer" alt="Background front layer">
     </div>
+
+    <!-- === NEW FLOATING AVATAR HUD === -->
+    <div id="avatar-hud">
+        <p id="hud-player-name">Cargando...</p>
+        <div id="hud-avatar-display">
+            <!-- The custom avatar will be loaded here by JavaScript -->
+        </div>
+    </div>
     
-    <!-- === ADD THIS BUTTON AND SCRIPT === -->
+    <!-- Back Button -->
     <button class="back-button" onclick="goBack()">
         <span>&larr;</span> Volver
     </button>
-
     <script>
         function goBack() {
             window.history.back();
@@ -34,9 +41,7 @@
     </header>
 
     <main>
-        <!-- ============================================= -->
-        <!-- PANEL DE CONTROL DEL JUGADOR (DASHBOARD)      -->
-        <!-- ============================================= -->
+        <!-- Panel de Control -->
         <section id="panel-de-control">
             <h3>Panel del Explorador</h3>
             <div id="info-jugador">
@@ -45,136 +50,37 @@
                     <p><strong>Puntos de Experiencia (PE):</strong> <span id="pe-jugador">0</span></p>
                 </div>
             </div>
-            
             <h4>Progreso General del Jardín</h4>
             <div class="barra-progreso-contenedor">
                 <div id="barra-progreso-general" class="barra-progreso-relleno">0%</div>
             </div>
-
             <h4>Insignias Obtenidas</h4>
-            <div id="contenedor-insignias">
-                <!-- Las insignias aparecerán aquí. Serán SVGs o PNGs. -->
-            </div>
+            <div id="contenedor-insignias"></div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- CONTENEDOR DE LOS BIOMAS                      -->
-        <!-- ============================================= -->
+        <!-- Contenedor de Biomas -->
         <section id="biomas-del-jardin">
             <h3>Biomas Botánicos</h3>
-
-            <!-- === BIOMA 1: GERMINACIÓN (DESBLOQUEADO POR DEFECTO) === -->
+            <!-- Bioma 1: Germinación -->
             <div class="bioma" id="bioma-germinacion">
                 <h4 class="bioma-titulo">Nivel 1: El Bioma de la Germinación</h4>
-                
                 <div class="contenido-aprendizaje">
                     <h5>Aprende lo Esencial</h5>
                     <p>Explora estos recursos para entender qué necesita una semilla para despertar.</p>
-                    <!-- Aquí podrías incrustar un video de YouTube o enlaces -->
                 </div>
-
+                <!-- Your Wordwall challenge will go here -->
                 <div class="micro-desafio">
                     <h5>Micro-desafío: "El Ataque de los Hongos Silenciosos"</h5>
-                    <p>Arrastra los elementos correctos a la semilla para que pueda germinar.</p>
-                    <div id="desafio-germinacion" class="drag-and-drop-area">
-                        <div id="semilla-dropzone" class="dropzone">
-                            <p>Arrastra aquí</p>
-                        </div>
-                        <div class="draggable-items">
-                            <div class="item" draggable="true" data-item="agua">💧 Agua</div>
-                            <div class="item" draggable="true" data-item="calor">☀️ Calor</div>
-                            <div class="item" draggable="true" data-item="aire">💨 Aire</div>
-                            <div class="item" draggable="true" data-item="frio">❄️ Frío</div>
-                        </div>
-                    </div>
-                    <p class="feedback" id="feedback-germinacion"></p>
-                </div>
-
-                <div class="cuestionario">
-                    <h5>Cuestionario de Germinación</h5>
-                    <div class="pregunta">
-                        <p>1. ¿Qué necesita una semilla para germinar?</p>
-                        <button onclick="verificarCuestionario('germinacion_q1', false)">Mucha música y baile</button>
-                        <button onclick="verificarCuestionario('germinacion_q1', true)">Agua, calor y aire</button>
-                        <button onclick="verificarCuestionario('germinacion_q1', false)">Un sombrero y gafas de sol</button>
-                    </div>
-                    <div class="pregunta">
-                        <p>2. ¿Las semillas necesitan luz para germinar?</p>
-                        <button onclick="verificarCuestionario('germinacion_q2', false)">Verdadero</button>
-                        <button onclick="verificarCuestionario('germinacion_q2', true)">Falso</button>
+                    <div class="wordwall-container">
+                         <!-- Example Wordwall Embed -->
+                        <iframe style="max-width:100%;" src="https://wordwall.net/embed/8085287593c24b69992c324c4314e304?themeId=1&templateId=7" width="500" height="380" frameborder="0" allowfullscreen></iframe>
+                        <button id="claim-reward-germinacion" class="cta-button" onclick="completeWordwallChallenge('germinacion', 25)">
+                            ¡He Terminado! Reclamar 25 PE
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <!-- === BIOMA 2: CRECIMIENTO (BLOQUEADO) === -->
-            <div class="bioma bloqueado" id="bioma-crecimiento">
-                <h4 class="bioma-titulo">Nivel 2: El Bioma del Crecimiento</h4>
-                <p>Necesitas acumular 300 PE en total para desbloquear este bioma.</p>
-            </div>
-            
-            <!-- Contenido del Bioma 2 (oculto hasta que se desbloquee) -->
-            <template id="template-crecimiento">
-                <div class="contenido-aprendizaje">
-                    <h5>Aprende lo Esencial</h5>
-                    <p>Descubre las partes de la planta y cómo trabajan juntas para crecer fuertes.</p>
-                </div>
-                <div class="micro-desafio">
-                    <h5>Micro-desafío: "La Lucha contra la Poca Luz"</h5>
-                    <p>Empareja cada parte de la planta con su función correcta.</p>
-                    <!-- Estructura para el juego de emparejamiento -->
-                </div>
-                <div class="cuestionario">
-                    <h5>Cuestionario de Crecimiento</h5>
-                    <!-- Preguntas del cuestionario -->
-                </div>
-            </template>
-
-            <!-- === BIOMA 3: REPRODUCCIÓN (BLOQUEADO) === -->
-            <div class="bioma bloqueado" id="bioma-reproduccion">
-                <h4 class="bioma-titulo">Nivel 3: El Bioma de la Reproducción</h4>
-                <p>Necesitas acumular 600 PE en total para desbloquear este bioma.</p>
-            </div>
-
-            <!-- Contenido del Bioma 3 (oculto) -->
-            <template id="template-reproduccion">
-                <div class="contenido-aprendizaje">
-                    <h5>Aprende lo Esencial</h5>
-                    <p>El misterio de las flores y cómo crean nuevas semillas.</p>
-                </div>
-                <div class="micro-desafio">
-                    <h5>Micro-desafío: "El Misterio de la Polinización Perdida"</h5>
-                    <p>Ordena los pasos del proceso de polinización.</p>
-                    <!-- Estructura para el juego de ordenar secuencias -->
-                </div>
-                <div class="cuestionario">
-                     <h5>Cuestionario de Reproducción</h5>
-                    <!-- Preguntas del cuestionario -->
-                </div>
-            </template>
-
-            <!-- === BIOMA 4: DISPERSIÓN (BLOQUEADO) === -->
-            <div class="bioma bloqueado" id="bioma-dispersion">
-                <h4 class="bioma-titulo">Nivel 4: El Bioma de la Dispersión</h4>
-                <p>Necesitas acumular 1000 PE en total para desbloquear este bioma.</p>
-            </div>
-            
-            <!-- Contenido del Bioma 4 (oculto) -->
-            <template id="template-dispersion">
-                <div class="contenido-aprendizaje">
-                    <h5>Aprende lo Esencial</h5>
-                    <p>Descubre cómo las semillas viajan para encontrar un nuevo hogar.</p>
-                </div>
-                <div class="micro-desafio">
-                    <h5>Micro-desafío: "El Viento Engañoso"</h5>
-                    <p>Clasifica cada semilla según su método de dispersión.</p>
-                    <!-- Estructura para el juego de clasificación -->
-                </div>
-                <div class="cuestionario">
-                    <h5>Cuestionario de Dispersión</h5>
-                    <!-- Preguntas del cuestionario -->
-                </div>
-            </template>
-
+            <!-- Other Biomes remain the same -->
         </section>
     </main>
 
