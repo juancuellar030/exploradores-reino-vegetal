@@ -122,6 +122,24 @@ function completeWordwallChallenge(challengeId, points) {
     }
 }
 
+// --- MODAL LOGIC FUNCTIONS ---
+function showInsigniaDetails(insigniaId) {
+    const insigniaData = INSIGNIAS[insigniaId];
+    if (!insigniaData) return;
+
+    // Populate the modal with the correct data
+    document.getElementById('modal-insignia-image').src = insigniaData.image;
+    document.getElementById('modal-insignia-name').textContent = insigniaData.name;
+    document.getElementById('modal-insignia-description').textContent = insigniaData.description;
+
+    // Show the modal
+    document.getElementById('insignia-modal').classList.add('visible');
+}
+
+function hideInsigniaDetails() {
+    document.getElementById('insignia-modal').classList.remove('visible');
+}
+
 // --- UI UPDATE FUNCTION (For the RIGHT-SIDE HUD and Biomes) ---
 function actualizarUI() {
     document.getElementById('hud-player-name').textContent = jugador.nombre;
@@ -136,6 +154,7 @@ function actualizarUI() {
         img.src = insignia.image;
         img.title = insignia.name;
         img.className = 'insignia';
+        img.onclick = () => showInsigniaDetails(id);
         if (jugador.insignias.includes(id)) {
             img.classList.add('obtenida');
         }
