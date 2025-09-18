@@ -1,10 +1,8 @@
 // --- SOUND EFFECT SETUP ---
 const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
 hoverSound.volume = 0.4;
-
 const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
 
-// Helper function to play sounds reliably
 function playSound(sound) {
     sound.currentTime = 0;
     sound.play();
@@ -14,50 +12,74 @@ function playSound(sound) {
 let jugador = {
     nombre: "Explorador Novato",
     pe: 0,
-    nivel: 1,
-    insignias: [],
-    progresoGeneral: 0
 };
 
-// --- GAME CONFIG CONSTANTS ---
-const PE_POR_DESAFIO = 50;
-const PE_PARA_NIVEL_2 = 300; // As per the project PDF
-// Add more PE thresholds here...
+// --- HELPER FUNCTION to apply saved colors ---
+function applyAllColors(container, colors) {
+    for (const groupId in colors) {
+        const color = colors[groupId];
+        const groupElement = container.querySelector(`#${groupId}`);
+        if (groupElement) {
+            const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
+            partsToColor.forEach(part => {
+                part.style.fill = color;
+            });
+        }
+    }
+}
+
+// --- NEW, POWERFUL FUNCTION TO LOAD THE CUSTOM AVATAR ---
+async function cargarAvatar() {
+    const savedAvatarData = localStorage.getItem('exploradorAvatar');
+    if (!savedAvatarData) return;
+
+    const avatar = JSON.parse(savedAvatarData);
+    const hudDisplay = document.getElementById('hud-avatar-display');
+    hudDisplay.innerHTML = ''; // Clear previous
+
+    const layers = ['base', 'clothing', 'headwear', 'eyewear', 'accessory'];
+
+    for (const layer of layers) {
+        if (avatar[layer]) {
+            try {
+                const response = await fetch(avatar[layer]);
+                const svgText = await response.text();
+                const layerDiv = document.createElement('div');
+                layerDiv.className = 'avatar-layer';
+                layerDiv.innerHTML = svgText;
+                hudDisplay.appendChild(layerDiv);
+            } catch (error) {
+                console.error(`Error loading SVG for layer ${layer}:`, error);
+            }
+        }
+    }
+    
+    // After all SVGs are loaded, apply the saved colors
+    applyAllColors(hudDisplay, avatar.colors);
+}
 
 // --- GAME LOGIC FUNCTIONS ---
 function ganarPE(cantidad) {
     jugador.pe += cantidad;
-    console.log(`Has ganado ${cantidad} PE. Total: ${jugador.pe}`);
     guardarProgreso();
     actualizarUI();
-    verificarDesbloqueos();
 }
 
-// (Add other game logic functions here: ganarInsignia, etc.)
+function completeWordwallChallenge(challengeId, points) {
+    ganarPE(points);
+    const button = document.getElementById(`claim-reward-${challengeId}`);
+    if (button) {
+        button.disabled = true;
+        button.textContent = "¡PE Reclamados!";
+        button.style.backgroundColor = '#aaa';
+    }
+}
 
 // --- UI UPDATE FUNCTIONS ---
 function actualizarUI() {
     document.getElementById('nombre-jugador').textContent = jugador.nombre;
+    document.getElementById('hud-player-name').textContent = jugador.nombre; // Update HUD name
     document.getElementById('pe-jugador').textContent = jugador.pe;
-    // (Add other UI updates here: progress bar, badges, etc.)
-}
-
-function cargarAvatar() {
-    const savedAvatar = localStorage.getItem('exploradorAvatar');
-    if (savedAvatar) {
-        const avatar = JSON.parse(savedAvatar);
-        const avatarDisplay = document.getElementById('avatar-display');
-        avatarDisplay.innerHTML = ''; // Clear previous
-
-        // This is a simplified version; you might have more layers
-        if(avatar.base) avatarDisplay.innerHTML += `<img src="${avatar.base}" class="avatar-layer">`;
-        if(avatar.clothing) avatarDisplay.innerHTML += `<img src="${avatar.clothing}" class="avatar-layer">`;
-        // ... and so on for other layers ...
-    }
-}
-
-function verificarDesbloqueos() {
-    // Logic to unlock new biomes based on PE
 }
 
 // --- DATA MANAGEMENT ---
@@ -73,33 +95,21 @@ function cargarProgreso() {
     jugador.nombre = localStorage.getItem('exploradorNombre') || "Explorador Novato";
 }
 
-// (Add your question/challenge functions here, e.g., verificarCuestionario)
-function verificarCuestionario(questionId, isCorrect) {
-    // Your logic for checking answers...
-}
-
-// --- NEW FUNCTION TO ADD SOUNDS TO ALL INTERACTIVE ELEMENTS ---
+// --- FUNCTION TO ADD SOUNDS ---
 function addSoundEffectsToActivity() {
-    // Select all buttons on the page that should have sound
     const interactiveElements = document.querySelectorAll(
-        '.back-button, .cuestionario button'
-        // Add other selectors here if you add more interactive elements
+        '.back-button, .cta-button, .cuestionario button'
     );
-
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => playSound(hoverSound));
         element.addEventListener('click', () => playSound(clickSound));
     });
 }
 
-
 // --- MAIN FUNCTION that runs when the page is fully loaded ---
 window.onload = function() {
     cargarProgreso();
-    cargarAvatar();
-    verificarDesbloqueos();
+    cargarAvatar(); // Run the new async avatar loader
     actualizarUI();
-    
-    // Activate all the sounds
     addSoundEffectsToActivity();
 };
