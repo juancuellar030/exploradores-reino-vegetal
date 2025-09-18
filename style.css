@@ -657,3 +657,49 @@ button {
     margin: 20px 0; padding: 10px;
     border: 3px dashed var(--primary-green);
 }
+
+/* --- NEW FLOATING AVATAR HUD STYLES --- */
+/* Add this to the end of style.css */
+
+#avatar-hud {
+    position: fixed; /* Floats on top of the page content */
+    bottom: 20px;
+    left: 20px;
+    z-index: 100; /* Ensures it's above the background but below any modals */
+    
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    border: 3px solid var(--primary-green);
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    
+    width: 180px;
+    text-align: center;
+}
+
+#hud-player-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--dark-text);
+    margin: 0 0 10px 0;
+}
+
+#hud-avatar-display {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto; /* Center the avatar inside the HUD */
+    position: relative;
+    border-radius: 15px;
+    background-color: #e8f5e9;
+    overflow: hidden; /* Hides any parts of the SVG that might stick out */
+}
+
+/* --- BACKGROUND FIX FOR ACTIVITY PAGE --- */
+/* This more specific rule will force the background to show correctly */
+.activity-page #back-layer,
+.activity-page #front-layer {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+}
