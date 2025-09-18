@@ -703,3 +703,24 @@ button {
     transform: translateY(0);
     transition: none;
 }
+
+/* --- NEW BIOMA CARD STYLES --- */
+.bioma-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-left: 5px solid var(--secondary-green);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.bioma-card.bloqueado {
+    background-color: #f2f2f2;
+    color: #999;
+    border-left-color: #ccc;
+}
+
+.bioma-card.bloqueado h4 {
+    color: #999;
+}
