@@ -60,28 +60,54 @@
 
         <!-- Contenedor de Biomas -->
         <section id="biomas-del-jardin">
-            <h3>Biomas Botánicos</h3>
-            <!-- Bioma 1: Germinación -->
-            <div class="bioma" id="bioma-germinacion">
-                <h4 class="bioma-titulo">Nivel 1: El Bioma de la Germinación</h4>
-                <div class="contenido-aprendizaje">
-                    <h5>Aprende lo Esencial</h5>
-                    <p>Explora estos recursos para entender qué necesita una semilla para despertar.</p>
-                </div>
-                <!-- Your Wordwall challenge will go here -->
-                <div class="micro-desafio">
-                    <h5>Micro-desafío: "El Ataque de los Hongos Silenciosos"</h5>
-                    <div class="wordwall-container">
-                         <!-- Example Wordwall Embed -->
-                        <iframe style="max-width:100%" src="https://wordwall.net/es/embed/7da92174967e4b3494e5962f32dd7ada?themeId=62&templateId=2&fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen></iframe>
-                        <button id="claim-reward-germinacion" class="cta-button" onclick="completeWordwallChallenge('germinacion', 25)">
-                            ¡He Terminado! Reclamar 25 PE
-                        </button>
-                    </div>
+        <h3>Biomas Botánicos</h3>
+    
+        <!-- === BIOMA 1: CARD === -->
+        <div class="bioma-card">
+            <h4 class="bioma-titulo">Nivel 1: El Bioma de la Germinación</h4>
+            <div class="micro-desafio">
+                <div class="wordwall-container">
+                    <iframe style="max-width:100%;" src="YOUR_GERMINACION_WORDWALL_URL" width="600" height="400" frameborder="0" allowfullscreen></iframe>
+                    <button id="claim-reward-germinacion" class="cta-button" onclick="completeWordwallChallenge('germinacion', 25)">
+                        ¡He Terminado! Reclamar Recompensa
+                    </button>
                 </div>
             </div>
-            <!-- Other Biomes remain the same -->
-        </section>
+        </div>
+    
+        <!-- === BIOMA 2: CARD (Locked) === -->
+        <div class="bioma-card bloqueado" id="bioma-crecimiento">
+            <h4 class="bioma-titulo">Nivel 2: El Bioma del Crecimiento</h4>
+            <p>Completa el bioma anterior para desbloquear.</p>
+            <template>
+                <div class="wordwall-container">
+                    <iframe style="max-width:100%;" src="YOUR_CRECIMIENTO_WORDWALL_URL" width="600" height="400" frameborder="0" allowfullscreen></iframe>
+                    <button id="claim-reward-crecimiento" class="cta-button" onclick="completeWordwallChallenge('crecimiento', 25)">
+                        ¡He Terminado! Reclamar Recompensa
+                    </button>
+                </div>
+            </template>
+        </div>
+    
+        <!-- === BIOMA 3: CARD (Locked) === -->
+        <div class="bioma-card bloqueado" id="bioma-reproduccion">
+             <h4 class="bioma-titulo">Nivel 3: El Bioma de la Reproducción</h4>
+            <p>Completa el bioma anterior para desbloquear.</p>
+            <template>
+                 <!-- Add your Wordwall for Bioma 3 here -->
+            </template>
+        </div>
+    
+        <!-- === BIOMA 4: CARD (Locked) === -->
+        <div class="bioma-card bloqueado" id="bioma-dispersion">
+             <h4 class="bioma-titulo">Nivel 4: El Bioma de la Dispersión</h4>
+            <p>Completa el bioma anterior para desbloquear.</p>
+            <template>
+                 <!-- Add your Wordwall for Bioma 4 here -->
+            </template>
+        </div>
+    
+    </section>
     </main>
 
     <script src="actividad1_script.js"></script>
