@@ -4,6 +4,8 @@ hoverSound.volume = 0.4;
 
 const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
 
+const slotMachineSound = new Audio('assets/sounds/slot_machine.mp3');
+
 // Helper function to play sounds reliably
 function playSound(sound) {
     sound.currentTime = 0;
