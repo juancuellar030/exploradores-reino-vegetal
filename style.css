@@ -943,3 +943,25 @@ button {
     transform: scale(1.15) rotate(5deg); /* Makes it pop and tilt playfully */
     cursor: pointer; /* This was in a previous fix, but let's ensure it's here */
 }
+
+/* --- NAME GENERATOR MODAL WIDENING FIX --- */
+/* Add this to the end of your style.css file */
+
+/* Target the name generator's content box specifically */
+#name-generator-modal .modal-content {
+    width: 90%; /* Use a percentage for responsiveness */
+    max-width: 550px; /* Set a larger max-width for a wider look */
+    padding: 40px; /* Increase padding for more internal space */
+}
+
+/* Adjust the text display box inside for better balance */
+#name-generator-modal .name-display {
+    padding: 20px; /* Add more padding inside the dashed box */
+    font-size: 3rem; /* Slightly increase font size to fill the space */
+}
+
+/* Adjust the buttons for the new wider layout */
+#name-generator-modal .cta-button {
+    width: 70%; /* Adjust button width if needed */
+    margin: 15px auto; /* Ensure good vertical spacing between buttons */
+}
