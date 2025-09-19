@@ -949,8 +949,8 @@ button {
 
 /* Target the name generator's content box specifically */
 #name-generator-modal .modal-content {
-    width: 90%; /* Use a percentage for responsiveness */
-    max-width: 600px; /* Set a larger max-width for a wider look */
+    width: 100%; /* Use a percentage for responsiveness */
+    max-width: 620px; /* Set a larger max-width for a wider look */
     padding: 40px; /* Increase padding for more internal space */
 }
 
@@ -962,6 +962,6 @@ button {
 
 /* Adjust the buttons for the new wider layout */
 #name-generator-modal .cta-button {
-    width: 70%; /* Adjust button width if needed */
+    width: 60%; /* Adjust button width if needed */
     margin: 15px auto; /* Ensure good vertical spacing between buttons */
 }
