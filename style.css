@@ -965,3 +965,25 @@ button {
     width: 60%; /* Adjust button width if needed */
     margin: 15px auto; /* Ensure good vertical spacing between buttons */
 }
+
+/* --- WORDWALL ACTIVITY CENTERING & SIZING FIX --- */
+/* Add this to the end of your style.css */
+
+/* 1. Center the container's content */
+.wordwall-container {
+    text-align: center; /* This centers the iframe and the button below it */
+}
+
+/* 2. Make the iframe responsive and wider */
+.wordwall-container iframe {
+    width: 100%;      /* <<<< This is the key fix for width */
+    max-width: 700px; /* Optional: sets a max width on very large screens */
+    height: 450px;    /* We can increase the height for a better aspect ratio */
+    border: none;     /* Removes any default borders */
+    border-radius: 5px; /* A subtle rounded corner to match the card */
+}
+
+/* 3. Add some space above the button */
+.wordwall-container .cta-button {
+    margin-top: 20px;
+}
