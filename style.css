@@ -950,13 +950,13 @@ button {
 /* Target the name generator's content box specifically */
 #name-generator-modal .modal-content {
     width: 90%; /* Use a percentage for responsiveness */
-    max-width: 550px; /* Set a larger max-width for a wider look */
+    max-width: 580px; /* Set a larger max-width for a wider look */
     padding: 40px; /* Increase padding for more internal space */
 }
 
 /* Adjust the text display box inside for better balance */
 #name-generator-modal .name-display {
-    padding: 20px; /* Add more padding inside the dashed box */
+    padding: 15px; /* Add more padding inside the dashed box */
     font-size: 3rem; /* Slightly increase font size to fill the space */
 }
 
