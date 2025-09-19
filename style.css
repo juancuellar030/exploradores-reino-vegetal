@@ -916,3 +916,30 @@ button {
 .insignia.obtenida {
     cursor: pointer;
 }
+
+/* --- MODAL & HUD REFINEMENT STYLES --- */
+/* Add this to the end of your style.css */
+
+/* 1. Fix the Name Generator Modal Spacing */
+#name-generator-modal .modal-content {
+    max-width: 500px; /* Give it a wider max-width */
+}
+
+/* Stack the buttons in the name generator vertically */
+#name-generator-modal .cta-button {
+    display: block;
+    margin: 10px auto; /* Adds vertical space and centers them */
+    width: 80%;
+}
+
+/* 2. Add a Hover Animation to EARNED Insignias */
+/* First, add a smooth transition to the base insignia class */
+.insignia {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Then, define the hover effect for ONLY the earned ones */
+.insignia.obtenida:hover {
+    transform: scale(1.15) rotate(5deg); /* Makes it pop and tilt playfully */
+    cursor: pointer; /* This was in a previous fix, but let's ensure it's here */
+}
