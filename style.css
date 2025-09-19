@@ -950,7 +950,7 @@ button {
 /* Target the name generator's content box specifically */
 #name-generator-modal .modal-content {
     width: 100%; /* Use a percentage for responsiveness */
-    max-width: 620px; /* Set a larger max-width for a wider look */
+    max-width: 640px; /* Set a larger max-width for a wider look */
     padding: 40px; /* Increase padding for more internal space */
 }
 
