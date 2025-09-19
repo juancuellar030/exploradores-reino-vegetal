@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 2: El Gran Juego del Bosque</title>
+    <!-- Tus fuentes y CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Slackey&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="activity-page">
+    <!-- Capas de fondo estáticas -->
+    <div class="background-layers">
+        <img src="assets/index_background_back_layer.svg" id="back-layer" alt="Background back layer">
+        <img src="assets/index_background_front_layer.svg" id="front-layer" alt="Background front layer">
+    </div>
+
+    <!-- Botón de Volver -->
+    <button class="back-button" onclick="goBack()">
+        <span>&larr;</span> Volver al Inicio
+    </button>
+    <script> function goBack() { window.location.href = 'index.html'; } </script>
+
+    <header>
+        <h1>Actividad 2: El Gran Juego del Bosque</h1>
+    </header>
+
+    <main id="game-container">
+        <!-- El HUD con el estado del ecosistema y los recursos -->
+        <section id="panel-estado-juego">
+            <div class="estado-item">
+                <h4>Salud del Ecosistema</h4>
+                <div class="barra-progreso-contenedor">
+                    <div id="barra-salud" class="barra-progreso-relleno" style="width: 100%;">100%</div>
+                </div>
+            </div>
+            <div class="estado-item">
+                <h4>Puntos de Acción</h4>
+                <p id="puntos-accion">10</p>
+            </div>
+            <div class="estado-item">
+                <h4>Temporada (Ronda)</h4>
+                <p id="numero-ronda">1 / 10</p>
+            </div>
+        </section>
+
+        <!-- El mapa del bosque -->
+        <section id="mapa-bosque">
+            <!-- El mapa se puede estilizar con una imagen de fondo en CSS -->
+        </section>
+    </main>
+
+    <!-- Modal para las Tarjetas de Evento/Dilema -->
+    <div id="evento-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="evento-titulo">Título del Evento</h3>
+            <p id="evento-descripcion">Descripción del dilema...</p>
+            <div id="evento-opciones">
+                <!-- Los botones de decisión se añadirán aquí con JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="actividad2_script.js"></script>
+</body>
+</html>
