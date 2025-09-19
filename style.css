@@ -987,3 +987,42 @@ button {
 .wordwall-container .cta-button {
     margin-top: 20px;
 }
+
+/* --- ESTILOS PARA ACTIVIDAD 2: EL GRAN JUEGO DEL BOSQUE --- */
+#panel-estado-juego {
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+.estado-item {
+    text-align: center;
+}
+.estado-item h4 {
+    margin: 0 0 10px 0;
+}
+.estado-item p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-green);
+    margin: 0;
+}
+
+#mapa-bosque {
+    width: 100%;
+    height: 400px; /* Altura del mapa */
+    background-image: url('assets/mapa_bosque.png'); /* <<< DEBES CREAR ESTA IMAGEN */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+
+#evento-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
