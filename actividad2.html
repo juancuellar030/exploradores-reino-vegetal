@@ -4,62 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actividad 2: El Gran Juego del Bosque</title>
-    <!-- Tus fuentes y CSS -->
+    <!-- Fonts and Stylesheets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Slackey&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="activity-page">
-    <!-- Capas de fondo estáticas -->
+<body class="activity-page game-page"> <!-- Added a new class for specific styling -->
+
+    <!-- Static Background Layers -->
     <div class="background-layers">
         <img src="assets/index_background_back_layer.svg" id="back-layer" alt="Background back layer">
         <img src="assets/index_background_front_layer.svg" id="front-layer" alt="Background front layer">
     </div>
 
-    <!-- Botón de Volver -->
-    <button class="back-button" onclick="goBack()">
-        <span>&larr;</span> Volver al Inicio
-    </button>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()"><span>&larr;</span> Volver al Inicio</button>
     <script> function goBack() { window.location.href = 'index.html'; } </script>
 
-    <header>
-        <h1>Actividad 2: El Gran Juego del Bosque</h1>
-    </header>
-
-    <main id="game-container">
-        <!-- El HUD con el estado del ecosistema y los recursos -->
-        <section id="panel-estado-juego">
-            <div class="estado-item">
-                <h4>Salud del Ecosistema</h4>
-                <div class="barra-progreso-contenedor">
-                    <div id="barra-salud" class="barra-progreso-relleno" style="width: 100%;">100%</div>
-                </div>
+    <!-- The Main Game Container -->
+    <div class="game-board-container">
+        
+        <!-- Left Sidebar HUD -->
+        <div class="game-hud sidebar-left">
+            <h4>Salud del Ecosistema</h4>
+            <div id="vertical-progress-container-game">
+                <div id="vertical-progress-fill-game"></div>
+                <span id="health-percentage">100%</span>
             </div>
+        </div>
+
+        <!-- Center Area: Map and Header -->
+        <div class="game-center-column">
+            <header class="game-header">
+                <h1>El Gran Juego del Bosque</h1>
+            </header>
+            <div id="interactive-map-container">
+                <!-- The interactive SVG map will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Right Sidebar HUD -->
+        <div class="game-hud sidebar-right">
             <div class="estado-item">
                 <h4>Puntos de Acción</h4>
                 <p id="puntos-accion">10</p>
             </div>
             <div class="estado-item">
-                <h4>Temporada (Ronda)</h4>
+                <h4>Temporada</h4>
                 <p id="numero-ronda">1 / 10</p>
             </div>
-        </section>
+        </div>
 
-        <!-- El mapa del bosque -->
-        <section id="mapa-bosque">
-            <!-- El mapa se puede estilizar con una imagen de fondo en CSS -->
-        </section>
-    </main>
+    </div>
 
-    <!-- Modal para las Tarjetas de Evento/Dilema -->
+    <!-- Event Modal (stays the same) -->
     <div id="evento-modal" class="modal-overlay">
         <div class="modal-content">
-            <h3 id="evento-titulo">Título del Evento</h3>
-            <p id="evento-descripcion">Descripción del dilema...</p>
-            <div id="evento-opciones">
-                <!-- Los botones de decisión se añadirán aquí con JS -->
-            </div>
+            <h3 id="evento-titulo"></h3>
+            <p id="evento-descripcion"></p>
+            <div id="evento-opciones"></div>
         </div>
     </div>
 
