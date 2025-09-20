@@ -1,4 +1,4 @@
-// --- ESTADO INICIAL DEL JUEGO ---
+// --- INITIAL GAME STATE ---
 let estadoJuego = {
     saludEcosistema: 100,
     puntosAccion: 10,
@@ -6,71 +6,86 @@ let estadoJuego = {
     rondasTotales: 10
 };
 
-// --- BASE DE DATOS DE EVENTOS ---
-const eventos = [
-    {
-        titulo: "¡Propuesta de Tala!",
-        descripcion: "Una compañía maderera ofrece pagar bien por talar una pequeña sección del bosque. Aportará recursos, pero dañará el ecosistema.",
+// --- EVENT DATABASE (Now tied to locations) ---
+const eventos = {
+    urban: {
+        titulo: "¡Expansión Urbana!",
+        descripcion: "Una constructora quiere construir casas nuevas junto al bosque. Ofrecen dinero, pero destruirán parte del hábitat.",
         opciones: [
-            { texto: "Aceptar (+5 Puntos, -15 Salud)", consecuencias: { salud: -15, puntos: 5 } },
-            { texto: "Rechazar (-2 Puntos, +5 Salud)", consecuencias: { salud: 5, puntos: -2 } }
+            { texto: "Negociar un límite (-2 Puntos, +5 Salud)", consecuencias: { salud: 5, puntos: -2 } },
+            { texto: "Rechazar la construcción (+10 Salud, -5 Puntos)", consecuencias: { salud: 10, puntos: -5 } },
+            { texto: "Permitir sin límites (+10 Puntos, -30 Salud)", consecuencias: { salud: -30, puntos: 10 } }
         ]
     },
-    {
-        titulo: "Sequía Inesperada",
-        descripcion: "Una ola de calor amenaza con secar el río. Debes usar Puntos de Acción para implementar un sistema de riego de emergencia.",
+    river: {
+        titulo: "Contaminación del Río",
+        descripcion: "Se ha detectado un vertido químico río arriba. ¡Debes actuar rápido para limpiarlo!",
         opciones: [
-            { texto: "Invertir en riego (-5 Puntos, +10 Salud)", consecuencias: { salud: 10, puntos: -5 } },
-            { texto: "Arriesgarse y no hacer nada (+0 Puntos, -20 Salud)", consecuencias: { salud: -20, puntos: 0 } }
+            { texto: "Organizar limpieza (-6 Puntos, +20 Salud)", consecuencias: { salud: 20, puntos: -6 } },
+            { texto: "Ignorar el problema (-25 Salud)", consecuencias: { salud: -25, puntos: 0 } }
         ]
-    },
-    // Añade más eventos aquí...
-];
-
-// --- FUNCIONES PRINCIPALES DEL JUEGO ---
-
-// Se ejecuta cuando la página carga
-window.onload = function() {
-    iniciarJuego();
+    }
+    // Add more events for 'prairie', 'quarry', and 'forest'
 };
 
-function iniciarJuego() {
-    actualizarHUD();
-    mostrarSiguienteEvento();
+// --- MAIN GAME FUNCTIONS ---
+window.onload = function() {
+    loadMapAndStartGame();
+};
+
+async function loadMapAndStartGame() {
+    try {
+        const response = await fetch('assets/mapa_bosque_interactivo.svg');
+        const svgText = await response.text();
+        const mapContainer = document.getElementById('interactive-map-container');
+        mapContainer.innerHTML = svgText;
+        
+        // After map is loaded, make the zones interactive
+        setupHotspots();
+        actualizarHUD();
+    } catch (error) {
+        console.error("Error loading interactive map:", error);
+    }
 }
 
-// Muestra un nuevo evento al azar
-function mostrarSiguienteEvento() {
-    const eventoModal = document.getElementById('evento-modal');
-    // Elige un evento al azar de la lista
-    const evento = eventos[Math.floor(Math.random() * eventos.length)];
+function setupHotspots() {
+    // Find all the layers in the SVG with IDs that match our events
+    for (const zoneId in eventos) {
+        const hotspot = document.getElementById(zoneId);
+        if (hotspot) {
+            hotspot.classList.add('hotspot'); // Add CSS class for styling
+            // When a zone is clicked, show its corresponding event
+            hotspot.onclick = () => showEvent(zoneId);
+        }
+    }
+}
 
-    // Rellena el modal con la información del evento
+function showEvent(zoneId) {
+    const eventoModal = document.getElementById('evento-modal');
+    const evento = eventos[zoneId];
+    if (!evento) return; // No event for this zone
+
     document.getElementById('evento-titulo').textContent = evento.titulo;
     document.getElementById('evento-descripcion').textContent = evento.descripcion;
     
     const opcionesContainer = document.getElementById('evento-opciones');
-    opcionesContainer.innerHTML = ''; // Limpia las opciones anteriores
+    opcionesContainer.innerHTML = '';
 
-    // Crea los botones para cada opción
     evento.opciones.forEach(opcion => {
         const boton = document.createElement('button');
         boton.className = 'cta-button';
         boton.textContent = opcion.texto;
-        boton.onclick = () => tomarDecision(opcion.consecuencias);
+        boton.onclick = () => takeDecision(opcion.consecuencias);
         opcionesContainer.appendChild(boton);
     });
 
-    eventoModal.style.display = 'flex'; // Muestra el modal
+    eventoModal.style.display = 'flex';
 }
 
-// Se ejecuta cuando el equipo hace clic en una decisión
-function tomarDecision(consecuencias) {
-    // Aplica las consecuencias al estado del juego
+function takeDecision(consecuencias) {
     estadoJuego.saludEcosistema += consecuencias.salud;
     estadoJuego.puntosAccion += consecuencias.puntos;
 
-    // Asegúrate de que la salud no pase de 100 ni baje de 0
     if (estadoJuego.saludEcosistema > 100) estadoJuego.saludEcosistema = 100;
     if (estadoJuego.saludEcosistema < 0) estadoJuego.saludEcosistema = 0;
     
@@ -78,34 +93,27 @@ function tomarDecision(consecuencias) {
     
     actualizarHUD();
     
-    const eventoModal = document.getElementById('evento-modal');
-    eventoModal.style.display = 'none'; // Oculta el modal
+    document.getElementById('evento-modal').style.display = 'none';
 
-    // Comprueba si el juego ha terminado
     if (estadoJuego.rondaActual > estadoJuego.rondasTotales || estadoJuego.saludEcosistema <= 0) {
-        terminarJuego();
-    } else {
-        // Muestra el siguiente evento después de un breve retraso
-        setTimeout(mostrarSiguienteEvento, 1000);
+        endGame();
     }
+    // In this model, the next event is triggered by the user clicking another hotspot.
 }
 
-// Actualiza la interfaz de usuario con el estado actual
 function actualizarHUD() {
-    document.getElementById('barra-salud').style.width = `${estadoJuego.saludEcosistema}%`;
-    document.getElementById('barra-salud').textContent = `${estadoJuego.saludEcosistema}%`;
+    const healthFill = document.getElementById('vertical-progress-fill-game');
+    const healthText = document.getElementById('health-percentage');
+    
+    healthFill.style.height = `${estadoJuego.saludEcosistema}%`;
+    healthText.textContent = `${estadoJuego.saludEcosistema}%`;
+    
     document.getElementById('puntos-accion').textContent = estadoJuego.puntosAccion;
     document.getElementById('numero-ronda').textContent = `${estadoJuego.rondaActual} / ${estadoJuego.rondasTotales}`;
 }
 
-function terminarJuego() {
-    let mensajeFinal = "";
-    if (estadoJuego.saludEcosistema > 0) {
-        mensajeFinal = `¡Felicidades, Guardabosques! Han mantenido el equilibrio del bosque durante ${estadoJuego.rondasTotales} temporadas. ¡Misión cumplida!`;
-    } else {
-        mensajeFinal = "El ecosistema ha colapsado. Aunque no lo lograron esta vez, han aprendido valiosas lecciones sobre la gestión ambiental. ¡Intenten de nuevo!";
-    }
-    // Muestra un simple alert, o puedes crear un modal más elegante para el final
-    alert(mensajeFinal);
-    // Podrías añadir un botón para reiniciar el juego
+function endGame() {
+    let message = estadoJuego.saludEcosistema > 0 ? "¡Felicidades, Guardabosques! Han protegido el bosque." : "El ecosistema ha colapsado. ¡Intenten de nuevo!";
+    alert(message);
+    // You could add logic here to restart the game
 }
