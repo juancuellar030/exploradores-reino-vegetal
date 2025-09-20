@@ -1142,3 +1142,28 @@ header.game-header h1 {
     justify-content: center;
     gap: 40px;
 }
+
+/* --- ACTIVITY 2 LAYOUT REFINEMENTS --- */
+/* Add this to the end of your style.css */
+
+/* 1. Make the sidebars thinner */
+.game-hud {
+    width: 180px; /* Reduced from 200px */
+}
+
+/* 2. Add a corner radius to the map */
+#interactive-map-container {
+    border-radius: 15px; /* Adds rounded corners */
+    overflow: hidden;    /* Ensures the SVG corners are clipped */
+}
+
+/* 3. Remove the background layers ONLY on this page */
+.game-page .background-layers {
+    display: none; /* Hides the jungle background */
+}
+
+/* 4. Change the game page background to a solid color */
+.game-page {
+    background-image: none; /* Removes the old background image if any */
+    background-color: var(--light-bg); /* Sets a clean, solid background color */
+}
