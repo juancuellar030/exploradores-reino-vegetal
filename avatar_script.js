@@ -24,7 +24,7 @@ let avatar = {
         'vest-color': '#BC7D64',
         'blouse-color': '#E91E63',
         'hair-color': '#262626',
-        'lens-color': 'rgba(184, 134, 11, 0.5)',
+        'lens-color': 'rgba(184, 134, 11, 0.5)', // Default lens color is now a semi-transparent brown
         'frame-color': '#C0C0C0'
     }
 };
@@ -41,13 +41,12 @@ function manageColorPickers(activePickerId) {
     }
 }
 
-// --- SVG AND COLOR FUNCTIONS (with fix for remove) ---
+// --- SVG AND COLOR FUNCTIONS ---
 async function selectSvg(layer, svgPath) {
-    // <<<< KEY FIX 1: Handle the "remove" case gracefully >>>>
     if (!svgPath) {
         document.getElementById(`${layer}-preview`).innerHTML = '';
         avatar[layer] = '';
-        return; // Exit the function cleanly
+        return;
     }
     try {
         const response = await fetch(svgPath);
@@ -55,14 +54,9 @@ async function selectSvg(layer, svgPath) {
         const svgText = await response.text();
         document.getElementById(`${layer}-preview`).innerHTML = svgText;
         avatar[layer] = svgPath;
-        applyAllColors();
+        applyAllColors(); // Apply colors every time a new SVG is loaded
     } catch (error) {
         console.error('Error loading SVG:', error);
-        const previewBox = document.getElementById(`${layer}-preview`);
-        if (previewBox) {
-            const fileName = svgPath.split('/').pop();
-            previewBox.innerHTML = `<p style="font-size:12px; color:red; text-align:center; margin-top: 80px;">Error al cargar:<br>${fileName}</p>`;
-        }
     }
 }
 
@@ -108,22 +102,19 @@ function selectEyewear(fileName) {
     }
 }
 
-// <<<< NEW, MORE ROBUST COLOR FUNCTIONS >>>>
+// --- ROBUST COLOR FUNCTIONS ---
 function applyColorToElement(element, colorString) {
     if (colorString.startsWith('rgba')) {
-        // Handle RGBA colors with transparency
         const parts = colorString.replace(/[rgba()]/g, '').split(',');
         const r = parts[0].trim();
         const g = parts[1].trim();
         const b = parts[2].trim();
         const a = parts[3].trim();
-        // Set fill to the RGB part and fill-opacity to the alpha part
         element.setAttribute('fill', `rgb(${r},${g},${b})`);
         element.setAttribute('fill-opacity', a);
     } else {
-        // Handle solid colors (like hex codes)
         element.setAttribute('fill', colorString);
-        element.removeAttribute('fill-opacity'); // Ensure full opacity
+        element.removeAttribute('fill-opacity');
     }
 }
 
@@ -226,22 +217,32 @@ function addSoundEffects() {
     });
 }
 
-// --- MAIN ONLOAD FUNCTION ---
+// --- MAIN ONLOAD FUNCTION (FINAL CORRECTED LOGIC) ---
 window.onload = async function() {
     const savedAvatar = localStorage.getItem('exploradorAvatar');
     if (savedAvatar) {
         avatar = JSON.parse(savedAvatar);
     }
+    
+    // 1. Load ALL SVG content first from the avatar object
     await selectSvg('base', avatar.base);
-    // Use the master functions to load items AND set the correct color picker state
+    await selectSvg('clothing', avatar.clothing);
+    await selectSvg('headwear', avatar.headwear);
+    await selectSvg('eyewear', avatar.eyewear);
+    await selectSvg('accessory', avatar.accessory);
+    
+    // 2. NOW, with all SVGs loaded, apply the saved colors to them
+    applyAllColors();
+    
+    // 3. FINALLY, set the correct UI state (active tab and visible color pickers)
     const initialClothing = avatar.clothing ? avatar.clothing.split('/').pop() : '';
     const initialHeadwear = avatar.headwear ? avatar.headwear.split('/').pop() : '';
     const initialEyewear = avatar.eyewear ? avatar.eyewear.split('/').pop() : '';
+
     selectClothing(initialClothing);
     selectHeadwear(initialHeadwear);
     selectEyewear(initialEyewear);
-    await selectSvg('accessory', avatar.accessory);
-    applyAllColors();
+
     openTab('base');
     addSoundEffects();
 };
