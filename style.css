@@ -1171,3 +1171,45 @@ header.game-header h1 {
     background-image: none; /* Removes the old background image if any */
     background-color: var(--light-bg); /* Sets a clean, solid background color */
 }
+
+/* --- ACTIVITY 2 ANIMATIONS & INSTRUCTIONS REFINEMENTS --- */
+/* Add this to the end of your style.css */
+
+/* 1. Initial Animation States */
+/* We'll add a class 'hidden-for-anim' to hide elements before they animate in */
+
+/* Header starts above the screen */
+header.game-header.hidden-for-anim {
+    transform: translateY(-200%);
+    opacity: 0;
+}
+
+/* Left sidebar starts to the left */
+.game-hud.sidebar-left.hidden-for-anim {
+    transform: translateX(-200%);
+    opacity: 0;
+}
+
+/* Right sidebar starts to the right */
+.game-hud.sidebar-right.hidden-for-anim {
+    transform: translateX(200%);
+    opacity: 0;
+}
+
+/* Map starts below the screen */
+#interactive-map-container.hidden-for-anim {
+    transform: translateY(100vh);
+    opacity: 0;
+}
+
+/* 2. Transition Styles for all animated elements */
+header.game-header,
+.game-hud,
+#interactive-map-container {
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-out;
+}
+
+/* 3. Make the instructions modal visible by default */
+#instructions-modal {
+    display: flex; /* Show the instructions by default */
+}
