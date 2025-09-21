@@ -23,7 +23,7 @@ let avatar = {
         'skin-parts': '#D1FFB6',
         'vest-color': '#BC7D64',
         'blouse-color': '#E91E63',
-        'hair-color': '#262626'
+        'hair-color': '#262626',
         'lens-color': 'rgba(50, 50, 50, 0.5)'
     }
 };
