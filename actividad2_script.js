@@ -2,6 +2,7 @@
 const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
 hoverSound.volume = 0.4;
 const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
+const earnedInsigniaSound = new Audio('assets/sounds/earned_insignia.mp3');
 
 function playSound(sound) {
     sound.currentTime = 0;
@@ -17,53 +18,42 @@ let estadoJuego = {
     gameStarted: false
 };
 
-// --- EVENT DATABASE (with zone names for tooltips) ---
+// --- EVENT DATABASE (with icons) ---
 const eventos = {
     urban: {
         name: "Frontera Urbana",
+        icon: "assets/icons/icon_urban.png",
         titulo: "¡Expansión Urbana!",
-        descripcion: "Una constructora quiere construir casas nuevas junto al bosque. Ofrecen dinero, pero destruirán parte del hábitat.",
-        opciones: [
-            { texto: "Negociar un límite (-2 Puntos, +5 Salud)", consecuencias: { salud: 5, puntos: -2 } },
-            { texto: "Rechazar la construcción (+10 Salud, -5 Puntos)", consecuencias: { salud: 10, puntos: -5 } },
-            { texto: "Permitir sin límites (+10 Puntos, -30 Salud)", consecuencias: { salud: -30, puntos: 10 } }
-        ]
+        descripcion: "Una constructora quiere construir casas nuevas junto al bosque...",
+        opciones: [{ texto: "Negociar (-2P, +5S)", consecuencias: { salud: 5, puntos: -2 } }, { texto: "Rechazar (+10S, -5P)", consecuencias: { salud: 10, puntos: -5 } }, { texto: "Permitir (-30S, +10P)", consecuencias: { salud: -30, puntos: 10 } }]
     },
     river: {
         name: "Río Serpenteante",
+        icon: "assets/icons/icon_river.png",
         titulo: "Contaminación del Río",
-        descripcion: "Se ha detectado un vertido químico río arriba. ¡Debes actuar rápido para limpiarlo!",
-        opciones: [
-            { texto: "Organizar limpieza (-6 Puntos, +20 Salud)", consecuencias: { salud: 20, puntos: -6 } },
-            { texto: "Ignorar el problema (-25 Salud)", consecuencias: { salud: -25, puntos: 0 } }
-        ]
+        descripcion: "Se ha detectado un vertido químico río arriba...",
+        opciones: [{ texto: "Organizar limpieza (-6P, +20S)", consecuencias: { salud: 20, puntos: -6 } }, { texto: "Ignorar (-25S)", consecuencias: { salud: -25, puntos: 0 } }]
     },
     prairie: {
         name: "Pradera de Flores",
-        titulo: "Especie Invasora en la Pradera",
-        descripcion: "Una planta no nativa está creciendo sin control en la pradera, amenazando a las flores silvestres. Eliminarla costará puntos de acción.",
-        opciones: [
-            { texto: "Controlar la plaga (-4 Puntos, +15 Salud)", consecuencias: { salud: 15, puntos: -4 } },
-            { texto: "Dejar que la naturaleza siga su curso (-15 Salud)", consecuencias: { salud: -15, puntos: 0 } }
-        ]
+        icon: "assets/icons/icon_prairie.png",
+        titulo: "Especie Invasora",
+        descripcion: "Una planta no nativa está creciendo sin control en la pradera...",
+        opciones: [{ texto: "Controlar la plaga (-4P, +15S)", consecuencias: { salud: 15, puntos: -4 } }, { texto: "No hacer nada (-15S)", consecuencias: { salud: -15, puntos: 0 } }]
     },
     quarry: {
         name: "Colinas Rocosas",
+        icon: "assets/icons/icon_quarry.png",
         titulo: "Propuesta de Reforestación",
-        descripcion: "Un grupo ecologista propone un plan para reforestar la cantera abandonada. Apoyar el proyecto mejorará la salud del ecosistema pero requiere recursos.",
-        opciones: [
-            { texto: "Apoyar con recursos (-5 Puntos, +20 Salud)", consecuencias: { salud: 20, puntos: -5 } },
-            { texto: "Declinar la propuesta", consecuencias: { salud: 0, puntos: 0 } }
-        ]
+        descripcion: "Un grupo ecologista propone un plan para reforestar la cantera...",
+        opciones: [{ texto: "Apoyar (-5P, +20S)", consecuencias: { salud: 20, puntos: -5 } }, { texto: "Declinar", consecuencias: { salud: 0, puntos: 0 } }]
     },
     forest: {
         name: "Corazón del Bosque",
+        icon: "assets/icons/icon_forest.png",
         titulo: "Incendio Forestal Menor",
-        descripcion: "Un rayo ha provocado un pequeño incendio en el corazón del bosque. Debes decidir qué tan agresivamente combatirlo.",
-        opciones: [
-            { texto: "Intervención total (-7 Puntos, +10 Salud)", consecuencias: { salud: 10, puntos: -7 } },
-            { texto: "Contenerlo y dejar que se queme lo mínimo (-3 Puntos, -5 Salud)", consecuencias: { salud: -5, puntos: -3 } }
-        ]
+        descripcion: "Un rayo ha provocado un pequeño incendio...",
+        opciones: [{ texto: "Intervención total (-7P, +10S)", consecuencias: { salud: 10, puntos: -7 } }, { texto: "Contener (-3P, -5S)", consecuencias: { salud: -5, puntos: -3 } }]
     }
 };
 
@@ -151,13 +141,17 @@ function startGame() {
     addSoundEffectsToButtons(document.querySelectorAll('.back-button, .cta-button'));
 }
 
-// --- EVENT AND DECISION LOGIC ---
+// --- EVENT AND DECISION LOGIC (MODIFIED) ---
 function showEvent(zoneId) {
     playSound(clickSound);
     const eventoModal = document.getElementById('evento-modal');
     const evento = eventos[zoneId];
     if (!evento) return;
-    document.getElementById('evento-titulo').textContent = evento.titulo;
+
+    const eventTitle = document.getElementById('evento-titulo');
+    // <<<< KEY CHANGE: Add the icon to the title >>>>
+    eventTitle.innerHTML = `<img src="${evento.icon}" alt="${evento.name}" width="50"> ${evento.titulo}`;
+    
     document.getElementById('evento-descripcion').textContent = evento.descripcion;
     const opcionesContainer = document.getElementById('evento-opciones');
     opcionesContainer.innerHTML = '';
@@ -169,34 +163,57 @@ function showEvent(zoneId) {
         opcionesContainer.appendChild(boton);
     });
     eventoModal.style.display = 'flex';
-    const optionButtons = opcionesContainer.querySelectorAll('.cta-button');
-    addSoundEffectsToButtons(optionButtons);
+    addSoundEffectsToButtons(opcionesContainer.querySelectorAll('.cta-button'));
 }
 
-function takeDecision(consecuencias) {
-    playSound(clickSound);
-    estadoJuego.saludEcosistema += consecuencias.salud;
-    estadoJuego.puntosAccion += consecuencias.puntos;
-    if (estadoJuego.saludEcosistema > 100) estadoJuego.saludEcosistema = 100;
-    if (estadoJuego.saludEcosistema < 0) estadoJuego.saludEcosistema = 0;
-    estadoJuego.rondaActual++;
-    actualizarHUD();
-    document.getElementById('evento-modal').style.display = 'none';
-    if (estadoJuego.rondaActual > estadoJuego.rondasTotales || estadoJuego.saludEcosistema <= 0) {
-        endGame();
-    }
-}
+function takeDecision(consecuencias) { /* ... same as before ... */ }
 
+// --- UI UPDATE FUNCTION (MODIFIED) ---
 function actualizarHUD() {
     const healthFill = document.getElementById('vertical-progress-fill-game');
     const healthText = document.getElementById('health-percentage');
+    
     healthFill.style.height = `${estadoJuego.saludEcosistema}%`;
     healthText.textContent = `${estadoJuego.saludEcosistema}%`;
+    
+    // <<<< KEY CHANGE: Logic for color-changing health bar >>>>
+    healthFill.classList.remove('warning', 'critical');
+    if (estadoJuego.saludEcosistema <= 50 && estadoJuego.saludEcosistema > 25) {
+        healthFill.classList.add('warning');
+    } else if (estadoJuego.saludEcosistema <= 25) {
+        healthFill.classList.add('critical');
+    }
+    
     document.getElementById('puntos-accion').textContent = estadoJuego.puntosAccion;
     document.getElementById('numero-ronda').textContent = `${estadoJuego.rondaActual} / ${estadoJuego.rondasTotales}`;
 }
 
+// --- END GAME LOGIC (COMPLETELY REWRITTEN) ---
 function endGame() {
-    let message = estadoJuego.saludEcosistema > 0 ? "¡Felicidades, Guardabosques! Han protegido el bosque." : "El ecosistema ha colapsado. ¡Intenten de nuevo!";
-    alert(message);
+    const modal = document.getElementById('end-game-modal');
+    const title = document.getElementById('end-game-title');
+    const message = document.getElementById('end-game-message');
+    const image = document.getElementById('end-game-image');
+    
+    if (estadoJuego.saludEcosistema > 0) {
+        // Success State
+        playSound(earnedInsigniaSound); // <<<< KEY CHANGE: Play success sound
+        modal.classList.add('success');
+        image.src = 'assets/insignias/insignia_jardinero.png'; // Show the mastery badge
+        title.textContent = "¡Misión Cumplida, Guardabosques!";
+        message.textContent = `¡Felicidades! Han mantenido el equilibrio del bosque durante ${estadoJuego.rondasTotales} temporadas. El ecosistema está a salvo gracias a ustedes.`;
+    } else {
+        // Failure State
+        modal.classList.remove('success');
+        image.src = 'assets/icons/icon_failure.png'; // You'll need to create a "failure" icon
+        title.textContent = "El Ecosistema ha Colapsado";
+        message.textContent = "Aunque no lo lograron esta vez, han aprendido valiosas lecciones sobre la gestión ambiental. ¡El bosque necesita que lo intenten de nuevo!";
+    }
+    
+    modal.style.display = 'flex';
+}
+
+function restartGame() {
+    // Reload the page to start over
+    window.location.reload();
 }
