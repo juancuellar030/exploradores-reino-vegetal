@@ -84,13 +84,31 @@
                     <div id="content-clothing" class="tab-content">
                         <div class="option-group">
                             <h4>Elige tu Ropa</h4>
+                            
+                            <!-- This is the new grid with all three clothing options -->
                             <div class="option-grid">
                                 <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
+                                
+                                <!-- === NEW Blouse Option === -->
+                                <img src="assets/avatar_clothing/blouse.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/blouse.svg')" alt="Blouse">
+                                
+                                <!-- === NEW Military Shirt Option === -->
+                                <img src="assets/avatar_clothing/military_undershirt.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/military_undershirt.svg')" alt="Military Undershirt">
                             </div>
+                    
+                            <!-- Color Picker for the Explorer Vest -->
                             <div class="color-picker">
                                 <p>Color del Chaleco:</p>
                                 <div class="color-swatch" style="background-color: #A0522D;" onclick="changeColor('vest-color', '#A0522D')"></div>
                                 <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                            </div>
+                    
+                            <!-- === NEW Color Picker for the Blouse === -->
+                            <div class="color-picker">
+                                <p>Color de la Blusa:</p>
+                                <div class="color-swatch" style="background-color: #E91E63;" onclick="changeColor('blouse-color', '#E91E63')"></div>
+                                <div class="color-swatch" style="background-color: #2196F3;" onclick="changeColor('blouse-color', '#2196F3')"></div>
+                                <div class="color-swatch" style="background-color: #4CAF50;" onclick="changeColor('blouse-color', '#4CAF50')"></div>
                             </div>
                         </div>
                     </div>
