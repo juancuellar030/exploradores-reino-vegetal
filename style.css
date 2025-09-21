@@ -1322,3 +1322,29 @@ header.game-header,
 #end-game-modal.success .modal-content {
     border-color: #FFD700; /* A golden border for success */
 }
+
+/* --- UI POLISH FOR AVATAR CREATOR --- */
+/* Add this to the end of your style.css */
+
+/* 1. Style the "Quitar" (Remove) Button */
+.remove-btn {
+    background-color: #f44336; /* A clear "danger" or "remove" red */
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    margin-top: 15px; /* Add some space above it */
+    transition: background-color 0.2s;
+}
+
+.remove-btn:hover {
+    background-color: #d32f2f; /* A darker red on hover */
+}
+
+/* 2. Add a class to hide the color pickers */
+.color-picker-group.hidden {
+    display: none;
+}
