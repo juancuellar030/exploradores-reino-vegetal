@@ -92,15 +92,7 @@ function selectHeadwear(fileName) {
 function selectEyewear(fileName) {
     const fullPath = fileName ? `assets/avatar_eyewear/${fileName}` : '';
     selectSvg('eyewear', fullPath);
-    // Color picker management is now handled inside selectSvg
-
-    // Manage visibility of the color pickers
-    if (fileName === 'glasses_round.svg') {
-        manageColorPickers('picker-glasses');
-    } else {
-        // Hide for any other type of glasses or when removed
-        manageColorPickers(null);
-    }
+    // Color picker management is now handled inside selectSvg after SVG loads
 }
 
 // --- ROBUST COLOR FUNCTIONS ---
