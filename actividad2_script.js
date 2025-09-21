@@ -3,7 +3,8 @@ let estadoJuego = {
     saludEcosistema: 100,
     puntosAccion: 10,
     rondaActual: 1,
-    rondasTotales: 10
+    rondasTotales: 10,
+    gameStarted: false // Prevents clicks before instructions are closed
 };
 
 // --- EVENT DATABASE (COMPLETED) ---
@@ -54,34 +55,67 @@ const eventos = {
 
 // --- MAIN GAME FUNCTIONS ---
 window.onload = function() {
-    loadMapAndStartGame();
+    // Prepare the UI for animation by hiding elements
+    document.querySelector('header.game-header').classList.add('hidden-for-anim');
+    document.querySelector('.sidebar-left').classList.add('hidden-for-anim');
+    document.querySelector('.sidebar-right').classList.add('hidden-for-anim');
+    document.getElementById('interactive-map-container').classList.add('hidden-for-anim');
+    
+    // The game now starts when the user closes the instructions
+    loadMap();
 };
 
-async function loadMapAndStartGame() {
+// This function now only loads the map but doesn't start the game
+async function loadMap() {
     try {
         const response = await fetch('assets/mapa_bosque_interactivo.svg');
         const svgText = await response.text();
-        const mapContainer = document.getElementById('interactive-map-container');
-        mapContainer.innerHTML = svgText;
-        
-        setupHotspots();
-        actualizarHUD();
+        document.getElementById('interactive-map-container').innerHTML = svgText;
+        console.log("Interactive map SVG loaded successfully.");
     } catch (error) {
         console.error("Error loading interactive map:", error);
     }
 }
 
+// <<<< THE DEFINITIVE HOTSPOT FIX >>>>
 function setupHotspots() {
-    // Now this loop will find all FIVE zones
+    console.log("Attempting to set up hotspots...");
     for (const zoneId in eventos) {
         const hotspot = document.getElementById(zoneId);
         if (hotspot) {
+            console.log(`SUCCESS: Found hotspot '${zoneId}'. Adding class and click event.`);
             hotspot.classList.add('hotspot');
-            hotspot.onclick = () => showEvent(zoneId);
+            hotspot.onclick = () => {
+                if (estadoJuego.gameStarted) { // Only allow clicks after game starts
+                    showEvent(zoneId);
+                }
+            };
         } else {
-            console.warn(`Hotspot with ID '${zoneId}' not found in SVG.`);
+            console.warn(`FAILURE: Hotspot with ID '${zoneId}' was not found in the SVG.`);
         }
     }
+}
+
+// --- NEW INSTRUCTIONS AND ANIMATION LOGIC ---
+function closeInstructions() {
+    document.getElementById('instructions-modal').style.display = 'none';
+    startGame();
+}
+
+function startGame() {
+    estadoJuego.gameStarted = true;
+
+    // Trigger the slide-in animations
+    document.querySelector('header.game-header').classList.remove('hidden-for-anim');
+    document.querySelector('.sidebar-left').classList.remove('hidden-for-anim');
+    document.querySelector('.sidebar-right').classList.remove('hidden-for-anim');
+    document.getElementById('interactive-map-container').classList.remove('hidden-for-anim');
+
+    // <<<< THE KEY FIX >>>>
+    // We wait a tiny moment for the browser to render the SVG, THEN set up hotspots.
+    setTimeout(setupHotspots, 100); 
+
+    actualizarHUD();
 }
 
 function showEvent(zoneId) {
