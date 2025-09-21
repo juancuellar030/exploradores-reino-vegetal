@@ -24,6 +24,7 @@ let avatar = {
         'vest-color': '#BC7D64',
         'blouse-color': '#E91E63',
         'hair-color': '#262626'
+        'lens-color': 'rgba(50, 50, 50, 0.5)'
     }
 };
 
@@ -88,6 +89,20 @@ function selectHeadwear(fileName) {
     } else if (fileName === 'hair_long_wavy.svg' || fileName === 'hair_short_curly.svg') {
         manageColorPickers('picker-hair');
     } else {
+        manageColorPickers(null);
+    }
+}
+
+// <<<< NEW Master Selection Function for Eyewear >>>>
+function selectEyewear(fileName) {
+    const fullPath = fileName ? `assets/avatar_eyewear/${fileName}` : '';
+    selectSvg('eyewear', fullPath);
+
+    // Manage visibility of the color pickers
+    if (fileName === 'glasses_round.svg') {
+        manageColorPickers('picker-glasses');
+    } else {
+        // Hide for any other type of glasses or when removed
         manageColorPickers(null);
     }
 }
