@@ -6,7 +6,7 @@ let estadoJuego = {
     rondasTotales: 10
 };
 
-// --- EVENT DATABASE (Now tied to locations) ---
+// --- EVENT DATABASE (COMPLETED) ---
 const eventos = {
     urban: {
         titulo: "¡Expansión Urbana!",
@@ -24,8 +24,32 @@ const eventos = {
             { texto: "Organizar limpieza (-6 Puntos, +20 Salud)", consecuencias: { salud: 20, puntos: -6 } },
             { texto: "Ignorar el problema (-25 Salud)", consecuencias: { salud: -25, puntos: 0 } }
         ]
+    },
+    // <<<< NEWLY ADDED EVENTS >>>>
+    prairie: {
+        titulo: "Especie Invasora en la Pradera",
+        descripcion: "Una planta no nativa está creciendo sin control en la pradera, amenazando a las flores silvestres. Eliminarla costará puntos de acción.",
+        opciones: [
+            { texto: "Controlar la plaga (-4 Puntos, +15 Salud)", consecuencias: { salud: 15, puntos: -4 } },
+            { texto: "Dejar que la naturaleza siga su curso (-15 Salud)", consecuencias: { salud: -15, puntos: 0 } }
+        ]
+    },
+    quarry: {
+        titulo: "Propuesta de Reforestación",
+        descripcion: "Un grupo ecologista propone un plan para reforestar la cantera abandonada. Apoyar el proyecto mejorará la salud del ecosistema pero requiere recursos.",
+        opciones: [
+            { texto: "Apoyar con recursos (-5 Puntos, +20 Salud)", consecuencias: { salud: 20, puntos: -5 } },
+            { texto: "Declinar la propuesta", consecuencias: { salud: 0, puntos: 0 } }
+        ]
+    },
+    forest: {
+        titulo: "Incendio Forestal Menor",
+        descripcion: "Un rayo ha provocado un pequeño incendio en el corazón del bosque. Debes decidir qué tan agresivamente combatirlo.",
+        opciones: [
+            { texto: "Intervención total (-7 Puntos, +10 Salud)", consecuencias: { salud: 10, puntos: -7 } },
+            { texto: "Contenerlo y dejar que se queme lo mínimo (-3 Puntos, -5 Salud)", consecuencias: { salud: -5, puntos: -3 } }
+        ]
     }
-    // Add more events for 'prairie', 'quarry', and 'forest'
 };
 
 // --- MAIN GAME FUNCTIONS ---
@@ -40,7 +64,6 @@ async function loadMapAndStartGame() {
         const mapContainer = document.getElementById('interactive-map-container');
         mapContainer.innerHTML = svgText;
         
-        // After map is loaded, make the zones interactive
         setupHotspots();
         actualizarHUD();
     } catch (error) {
@@ -49,13 +72,14 @@ async function loadMapAndStartGame() {
 }
 
 function setupHotspots() {
-    // Find all the layers in the SVG with IDs that match our events
+    // Now this loop will find all FIVE zones
     for (const zoneId in eventos) {
         const hotspot = document.getElementById(zoneId);
         if (hotspot) {
-            hotspot.classList.add('hotspot'); // Add CSS class for styling
-            // When a zone is clicked, show its corresponding event
+            hotspot.classList.add('hotspot');
             hotspot.onclick = () => showEvent(zoneId);
+        } else {
+            console.warn(`Hotspot with ID '${zoneId}' not found in SVG.`);
         }
     }
 }
@@ -63,7 +87,7 @@ function setupHotspots() {
 function showEvent(zoneId) {
     const eventoModal = document.getElementById('evento-modal');
     const evento = eventos[zoneId];
-    if (!evento) return; // No event for this zone
+    if (!evento) return;
 
     document.getElementById('evento-titulo').textContent = evento.titulo;
     document.getElementById('evento-descripcion').textContent = evento.descripcion;
@@ -98,7 +122,6 @@ function takeDecision(consecuencias) {
     if (estadoJuego.rondaActual > estadoJuego.rondasTotales || estadoJuego.saludEcosistema <= 0) {
         endGame();
     }
-    // In this model, the next event is triggered by the user clicking another hotspot.
 }
 
 function actualizarHUD() {
