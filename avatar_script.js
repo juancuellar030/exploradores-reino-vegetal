@@ -21,17 +21,31 @@ let avatar = {
     accessory: '',
     colors: {
         'skin-parts': '#D1FFB6',
-        'vest-color': '#A0522D',
-        'blouse-color': '#E91E63' // Add a default color for the new item
+        'vest-color': '#BC7D64',
+        'blouse-color': '#E91E63',
+        'hair-color': '#262626'
     }
 };
 
-// --- FUNCTION to load an SVG file and display it ---
+// --- UI HELPER FUNCTION (THIS WAS THE MISSING PIECE) ---
+function manageColorPickers(activePickerId) {
+    const allPickers = document.querySelectorAll('.color-picker-group');
+    allPickers.forEach(picker => picker.classList.add('hidden'));
+    if (activePickerId) {
+        const activePicker = document.getElementById(activePickerId);
+        if (activePicker) {
+            activePicker.classList.remove('hidden');
+        }
+    }
+}
+
+// --- SVG AND COLOR FUNCTIONS (with fix for remove) ---
 async function selectSvg(layer, svgPath) {
+    // <<<< KEY FIX 1: Handle the "remove" case gracefully >>>>
     if (!svgPath) {
         document.getElementById(`${layer}-preview`).innerHTML = '';
         avatar[layer] = '';
-        return;
+        return; // Exit the function cleanly
     }
     try {
         const response = await fetch(svgPath);
@@ -50,34 +64,31 @@ async function selectSvg(layer, svgPath) {
     }
 }
 
-// <<<< NEW Master Selection Function for Clothing >>>>
+// --- MASTER SELECTION FUNCTIONS (with fix for remove) ---
 function selectClothing(fileName) {
-    // First, update the SVG in the preview
-    selectSvg('clothing', `assets/avatar_clothing/${fileName}`);
+    // <<<< KEY FIX 2: Construct the full path OR an empty string >>>>
+    const fullPath = fileName ? `assets/avatar_clothing/${fileName}` : '';
+    selectSvg('clothing', fullPath);
 
-    // Now, manage the visibility of the color pickers
     if (fileName === 'shirt_vest_explorer.svg') {
         manageColorPickers('picker-vest');
     } else if (fileName === 'blouse.svg') {
         manageColorPickers('picker-blouse');
     } else {
-        // For any other item (like the military shirt), hide all pickers
-        manageColorPickers(null);
+        manageColorPickers(null); // Hide for military shirt or when removed
     }
 }
 
-// <<<< NEW Master Selection Function for Headwear >>>>
 function selectHeadwear(fileName) {
-    // Update the SVG in the preview
-    selectSvg('headwear', fileName ? `assets/avatar_headwear/${fileName}` : '');
+    const fullPath = fileName ? `assets/avatar_headwear/${fileName}` : '';
+    selectSvg('headwear', fullPath);
 
-    // Manage visibility
     if (fileName === 'beanie_hat.svg') {
         manageColorPickers('picker-beanie');
     } else if (fileName === 'hair_long_wavy.svg' || fileName === 'hair_short_curly.svg') {
         manageColorPickers('picker-hair');
     } else {
-        manageColorPickers(null); // Hide all if "Quitar" is clicked
+        manageColorPickers(null);
     }
 }
 
@@ -186,15 +197,22 @@ window.onload = async function() {
     if (savedAvatar) {
         avatar = JSON.parse(savedAvatar);
     }
+    
+    // Load all the selected SVG parts from memory
     await selectSvg('base', avatar.base);
     await selectSvg('clothing', avatar.clothing);
     await selectSvg('headwear', avatar.headwear);
     await selectSvg('eyewear', avatar.eyewear);
     await selectSvg('accessory', avatar.accessory);
+    
     applyAllColors();
     openTab('base');
     addSoundEffects();
 
-    selectClothing('shirt_vest_explorer.svg'); // This sets the default view
-    selectHeadwear(''); // No headwear by default
+    // Set the initial state of the color pickers
+    // This is a more robust way to set the initial state
+    const initialClothing = avatar.clothing.split('/').pop();
+    const initialHeadwear = avatar.headwear.split('/').pop();
+    selectClothing(initialClothing);
+    selectHeadwear(initialHeadwear);
 };
