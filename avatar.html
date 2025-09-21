@@ -169,9 +169,11 @@
                     
                             <!-- This is the wrapper for the glasses' color pickers -->
                             <div id="picker-glasses" class="color-picker-group hidden">
+            
                                 <!-- Color Picker for the FRAMES (Solid Colors) -->
                                 <div class="color-picker">
                                     <p>Color del Marco:</p>
+                                    <!-- <<<< FIX 1: These now correctly target 'frame-color' >>>> -->
                                     <div class="color-swatch" style="background-color: #C0C0C0;" onclick="changeColor('frame-color', '#C0C0C0')"></div>
                                     <div class="color-swatch" style="background-color: #4A4A4A;" onclick="changeColor('frame-color', '#4A4A4A')"></div>
                                     <div class="color-swatch" style="background-color: #B8860B;" onclick="changeColor('frame-color', '#B8860B')"></div>
@@ -180,7 +182,7 @@
                                 <!-- Color Picker for the LENSES (Transparent Colors) -->
                                 <div class="color-picker">
                                     <p>Color de los Lentes:</p>
-                                    <!-- <<<< KEY CHANGE: We use rgba() for transparency >>>> -->
+                                    <!-- <<<< FIX 2: These now correctly target 'lens-color' AND use rgba() >>>> -->
                                     <div class="color-swatch" style="background-color: rgba(50, 50, 50, 0.5);" onclick="changeColor('lens-color', 'rgba(50, 50, 50, 0.5)')"></div>
                                     <div class="color-swatch" style="background-color: rgba(100, 65, 35, 0.4);" onclick="changeColor('lens-color', 'rgba(100, 65, 35, 0.4)')"></div>
                                     <div class="color-swatch" style="background-color: rgba(33, 150, 243, 0.3);" onclick="changeColor('lens-color', 'rgba(33, 150, 243, 0.3)')"></div>
