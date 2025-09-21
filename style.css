@@ -1235,3 +1235,48 @@ header.game-header,
 .map-hotspots {
     z-index: 10;
 }
+
+/* --- ACTIVITY 2 FINAL POLISH & REFINEMENTS --- */
+/* Add this to the end of your style.css */
+
+/* 1. Reduce the height of the sidebars */
+.game-hud {
+    height: 85vh; /* Set height to 85% of the viewport height */
+    max-height: 700px; /* Optional: a max height for very tall screens */
+}
+
+/* 2. Style the new Map Tooltip */
+#map-tooltip {
+    position: fixed; /* Floats on top of everything */
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    
+    /* Hide it by default and prepare for a fade animation */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    
+    /* CRUCIAL: This makes the mouse ignore the tooltip itself */
+    pointer-events: none; 
+}
+
+/* 3. The "Glow" Hover Effect for Hotspots */
+.hotspot {
+    /* Set a base fill color for a subtle highlight */
+    fill: rgba(255, 255, 0, 0.1);
+    stroke: rgba(255, 255, 0, 0.8);
+    stroke-width: 0; /* No stroke by default */
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.hotspot:hover {
+    fill: rgba(255, 255, 0, 0.3); /* Increase the fill opacity on hover */
+    stroke-width: 4px; /* Add a bright yellow stroke on hover */
+}
