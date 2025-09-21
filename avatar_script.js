@@ -50,6 +50,37 @@ async function selectSvg(layer, svgPath) {
     }
 }
 
+// <<<< NEW Master Selection Function for Clothing >>>>
+function selectClothing(fileName) {
+    // First, update the SVG in the preview
+    selectSvg('clothing', `assets/avatar_clothing/${fileName}`);
+
+    // Now, manage the visibility of the color pickers
+    if (fileName === 'shirt_vest_explorer.svg') {
+        manageColorPickers('picker-vest');
+    } else if (fileName === 'blouse.svg') {
+        manageColorPickers('picker-blouse');
+    } else {
+        // For any other item (like the military shirt), hide all pickers
+        manageColorPickers(null);
+    }
+}
+
+// <<<< NEW Master Selection Function for Headwear >>>>
+function selectHeadwear(fileName) {
+    // Update the SVG in the preview
+    selectSvg('headwear', fileName ? `assets/avatar_headwear/${fileName}` : '');
+
+    // Manage visibility
+    if (fileName === 'beanie_hat.svg') {
+        manageColorPickers('picker-beanie');
+    } else if (fileName === 'hair_long_wavy.svg' || fileName === 'hair_short_curly.svg') {
+        manageColorPickers('picker-hair');
+    } else {
+        manageColorPickers(null); // Hide all if "Quitar" is clicked
+    }
+}
+
 function changeColor(groupId, color) {
     avatar.colors[groupId] = color;
     const groupElement = document.querySelector(`#${groupId}`);
@@ -163,4 +194,7 @@ window.onload = async function() {
     applyAllColors();
     openTab('base');
     addSoundEffects();
+
+    selectClothing('shirt_vest_explorer.svg'); // This sets the default view
+    selectHeadwear(''); // No headwear by default
 };
