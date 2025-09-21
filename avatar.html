@@ -85,31 +85,34 @@
                         <div class="option-group">
                             <h4>Elige tu Ropa</h4>
                             
-                            <!-- This is the new grid with all three clothing options -->
                             <div class="option-grid">
-                                <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/shirt_vest_explorer.svg')" alt="Explorer Vest">
-                                
-                                <!-- === NEW Blouse Option === -->
-                                <img src="assets/avatar_clothing/blouse.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/blouse.svg')" alt="Blouse">
-                                
-                                <!-- === NEW Military Shirt Option === -->
-                                <img src="assets/avatar_clothing/military_undershirt.svg" onclick="selectSvg('clothing', 'assets/avatar_clothing/military_undershirt.svg')" alt="Military Undershirt">
+                                <img src="assets/avatar_clothing/shirt_vest_explorer.svg" onclick="selectClothing('shirt_vest_explorer.svg')" alt="Explorer Vest">
+                                <img src="assets/avatar_clothing/blouse.svg" onclick="selectClothing('blouse.svg')" alt="Blouse">
+                                <img src="assets/avatar_clothing/military_undershirt.svg" onclick="selectClothing('military_undershirt.svg')" alt="Military Undershirt">
                             </div>
                     
-                            <!-- Color Picker for the Explorer Vest -->
-                            <div class="color-picker">
-                                <p>Color del Chaleco:</p>
-                                <div class="color-swatch" style="background-color: #BC7D64;" onclick="changeColor('vest-color', '#BC7D64')"></div>
-                                <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                            <!-- This is the wrapper for the Explorer Vest's color picker -->
+                            <div id="picker-vest" class="color-picker-group hidden">
+                                <div class="color-picker">
+                                    <p>Color del Chaleco:</p>
+                                    <div class="color-swatch" style="background-color: #BC7D64;" onclick="changeColor('vest-color', '#BC7D64')"></div>
+                                    <div class="color-swatch" style="background-color: #4682B4;" onclick="changeColor('vest-color', '#4682B4')"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- This is the wrapper for the Blouse's color picker -->
+                            <div id="picker-blouse" class="color-picker-group hidden">
+                                <div class="color-picker">
+                                    <p>Color de la Blusa:</p>
+                                    <div class="color-swatch" style="background-color: #E91E63;" onclick="changeColor('blouse-color', '#E91E63')"></div>
+                                    <div class="color-swatch" style="background-color: #2196F3;" onclick="changeColor('blouse-color', '#2196F3')"></div>
+                                    <div class="color-swatch" style="background-color: #4CAF50;" onclick="changeColor('blouse-color', '#4CAF50')"></div>
+                                </div>
                             </div>
                     
-                            <!-- === NEW Color Picker for the Blouse === -->
-                            <div class="color-picker">
-                                <p>Color de la Blusa:</p>
-                                <div class="color-swatch" style="background-color: #E91E63;" onclick="changeColor('blouse-color', '#E91E63')"></div>
-                                <div class="color-swatch" style="background-color: #2196F3;" onclick="changeColor('blouse-color', '#2196F3')"></div>
-                                <div class="color-swatch" style="background-color: #4CAF50;" onclick="changeColor('blouse-color', '#4CAF50')"></div>
-                            </div>
+                            <!-- The "Quitar" (Remove) button for clothing -->
+                            <button class="remove-btn" onclick="selectClothing('')">Quitar Ropa</button>
+                    
                         </div>
                     </div>
         
@@ -117,23 +120,36 @@
                     <div id="content-headwear" class="tab-content">
                         <div class="option-group">
                             <h4>Elige tu Peinado o Sombrero</h4>
+                            
                             <div class="option-grid">
-                                <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_long_wavy.svg')" alt="Wavy Hair">
-                                <img src="assets/avatar_headwear/hair_short_curly.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/hair_short_curly.svg')" alt="Curly Hair">
-                                <img src="assets/avatar_headwear/beanie_hat.svg" onclick="selectSvg('headwear', 'assets/avatar_headwear/beanie_hat.svg')" alt="Beanie Hat">
+                                <!-- These now call the new selectHeadwear function -->
+                                <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectHeadwear('hair_long_wavy.svg')" alt="Wavy Hair">
+                                <img src="assets/avatar_headwear/hair_short_curly.svg" onclick="selectHeadwear('hair_short_curly.svg')" alt="Curly Hair">
+                                <img src="assets/avatar_headwear/beanie_hat.svg" onclick="selectHeadwear('beanie_hat.svg')" alt="Beanie Hat">
                             </div>
-                            <div class="color-picker">
-                                <p>Color del Pelo:</p>
-                                <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('hair-color', '#262626')"></div>
-                                <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('hair-color', '#94572B')"></div>
+                    
+                            <!-- This is the wrapper for the Hair color picker -->
+                            <div id="picker-hair" class="color-picker-group hidden">
+                                <div class="color-picker">
+                                    <p>Color del Pelo:</p>
+                                    <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('hair-color', '#262626')"></div>
+                                    <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('hair-color', '#94572B')"></div>
+                                </div>
                             </div>
-                            <div class="color-picker">
-                                <p>Colores del Gorro:</p>
-                                <div class="color-swatch" style="background-color: #6A0DAD;" onclick="changeColor('beanie-top-color', '#6A0DAD')"></div>
-                                <div class="color-swatch" style="background-color: #008000;" onclick="changeColor('beanie-brim-color', '#008000')"></div>
-                                <div class="color-swatch" style="background-color: #FF4500;" onclick="changeColor('beanie-flaps-color', '#FF4500')"></div>
+                            
+                            <!-- This is the wrapper for the Beanie's color picker -->
+                            <div id="picker-beanie" class="color-picker-group hidden">
+                                <div class="color-picker">
+                                    <p>Colores del Gorro:</p>
+                                    <div class="color-swatch" style="background-color: #6A0DAD;" onclick="changeColor('beanie-top-color', '#6A0DAD')"></div>
+                                    <div class="color-swatch" style="background-color: #008000;" onclick="changeColor('beanie-brim-color', '#008000')"></div>
+                                    <div class="color-swatch" style="background-color: #FF4500;" onclick="changeColor('beanie-flaps-color', '#FF4500')"></div>
+                                </div>
                             </div>
-                            <button class="remove-btn" onclick="selectSvg('headwear', '')">Quitar</button>
+                            
+                            <!-- The "Quitar" (Remove) button for headwear -->
+                            <button class="remove-btn" onclick="selectHeadwear('')">Quitar Sombrero</button>
+                    
                         </div>
                     </div>
         
