@@ -24,7 +24,7 @@ let avatar = {
         'vest-color': '#BC7D64',
         'blouse-color': '#E91E63',
         'hair-color': '#262626',
-        'lens-color': 'rgba(50, 50, 50, 0.5)'
+        'lens-color': 'rgba(184, 134, 11, 0.5)' // <<<< 'frame-color' has been removed
     }
 };
 
@@ -212,22 +212,16 @@ window.onload = async function() {
     if (savedAvatar) {
         avatar = JSON.parse(savedAvatar);
     }
-    
-    // Load all the selected SVG parts from memory
     await selectSvg('base', avatar.base);
-    await selectSvg('clothing', avatar.clothing);
-    await selectSvg('headwear', avatar.headwear);
-    await selectSvg('eyewear', avatar.eyewear);
+    // Use the master functions to load items AND set the correct color picker state
+    const initialClothing = avatar.clothing ? avatar.clothing.split('/').pop() : '';
+    const initialHeadwear = avatar.headwear ? avatar.headwear.split('/').pop() : '';
+    const initialEyewear = avatar.eyewear ? avatar.eyewear.split('/').pop() : '';
+    selectClothing(initialClothing);
+    selectHeadwear(initialHeadwear);
+    selectEyewear(initialEyewear);
     await selectSvg('accessory', avatar.accessory);
-    
     applyAllColors();
     openTab('base');
     addSoundEffects();
-
-    // Set the initial state of the color pickers
-    // This is a more robust way to set the initial state
-    const initialClothing = avatar.clothing.split('/').pop();
-    const initialHeadwear = avatar.headwear.split('/').pop();
-    selectClothing(initialClothing);
-    selectHeadwear(initialHeadwear);
 };
