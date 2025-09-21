@@ -40,8 +40,14 @@
                 <h1>El Gran Juego del Bosque</h1>
             </header>
             <div id="interactive-map-container">
-                <!-- The interactive SVG map will be loaded here by JavaScript -->
+            <!-- The PNG provides the fast, non-interactive visuals -->
+            <img src="assets/mapa_bosque_visual.png" class="map-visual" alt="Mapa del Bosque">
+            
+            <!-- The SVG overlay provides the invisible, interactive hotspots -->
+            <div id="hotspot-svg-container" class="map-hotspots">
+                <!-- The hotspots SVG will be loaded here by JavaScript -->
             </div>
+        </div>
         </div>
 
         <!-- Right Sidebar HUD -->
