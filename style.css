@@ -1280,3 +1280,45 @@ header.game-header,
     fill: rgba(255, 255, 0, 0.3); /* Increase the fill opacity on hover */
     stroke-width: 4px; /* Add a bright yellow stroke on hover */
 }
+
+/* --- ACTIVITY 2 FINAL POLISH (HUD, HEALTH BAR, MODALS) --- */
+/* Add this to the end of your style.css */
+
+/* 1. Reduce Sidebar Height */
+.game-hud {
+    height: 75vh; /* Reduced to 75% of viewport height */
+    max-height: 650px;
+}
+
+/* 2. Color-Changing Health Bar */
+#vertical-progress-fill-game {
+    /* The default green is already set, we just add new states */
+    background-color: var(--secondary-green); 
+}
+#vertical-progress-fill-game.warning {
+    background-color: #fbc02d; /* A nice warning yellow */
+}
+#vertical-progress-fill-game.critical {
+    background-color: #d32f2f; /* A critical danger red */
+}
+
+/* 3. Add a space for the icon in the event modal */
+#evento-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* 4. Style the new End Game Modal */
+#end-game-image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+}
+#end-game-modal .modal-content {
+    border: 5px solid var(--primary-green);
+}
+#end-game-modal.success .modal-content {
+    border-color: #FFD700; /* A golden border for success */
+}
