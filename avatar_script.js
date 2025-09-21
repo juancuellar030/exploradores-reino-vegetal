@@ -92,7 +92,14 @@ function selectHeadwear(fileName) {
 function selectEyewear(fileName) {
     const fullPath = fileName ? `assets/avatar_eyewear/${fileName}` : '';
     selectSvg('eyewear', fullPath);
-    // Color picker management is now handled inside selectSvg after SVG loads
+
+    // Manage visibility of the color pickers
+    if (fileName === 'glasses_round.svg') {
+        manageColorPickers('picker-glasses');
+    } else {
+        // Hide for any other type of glasses or when removed
+        manageColorPickers(null);
+    }
 }
 
 // --- ROBUST COLOR FUNCTIONS ---
@@ -113,7 +120,23 @@ function applyColorToElement(element, colorString) {
 
 function changeColor(groupId, color) {
     avatar.colors[groupId] = color;
-    const groupElement = document.querySelector(`#${groupId}`);
+
+    // Determine the correct preview div based on the groupId
+    let previewDivId;
+    if (groupId.includes('skin')) {
+        previewDivId = 'base-preview';
+    } else if (groupId.includes('vest') || groupId.includes('blouse')) {
+        previewDivId = 'clothing-preview';
+    } else if (groupId.includes('hair') || groupId.includes('beanie')) {
+        previewDivId = 'headwear-preview';
+    } else if (groupId.includes('lens') || groupId.includes('frame')) {
+        previewDivId = 'eyewear-preview';
+    }
+    
+    const previewDiv = document.getElementById(previewDivId);
+    if (!previewDiv) return;
+
+    const groupElement = previewDiv.querySelector(`#${groupId}`);
     if (groupElement) {
         const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
         partsToColor.forEach(part => {
