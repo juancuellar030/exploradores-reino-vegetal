@@ -1,3 +1,8 @@
+// --- SOUND EFFECT SETUP ---
+const hoverSound = new Audio('assets/sounds/ui-hover-sound.mp3');
+hoverSound.volume = 0.4;
+const clickSound = new Audio('assets/sounds/ui-click-sound.mp3');
+
 // --- INITIAL GAME STATE ---
 let estadoJuego = {
     saludEcosistema: 100,
@@ -73,6 +78,28 @@ async function loadHotspots() {
     }
 }
 
+// --- TOOLTIP AND HOTSPOT LOGIC ---
+const tooltip = document.getElementById('map-tooltip');
+
+function showTooltip(zoneId) {
+    if (eventos[zoneId] && estadoJuego.gameStarted) {
+        tooltip.textContent = eventos[zoneId].name;
+        tooltip.style.opacity = '1';
+        tooltip.style.transform = 'translateY(0)';
+    }
+}
+
+function hideTooltip() {
+    tooltip.style.opacity = '0';
+    tooltip.style.transform = 'translateY(10px)';
+}
+
+function moveTooltip(event) {
+    // Position the tooltip slightly below and to the right of the cursor
+    tooltip.style.left = `${event.clientX + 15}px`;
+    tooltip.style.top = `${event.clientY + 15}px`;
+}
+
 function setupHotspots() {
     console.log("Attempting to set up hotspots...");
     for (const zoneId in eventos) {
@@ -91,8 +118,17 @@ function setupHotspots() {
     }
 }
 
+// --- SOUND LOGIC ---
+function addSoundEffectsToButtons(buttons) {
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => playSound(hoverSound));
+        button.addEventListener('click', () => playSound(clickSound));
+    });
+}
+
 // --- INSTRUCTIONS AND ANIMATION LOGIC ---
 function closeInstructions() {
+    playSound(clickSound);
     document.getElementById('instructions-modal').style.display = 'none';
     startGame();
 }
@@ -127,6 +163,10 @@ function showEvent(zoneId) {
     });
 
     eventoModal.style.display = 'flex';
+
+    // After creating buttons, add sound effects to them
+    const optionButtons = opcionesContainer.querySelectorAll('.cta-button');
+    addSoundEffectsToButtons(optionButtons);
 }
 
 function takeDecision(consecuencias) {
