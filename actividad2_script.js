@@ -4,10 +4,10 @@ let estadoJuego = {
     puntosAccion: 10,
     rondaActual: 1,
     rondasTotales: 10,
-    gameStarted: false // Prevents clicks before instructions are closed
+    gameStarted: false
 };
 
-// --- EVENT DATABASE (COMPLETED) ---
+// --- EVENT DATABASE (FULLY COMPLETED) ---
 const eventos = {
     urban: {
         titulo: "¡Expansión Urbana!",
@@ -26,7 +26,6 @@ const eventos = {
             { texto: "Ignorar el problema (-25 Salud)", consecuencias: { salud: -25, puntos: 0 } }
         ]
     },
-    // <<<< THIS IS THE MISSING PIECE >>>>
     prairie: {
         titulo: "Especie Invasora en la Pradera",
         descripcion: "Una planta no nativa está creciendo sin control en la pradera, amenazando a las flores silvestres. Eliminarla costará puntos de acción.",
@@ -55,38 +54,34 @@ const eventos = {
 
 // --- MAIN GAME FUNCTIONS ---
 window.onload = function() {
-    // Prepare the UI for animation by hiding elements
     document.querySelector('header.game-header').classList.add('hidden-for-anim');
     document.querySelector('.sidebar-left').classList.add('hidden-for-anim');
     document.querySelector('.sidebar-right').classList.add('hidden-for-anim');
     document.getElementById('interactive-map-container').classList.add('hidden-for-anim');
-    
-    // The game now starts when the user closes the instructions
-    loadMap();
+    loadHotspots(); // We change the function name for clarity
 };
 
-// This function now only loads the map but doesn't start the game
-async function loadMap() {
+// This function now only loads the HOTSPOTS SVG
+async function loadHotspots() {
     try {
-        const response = await fetch('assets/mapa_bosque_interactivo.svg');
+        const response = await fetch('assets/mapa_bosque_hotspots.svg'); // <<<< KEY CHANGE
         const svgText = await response.text();
-        document.getElementById('interactive-map-container').innerHTML = svgText;
-        console.log("Interactive map SVG loaded successfully.");
+        document.getElementById('hotspot-svg-container').innerHTML = svgText; // <<<< KEY CHANGE
+        console.log("Hotspots SVG loaded successfully.");
     } catch (error) {
-        console.error("Error loading interactive map:", error);
+        console.error("Error loading hotspots SVG:", error);
     }
 }
 
-// <<<< THE DEFINITIVE HOTSPOT FIX >>>>
 function setupHotspots() {
     console.log("Attempting to set up hotspots...");
     for (const zoneId in eventos) {
         const hotspot = document.getElementById(zoneId);
         if (hotspot) {
-            console.log(`SUCCESS: Found hotspot '${zoneId}'. Adding class and click event.`);
+            console.log(`SUCCESS: Found hotspot '${zoneId}'.`);
             hotspot.classList.add('hotspot');
             hotspot.onclick = () => {
-                if (estadoJuego.gameStarted) { // Only allow clicks after game starts
+                if (estadoJuego.gameStarted) {
                     showEvent(zoneId);
                 }
             };
@@ -96,7 +91,7 @@ function setupHotspots() {
     }
 }
 
-// --- NEW INSTRUCTIONS AND ANIMATION LOGIC ---
+// --- INSTRUCTIONS AND ANIMATION LOGIC ---
 function closeInstructions() {
     document.getElementById('instructions-modal').style.display = 'none';
     startGame();
@@ -104,17 +99,11 @@ function closeInstructions() {
 
 function startGame() {
     estadoJuego.gameStarted = true;
-
-    // Trigger the slide-in animations
     document.querySelector('header.game-header').classList.remove('hidden-for-anim');
     document.querySelector('.sidebar-left').classList.remove('hidden-for-anim');
     document.querySelector('.sidebar-right').classList.remove('hidden-for-anim');
     document.getElementById('interactive-map-container').classList.remove('hidden-for-anim');
-
-    // <<<< THE KEY FIX >>>>
-    // We wait a tiny moment for the browser to render the SVG, THEN set up hotspots.
-    setTimeout(setupHotspots, 100); 
-
+    setTimeout(setupHotspots, 100);
     actualizarHUD();
 }
 
