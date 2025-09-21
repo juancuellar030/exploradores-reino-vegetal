@@ -25,7 +25,6 @@ const eventos = {
             { texto: "Ignorar el problema (-25 Salud)", consecuencias: { salud: -25, puntos: 0 } }
         ]
     },
-    // <<<< NEWLY ADDED EVENTS >>>>
     prairie: {
         titulo: "Especie Invasora en la Pradera",
         descripcion: "Una planta no nativa está creciendo sin control en la pradera, amenazando a las flores silvestres. Eliminarla costará puntos de acción.",
