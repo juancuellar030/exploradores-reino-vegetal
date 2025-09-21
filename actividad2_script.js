@@ -166,7 +166,24 @@ function showEvent(zoneId) {
     addSoundEffectsToButtons(opcionesContainer.querySelectorAll('.cta-button'));
 }
 
-function takeDecision(consecuencias) { /* ... same as before ... */ }
+function takeDecision(consecuencias) {
+    playSound(clickSound);
+    estadoJuego.saludEcosistema += consecuencias.salud;
+    estadoJuego.puntosAccion += consecuencias.puntos;
+
+    if (estadoJuego.saludEcosistema > 100) estadoJuego.saludEcosistema = 100;
+    if (estadoJuego.saludEcosistema < 0) estadoJuego.saludEcosistema = 0;
+    
+    estadoJuego.rondaActual++;
+    
+    actualizarHUD();
+    
+    document.getElementById('evento-modal').style.display = 'none';
+
+    if (estadoJuego.rondaActual > estadoJuego.rondasTotales || estadoJuego.saludEcosistema <= 0) {
+        endGame();
+    }
+}
 
 // --- UI UPDATE FUNCTION (MODIFIED) ---
 function actualizarHUD() {
