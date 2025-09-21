@@ -1143,18 +1143,22 @@ header.game-header h1 {
     gap: 40px;
 }
 
-/* --- ACTIVITY 2 LAYOUT REFINEMENTS --- */
-/* Add this to the end of your style.css */
+/* --- ACTIVITY 2 LAYOUT REFINEMENTS (CONSOLIDATED) --- */
+/* Replace the old block with this one */
 
 /* 1. Make the sidebars thinner */
 .game-hud {
     width: 180px; /* Reduced from 200px */
 }
 
-/* 2. Add a corner radius to the map */
+/* 2. Add a corner radius to the map and the SVG inside it */
 #interactive-map-container {
-    border-radius: 15px; /* Adds rounded corners */
-    overflow: hidden;    /* Ensures the SVG corners are clipped */
+    border-radius: 15px; /* Adds rounded corners to the container */
+    overflow: hidden;    /* Hides the sharp corners of the SVG */
+}
+#interactive-map-container svg {
+    display: block; /* Prevents extra space below the SVG */
+    border-radius: 15px; /* <<<< KEY FIX: Rounds the SVG corners too */
 }
 
 /* 3. Remove the background layers ONLY on this page */
