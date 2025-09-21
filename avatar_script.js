@@ -118,43 +118,33 @@ function applyColorToElement(element, colorString) {
     }
 }
 
-function changeColor(groupId, color) {
-    avatar.colors[groupId] = color;
-
-    // Determine the correct preview div based on the groupId
-    let previewDivId;
-    if (groupId.includes('skin')) {
-        previewDivId = 'base-preview';
-    } else if (groupId.includes('vest') || groupId.includes('blouse')) {
-        previewDivId = 'clothing-preview';
-    } else if (groupId.includes('hair') || groupId.includes('beanie')) {
-        previewDivId = 'headwear-preview';
-    } else if (groupId.includes('lens') || groupId.includes('frame')) {
-        previewDivId = 'eyewear-preview';
-    }
-    
-    const previewDiv = document.getElementById(previewDivId);
-    if (!previewDiv) return;
-
-    const groupElement = previewDiv.querySelector(`#${groupId}`);
-    if (groupElement) {
-        const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
-        partsToColor.forEach(part => {
-            applyColorToElement(part, color);
-        });
-    }
-}
-
-function applyAllColors() {
-    for (const groupId in avatar.colors) {
-        const color = avatar.colors[groupId];
-        const groupElement = document.querySelector(`#${groupId}`);
+// --- NEW HELPER FUNCTION for applying color precisely ---
+function applyColorByGroupId(groupId, color) {
+    const allPreviewDivs = document.querySelectorAll('.avatar-layer');
+    for (const div of allPreviewDivs) {
+        const groupElement = div.querySelector(`#${groupId}`);
         if (groupElement) {
             const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
             partsToColor.forEach(part => {
                 applyColorToElement(part, color);
             });
+            // Once found and colored, exit the loop
+            return;
         }
+    }
+}
+
+// --- UPDATED changeColor FUNCTION ---
+function changeColor(groupId, color) {
+    avatar.colors[groupId] = color;
+    applyColorByGroupId(groupId, color); // Use the new helper
+}
+
+// --- UPDATED applyAllColors FUNCTION ---
+function applyAllColors() {
+    for (const groupId in avatar.colors) {
+        const color = avatar.colors[groupId];
+        applyColorByGroupId(groupId, color); // Use the new helper
     }
 }
 
