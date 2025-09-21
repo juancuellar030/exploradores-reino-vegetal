@@ -12,7 +12,7 @@ function playSound(sound) {
     sound.play();
 }
 
-// This object will hold the chosen avatar parts, including colors
+// --- AVATAR DATA OBJECT ---
 let avatar = {
     base: 'assets/avatar_base/base_01.svg',
     clothing: 'assets/avatar_clothing/shirt_vest_explorer.svg',
@@ -21,7 +21,8 @@ let avatar = {
     accessory: '',
     colors: {
         'skin-parts': '#D1FFB6',
-        'vest-color': '#A0522D'
+        'vest-color': '#A0522D',
+        'blouse-color': '#E91E63' // Add a default color for the new item
     }
 };
 
@@ -49,7 +50,6 @@ async function selectSvg(layer, svgPath) {
     }
 }
 
-// --- FUNCTION to change the color of a group of SVG parts ---
 function changeColor(groupId, color) {
     avatar.colors[groupId] = color;
     const groupElement = document.querySelector(`#${groupId}`);
@@ -61,7 +61,6 @@ function changeColor(groupId, color) {
     }
 }
 
-// --- FUNCTION to apply all saved colors ---
 function applyAllColors() {
     for (const groupId in avatar.colors) {
         const color = avatar.colors[groupId];
@@ -150,23 +149,18 @@ function addSoundEffects() {
     });
 }
 
-// --- MAIN FUNCTION that runs when the page is fully loaded ---
+// --- MAIN ONLOAD FUNCTION ---
 window.onload = async function() {
-    // Load saved avatar data, if it exists
     const savedAvatar = localStorage.getItem('exploradorAvatar');
     if (savedAvatar) {
         avatar = JSON.parse(savedAvatar);
     }
-    
-    // Load all the selected SVG parts
     await selectSvg('base', avatar.base);
     await selectSvg('clothing', avatar.clothing);
     await selectSvg('headwear', avatar.headwear);
     await selectSvg('eyewear', avatar.eyewear);
     await selectSvg('accessory', avatar.accessory);
-
-    // Apply colors, open the default tab, and activate sounds
     applyAllColors();
     openTab('base');
-    addSoundEffects(); // Activate all the sounds
+    addSoundEffects();
 };
