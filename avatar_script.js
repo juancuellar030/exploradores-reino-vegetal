@@ -92,6 +92,7 @@ function selectHeadwear(fileName) {
 function selectEyewear(fileName) {
     const fullPath = fileName ? `assets/avatar_eyewear/${fileName}` : '';
     selectSvg('eyewear', fullPath);
+    // Color picker management is now handled inside selectSvg
 
     // Manage visibility of the color pickers
     if (fileName === 'glasses_round.svg') {
