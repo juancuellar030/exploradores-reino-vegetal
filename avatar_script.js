@@ -24,7 +24,8 @@ let avatar = {
         'vest-color': '#BC7D64',
         'blouse-color': '#E91E63',
         'hair-color': '#262626',
-        'lens-color': 'rgba(184, 134, 11, 0.5)' // <<<< 'frame-color' has been removed
+        'lens-color': 'rgba(184, 134, 11, 0.5)',
+        'frame-color': '#C0C0C0'
     }
 };
 
@@ -107,13 +108,32 @@ function selectEyewear(fileName) {
     }
 }
 
+// <<<< NEW, MORE ROBUST COLOR FUNCTIONS >>>>
+function applyColorToElement(element, colorString) {
+    if (colorString.startsWith('rgba')) {
+        // Handle RGBA colors with transparency
+        const parts = colorString.replace(/[rgba()]/g, '').split(',');
+        const r = parts[0].trim();
+        const g = parts[1].trim();
+        const b = parts[2].trim();
+        const a = parts[3].trim();
+        // Set fill to the RGB part and fill-opacity to the alpha part
+        element.setAttribute('fill', `rgb(${r},${g},${b})`);
+        element.setAttribute('fill-opacity', a);
+    } else {
+        // Handle solid colors (like hex codes)
+        element.setAttribute('fill', colorString);
+        element.removeAttribute('fill-opacity'); // Ensure full opacity
+    }
+}
+
 function changeColor(groupId, color) {
     avatar.colors[groupId] = color;
     const groupElement = document.querySelector(`#${groupId}`);
     if (groupElement) {
         const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
         partsToColor.forEach(part => {
-            part.style.fill = color;
+            applyColorToElement(part, color);
         });
     }
 }
@@ -125,7 +145,7 @@ function applyAllColors() {
         if (groupElement) {
             const partsToColor = groupElement.querySelectorAll('path, circle, ellipse, rect');
             partsToColor.forEach(part => {
-                part.style.fill = color;
+                applyColorToElement(part, color);
             });
         }
     }
