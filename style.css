@@ -250,21 +250,21 @@ button {
     margin: 0 5px;
 }
 
-/* --- AVATAR LAYER STACKING ORDER (UPDATED) --- */
+/* --- AVATAR LAYER STACKING ORDER (UPDATED FOR BACKPACKS) --- */
+#accessory-preview {
+    z-index: 5; /* <<<< KEY CHANGE: The very back layer */
+}
 #base-preview {
-    z-index: 10; /* The base layer (bottom) */
+    z-index: 10;
 }
 #headwear-preview {
-    z-index: 20; /* Hair is drawn on top of the base */
+    z-index: 20;
 }
 #clothing-preview {
-    z-index: 30; /* Clothing is drawn on top of the hair */
+    z-index: 30;
 }
 #eyewear-preview {
-    z-index: 40; /* Eyewear is drawn on top of the clothing */
-}
-#accessory-preview {
-    z-index: 50; /* Accessories are on the very top */
+    z-index: 40; /* The very front layer */
 }
 
 /* --- NEW TAB LAYOUT STYLES --- */
