@@ -253,11 +253,17 @@ window.onload = async function() {
     const initialClothing = avatar.clothing ? avatar.clothing.split('/').pop() : '';
     const initialHeadwear = avatar.headwear ? avatar.headwear.split('/').pop() : '';
     const initialEyewear = avatar.eyewear ? avatar.eyewear.split('/').pop() : '';
+    const initialAccessory = avatar.accessory ? avatar.accessory.split('/').pop() : '';
 
     selectClothing(initialClothing);
     selectHeadwear(initialHeadwear);
     selectEyewear(initialEyewear);
-
+    selectAccessory(initialAccessory);
+    
+    // The call to selectSvg for accessory is no longer needed here, so we can remove it.
+    // await selectSvg('accessory', avatar.accessory); // This line can be removed.
+    
+    applyAllColors();
     openTab('base');
     addSoundEffects();
 };
