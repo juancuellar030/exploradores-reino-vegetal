@@ -103,6 +103,14 @@ function selectEyewear(fileName) {
     }
 }
 
+// <<<< NEW Master Selection Function for Accessories >>>>
+function selectAccessory(fileName) {
+    const fullPath = fileName ? `assets/avatar_accessory/${fileName}` : '';
+    selectSvg('accessory', fullPath);
+    // No color pickers to manage, so we hide them all
+    manageColorPickers(null);
+}
+
 // --- ROBUST COLOR FUNCTIONS ---
 function applyColorToElement(element, colorString) {
     if (colorString.startsWith('rgba')) {
