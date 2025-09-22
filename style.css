@@ -250,27 +250,21 @@ button {
     margin: 0 5px;
 }
 
-/* --- AVATAR LAYER STACKING ORDER --- */
-/* Add this to the end of style.css */
-
+/* --- AVATAR LAYER STACKING ORDER (UPDATED) --- */
 #base-preview {
-    z-index: 10; /* The base layer */
+    z-index: 10; /* The base layer (bottom) */
 }
-
-#clothing-preview {
-    z-index: 20; /* Clothing goes on top of the base */
-}
-
 #headwear-preview {
-    z-index: 30; /* Headwear goes on top of clothing and base */
+    z-index: 20; /* Hair is drawn on top of the base */
 }
-
+#clothing-preview {
+    z-index: 30; /* Clothing is drawn on top of the hair */
+}
 #eyewear-preview {
-    z-index: 40; /* Eyewear goes on top of everything so far */
+    z-index: 40; /* Eyewear is drawn on top of the clothing */
 }
-
 #accessory-preview {
-    z-index: 50; /* Handheld accessories are on the very top */
+    z-index: 50; /* Accessories are on the very top */
 }
 
 /* --- NEW TAB LAYOUT STYLES --- */
