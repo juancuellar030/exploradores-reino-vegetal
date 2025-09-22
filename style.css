@@ -521,7 +521,7 @@ button {
 
 .avatar-preview {
     width: 300px;         /* The width of the preview column */
-    height: 380px;        /* <<<< KEY CHANGE: Increased height for a portrait shape */
+    height: 350px;        /* <<<< KEY CHANGE: Increased height for a portrait shape */
     flex-shrink: 0;       /* Prevents the column from shrinking */
     position: relative;     /* Crucial for layering the SVGs inside */
     
