@@ -36,13 +36,6 @@ button {
     align-items: center;
 }
 
-.avatar-preview {
-    width: 200px;
-    height: 200px;
-    border: 4px dashed var(--secondary-green);
-    border-radius: 50%;
-    position: relative; /* Crucial for layering */
-}
 .avatar-layer {
     position: absolute;
     width: 100%;
@@ -335,14 +328,6 @@ button {
 /* --- NEW GRID LAYOUT & PREVIEW SHAPE STYLES --- */
 /* Add this to the end of style.css */
 
-/* Task 1: Change the Avatar Preview to a Rounded Square */
-.avatar-preview {
-    width: 250px; /* Let's make it a bit bigger */
-    height: 250px;
-    border-radius: 25px; /* This is the key change from 50% */
-    background-color: #e8f5e9; /* A slightly different color to stand out */
-}
-
 /* Task 2: Create the Grid Container for the Options */
 .option-grid {
     display: flex;
@@ -534,6 +519,17 @@ button {
     min-height: 100vh;
 }
 
+.avatar-preview {
+    width: 300px;         /* The width of the preview column */
+    height: 400px;        /* <<<< KEY CHANGE: Increased height for a portrait shape */
+    flex-shrink: 0;       /* Prevents the column from shrinking */
+    position: relative;     /* Crucial for layering the SVGs inside */
+    
+    background-color: #e8f5e9;
+    border: 4px dashed var(--secondary-green);
+    border-radius: 25px;
+}
+
 /* The main card container */
 .creator-card {
     width: 90vw; /* 90% of the viewport width */
@@ -556,13 +552,6 @@ button {
     gap: 30px;
     flex-grow: 1; /* Allows this area to fill the available space */
     width: 100%;
-}
-
-/* Make the preview column a fixed size */
-.avatar-preview {
-    flex-shrink: 0; /* Prevents the preview from shrinking */
-    width: 300px; /* Give it a larger, fixed width */
-    height: auto; /* Let height be automatic */
 }
 
 /* Ensure the customization column fills the rest of the space */
