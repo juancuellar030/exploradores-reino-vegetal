@@ -126,6 +126,13 @@
                                 <!-- These now call the new selectHeadwear function -->
                                 <img src="assets/avatar_headwear/hair_long_wavy.svg" onclick="selectHeadwear('hair_long_wavy.svg')" alt="Wavy Hair">
                                 <img src="assets/avatar_headwear/hair_short_curly.svg" onclick="selectHeadwear('hair_short_curly.svg')" alt="Curly Hair">
+                                
+                                <!-- === NEW: Wavy Hair Option === -->
+                                <img src="assets/avatar_headwear/hair_short_wavy.svg" onclick="selectHeadwear('hair_short_wavy.svg')" alt="Short Wavy Hair">
+                                
+                                <!-- === NEW: Straight Hair Option === -->
+                                <img src="assets/avatar_headwear/hair_long_straight.svg" onclick="selectHeadwear('hair_long_straight.svg')" alt="Long Straight Hair">
+                    
                                 <img src="assets/avatar_headwear/beanie_hat.svg" onclick="selectHeadwear('beanie_hat.svg')" alt="Beanie Hat">
                             </div>
                     
@@ -141,24 +148,32 @@
                                 </div>
                             </div>
                             
-                            <!-- This is the wrapper for the Beanie's color picker -->
+                            <!-- This is the wrapper for the Beanie's color pickers -->
                             <div id="picker-beanie" class="color-picker-group hidden">
+                                
+                                <!-- <<<< KEY CHANGE: Separated the beanie color pickers >>>> -->
                                 <div class="color-picker">
-                                    <p>Colores del Gorro:</p>
+                                    <p>Color del Gorro:</p>
                                     <div class="color-swatch" style="background-color: #6A0DAD;" onclick="changeColor('beanie-top-color', '#6A0DAD')"></div>
-                                    <div class="color-swatch" style="background-color: #008000;" onclick="changeColor('beanie-brim-color', '#008000')"></div>
-                                    <div class="color-swatch" style="background-color: #FF4500;" onclick="changeColor('beanie-flaps-color', '#FF4500')"></div>
-                                    <div class="color-swatch" style="background-color: #262626;" onclick="changeColor('beanie-flaps-color', '#262626')"></div>
-                                    <div class="color-swatch" style="background-color: #94572B;" onclick="changeColor('beanie-flaps-color', '#94572B')"></div>
-                                    <div class="color-swatch" style="background-color: #F2B835;" onclick="changeColor('beanie-flaps-color', '#F2B835')"></div>
-                                    <div class="color-swatch" style="background-color: #AB1111;" onclick="changeColor('beanie-flaps-color', '#AB1111')"></div>
-                                    <div class="color-swatch" style="background-color: #C5C1C9;" onclick="changeColor('beanie-flaps-color', '#C5C1C9')"></div>
+                                    <div class="color-swatch" style="background-color: #2196F3;" onclick="changeColor('beanie-top-color', '#2196F3')"></div>
+                                    <div class="color-swatch" style="background-color: #4CAF50;" onclick="changeColor('beanie-top-color', '#4CAF50')"></div>
                                 </div>
+                                <div class="color-picker">
+                                    <p>Color del Borde:</p>
+                                    <div class="color-swatch" style="background-color: #008000;" onclick="changeColor('beanie-brim-color', '#008000')"></div>
+                                    <div class="color-swatch" style="background-color: #FFC107;" onclick="changeColor('beanie-brim-color', '#FFC107')"></div>
+                                    <div class="color-swatch" style="background-color: #E91E63;" onclick="changeColor('beanie-brim-color', '#E91E63')"></div>
+                                </div>
+                                <div class="color-picker">
+                                    <p>Color de las Orejeras:</p>
+                                    <div class="color-swatch" style="background-color: #FF4500;" onclick="changeColor('beanie-flaps-color', '#FF4500')"></div>
+                                    <div class="color-swatch" style="background-color: #607D8B;" onclick="changeColor('beanie-flaps-color', '#607D8B')"></div>
+                                    <div class="color-swatch" style="background-color: #FFFFFF; border: 1px solid #ccc;" onclick="changeColor('beanie-flaps-color', '#FFFFFF')"></div>
+                                </div>
+                    
                             </div>
                             
-                            <!-- The "Quitar" (Remove) button for headwear -->
                             <button class="remove-btn" onclick="selectHeadwear('')">Quitar Sombrero</button>
-                    
                         </div>
                     </div>
         
