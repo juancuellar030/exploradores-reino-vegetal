@@ -79,9 +79,10 @@ function selectHeadwear(fileName) {
     const fullPath = fileName ? `assets/avatar_headwear/${fileName}` : '';
     selectSvg('headwear', fullPath);
 
+    // <<<< KEY CHANGE: Added the two new hair files to this condition >>>>
     if (fileName === 'beanie_hat.svg') {
         manageColorPickers('picker-beanie');
-    } else if (fileName === 'hair_long_wavy.svg' || fileName === 'hair_short_curly.svg') {
+    } else if (fileName === 'hair_long_wavy.svg' || fileName === 'hair_short_curly.svg' || fileName === 'hair_short_wavy.svg' || fileName === 'hair_long_straight.svg') {
         manageColorPickers('picker-hair');
     } else {
         manageColorPickers(null);
