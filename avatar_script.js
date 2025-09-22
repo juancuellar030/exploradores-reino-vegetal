@@ -24,7 +24,7 @@ let avatar = {
         'vest-color': '#BC7D64',
         'blouse-color': '#E91E63',
         'hair-color': '#262626',
-        'lens-color': 'rgba(184, 134, 11, 0.5)', // Default lens color is now a semi-transparent brown
+        'lens-color': 'rgba(184, 134, 11, 0.7)', // Default lens color is now a semi-transparent brown
         'frame-color': '#C0C0C0'
     }
 };
