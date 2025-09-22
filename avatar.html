@@ -59,6 +59,7 @@
                     <button class="tab-button" onclick="openTab('clothing')" id="btn-clothing"><img src="assets/icons/icon_shirt.svg" alt="Clothing"></button>
                     <button class="tab-button" onclick="openTab('headwear')" id="btn-headwear"><img src="assets/icons/icon_hair.svg" alt="Headwear"></button>
                     <button class="tab-button" onclick="openTab('eyewear')" id="btn-eyewear"><img src="assets/icons/icon_glasses.svg" alt="Eyewear"></button>
+                    <button class="tab-button" onclick="openTab('accessory')" id="btn-accessory"><img src="assets/icons/icon_backpack.svg" alt="Accessory"></button>
                 </div>
     
                 <!-- The Tab Content Container -->
@@ -196,7 +197,21 @@
                             <button class="remove-btn" onclick="selectEyewear('')">Quitar Gafas</button>
                         </div>
                     </div>
-                
+
+                    <!-- Content for 'Accessory' Tab -->
+                    <div id="content-accessory" class="tab-content">
+                        <div class="option-group">
+                            <h4>Elige tu Accesorio de Espalda</h4>
+                            <div class="option-grid">
+                                <img src="assets/avatar_accessory/butterfly.svg" onclick="selectAccessory('butterfly.svg')" alt="Butterfly Wings">
+                                <img src="assets/avatar_accessory/leaf.svg" onclick="selectAccessory('leaf.svg')" alt="Leaf">
+                                <img src="assets/avatar_accessory/flower.svg" onclick="selectAccessory('flower.svg')" alt="Flower">
+                            </div>
+                            <!-- Since these are static, we don't need any color pickers -->
+                            <button class="remove-btn" onclick="selectAccessory('')">Quitar Accesorio</button>
+                        </div>
+                    </div>
+                    
                 </div> <!-- Closes .tab-content-container -->
             </div> <!-- Closes .avatar-customization -->
         </div> <!-- Closes .creator-main-content -->
