@@ -1350,3 +1350,23 @@ a,
     /* The !important flag ensures this rule overrides any other cursor styles */
     cursor: url('assets/cursors/cursor-pointer.png') 16 16, pointer !important;
 }
+
+/* --- ACTIVITY 1 HUD AVATAR LAYERING FIX --- */
+/* Add this to the end of your style.css */
+
+/* Target the layers ONLY inside the left-side HUD */
+#hud-avatar-display-left .layer-accessory {
+    z-index: 5; /* Back layer */
+}
+#hud-avatar-display-left .layer-base {
+    z-index: 10;
+}
+#hud-avatar-display-left .layer-headwear {
+    z-index: 20;
+}
+#hud-avatar-display-left .layer-clothing {
+    z-index: 30;
+}
+#hud-avatar-display-left .layer-eyewear {
+    z-index: 40; /* Front layer */
+}
