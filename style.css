@@ -10,6 +10,23 @@
     --font-body: 'Bricolage Grotesque', sans-serif;
 }
 
+/* --- CUSTOM CURSOR STYLES --- */
+/* Add this block right after the :root section */
+
+/* 1. Set the default cursor for the entire site */
+html {
+    /* The format is url(path), x-coordinate, y-coordinate, fallback */
+    /* 0 0 means the "hotspot" is the top-left corner of the image */
+    cursor: url('assets/cursors/cursor-default.png') 0 0, auto;
+}
+
+/* 2. Set the pointer cursor for all clickable elements */
+/* Selects all buttons, links, and elements with a 'cursor: pointer' style */
+button, a, .hotspot, .color-swatch, .option-grid img, .tab-button {
+    /* 16 16 centers the hotspot on a 32x32 image */
+    cursor: url('assets/cursors/cursor-pointer.png') 16 16, pointer;
+}
+
 body {
     font-family: var(--font-body); /* Default font for all text */
     background-color: var(--light-bg);
