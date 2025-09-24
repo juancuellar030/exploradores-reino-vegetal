@@ -56,14 +56,19 @@ function applyAllColors(container, colors) {
     }
 }
 
+// --- CORRECTED FUNCTION TO LOAD THE CUSTOM AVATAR with specific layer classes ---
 async function cargarAvatar() {
     const savedAvatarData = localStorage.getItem('exploradorAvatar');
     if (!savedAvatarData) return;
+
     const avatar = JSON.parse(savedAvatarData);
-    const hudDisplay = document.getElementById('hud-avatar-display-left');
+    const hudDisplay = document.getElementById('hud-avatar-display-left'); 
     if (!hudDisplay) return;
+    
     hudDisplay.innerHTML = '';
+
     const layers = ['base', 'clothing', 'headwear', 'eyewear', 'accessory'];
+
     for (const layer of layers) {
         if (avatar[layer]) {
             try {
@@ -71,7 +76,10 @@ async function cargarAvatar() {
                 if (response.ok) {
                     const svgText = await response.text();
                     const layerDiv = document.createElement('div');
-                    layerDiv.className = 'avatar-layer';
+                    
+                    // <<<< KEY CHANGE: Add a specific class for each layer >>>>
+                    layerDiv.className = `avatar-layer layer-${layer}`; 
+                    
                     layerDiv.innerHTML = svgText;
                     hudDisplay.appendChild(layerDiv);
                 }
@@ -80,6 +88,7 @@ async function cargarAvatar() {
             }
         }
     }
+    
     applyAllColors(hudDisplay, avatar.colors);
 }
 
